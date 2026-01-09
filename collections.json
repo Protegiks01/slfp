@@ -3148,5 +3148,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c752d39e-498a-495e-8f2a-a6bacbb258d8?mode=deep",
     "timestamp": "2026-01-09 15:28:42.307096",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Escrow ATA validation bypass] Does the escrow existence check at lines 141-148 properly validate that the escrowSrcAtaAddr belongs to the correct escrow PDA, or can an attacker fake this check with a different ATA? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d8efe77e-0cdc-441a-9843-886bb967ac80?mode=deep",
+    "timestamp": "2026-01-09 15:29:54.132835",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Mint decimals manipulation] Can an attacker deploy a malicious token mint with incorrect decimals that causes getTokenDecimals() at lines 62-65 to return manipulated values, leading to incorrect amount calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ae7d0136-49d8-41c8-b9b6-23a691c526cb?mode=deep",
+    "timestamp": "2026-01-09 15:30:06.067358",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Decimals overflow] If srcMintDecimals returned at line 62-65 is extremely large (>30), can it cause overflow in Math.pow(10, srcMintDecimals) at line 68, resulting in Infinity or incorrect amount calculation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_164b4f74-2adf-4465-aad9-da961a83c505?mode=deep",
+    "timestamp": "2026-01-09 15:30:18.199752",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [RPC manipulation] Can a compromised RPC node return fake token decimals in getTokenDecimals() at lines 62-65, causing the resolver to send incorrect amounts and lose funds? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9c67fac9-f073-436b-8346-01dc2e8c305a?mode=deep",
+    "timestamp": "2026-01-09 15:30:31.339961",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Missing decimals validation] Does the code validate that srcMintDecimals is within reasonable bounds (0-18)? Can values outside this range cause calculation errors or security issues? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2b29c240-cb83-4f66-9cdc-c9f896ab7973?mode=deep",
+    "timestamp": "2026-01-09 15:30:44.298328",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Maker validation bypass] Can an attacker provide an arbitrary maker address at line 34 that doesn't match the actual order creator, allowing them to drain escrows created by other users? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d0e5f22a-7531-4a4d-837e-8ae63f26c5b0?mode=deep",
+    "timestamp": "2026-01-09 15:30:57.896177",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Receiver manipulation] Does the code validate that orderConfig.receiver matches the intended recipient, or can an attacker modify this field to redirect tokens to their own address? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5ac39b81-6013-4488-bfce-b660b4084791?mode=deep",
+    "timestamp": "2026-01-09 15:31:12.850606",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Protocol fee account hijack] Can a malicious resolver manipulate orderConfig.fee.protocolDstAcc at line 79 to redirect protocol fees to their own account instead of the protocol treasury? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e16305b8-ebd0-4740-9f73-c9a724375261?mode=deep",
+    "timestamp": "2026-01-09 15:31:28.646455",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Integrator fee hijack] Can an attacker modify orderConfig.fee.integratorDstAcc at line 80 to steal integrator fees by redirecting them to an attacker-controlled account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_70d8e79c-91d9-4371-8c17-38f056052cde?mode=deep",
+    "timestamp": "2026-01-09 15:31:45.355831",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Missing escrow ownership check] Does the fill() function verify that the derived escrow PDA at lines 41-45 is owned by the fusion_swap program before attempting to fill, preventing cross-program exploits? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b0646622-2dbb-4fc1-ae59-3a72d240deda?mode=deep",
+    "timestamp": "2026-01-09 15:32:02.292355",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Maker address spoofing] Can an attacker provide a fake maker public key at line 98 to check for orders belonging to other users and subsequently fill them with manipulated parameters? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cc5b30aa-efa9-44cd-9488-bfa4e5f36674?mode=deep",
+    "timestamp": "2026-01-09 15:32:19.979556",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [OrderConfig injection] Can an attacker craft a malicious JSON file at line 100 that, when parsed, contains executable code or causes the script to load unintended order configurations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5be3ed24-3b16-4380-95db-0e6e93fb8ac1?mode=deep",
+    "timestamp": "2026-01-09 15:32:38.637855",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [BN hex manipulation] Can the BN constructor calls with 'hex' encoding at lines 104-106 be exploited with malformed hex strings to produce incorrect amounts or cause crashes? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4c34313-190b-4588-bce8-e1283c3bd8dc?mode=deep",
+    "timestamp": "2026-01-09 15:32:58.174407",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [PublicKey injection] Can the new PublicKey() calls at lines 107-109 be exploited with invalid base58 strings to cause transaction failures or unexpected behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_085becfd-f97b-40c4-9d19-638fcba89209?mode=deep",
+    "timestamp": "2026-01-09 15:33:17.564520",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [ReducedOrderConfig mismatch] Can an attacker provide a reducedOrderConfig at lines 111-116 that doesn't match the full orderConfig, causing hash mismatches and enabling order substitution attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_188d2cbf-d2cf-4354-8f20-026f73934863?mode=deep",
+    "timestamp": "2026-01-09 15:33:37.360534",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Mint mismatch attack] Can an attacker modify orderConfig.srcMint and orderConfig.dstMint at lines 107-108 to differ from the reducedOrderConfig, bypassing validation and stealing tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f49b05ec-b014-4fac-9919-74a966907feb?mode=deep",
+    "timestamp": "2026-01-09 15:33:58.116117",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Amount overflow in config] Can the BN conversions at lines 104-106 and 113-115 overflow when parsing extremely large hex values from the JSON file, causing incorrect order amounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_50fb6065-438c-4c46-872d-aa4978c6aced?mode=deep",
+    "timestamp": "2026-01-09 15:34:18.986511",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Receiver substitution] Can an attacker modify orderConfig.receiver at line 109 without affecting the reducedOrderConfig, causing the fill to send tokens to an unintended recipient? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b5f64c35-67ea-48aa-a382-5bf1669638a7?mode=deep",
+    "timestamp": "2026-01-09 15:34:39.470494",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Path traversal] Can an attacker exploit the orderFilePath prompt at line 97 with '../' sequences to read arbitrary JSON files from the file system, leaking sensitive configuration data? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fcdb2b4f-9f98-4392-9144-1e7c41ec112a?mode=deep",
+    "timestamp": "2026-01-09 15:35:01.114483",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [JSON injection] Can the fs.readFileSync() call at line 100 be exploited if an attacker controls the file path, allowing them to inject malicious JSON that modifies program behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c1c0386a-6c09-44ce-b48b-ca4196fdb7bc?mode=deep",
+    "timestamp": "2026-01-09 15:35:23.654537",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Keypair theft] Can the takerKeypairPath prompt at line 118 be exploited to read keypair files from unintended locations, potentially exposing private keys? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a51bf4f9-c6bd-4047-88d5-18ed2a684afb?mode=deep",
+    "timestamp": "2026-01-09 15:35:44.441661",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Prompt injection] Can an attacker inject malicious input through the prompt() calls at lines 97, 98, 118, 120 to cause command injection or unexpected script behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_74db91dd-48f0-4d8f-945c-9edf196dcc04?mode=deep",
+    "timestamp": "2026-01-09 15:36:05.783670",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Missing input sanitization] Are the user inputs from prompt() calls properly sanitized before use? Can special characters or escape sequences cause security issues? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c6638b48-1133-418b-9902-b15dd0c96853?mode=deep",
+    "timestamp": "2026-01-09 15:36:26.063292",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Missing signer validation] Does the fillIx instruction at lines 67-85 properly validate that takerKeypair is the actual signer, or can an attacker substitute a different signer mid-execution? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_207b3b83-fa56-4f29-b55f-d8249760416d?mode=deep",
+    "timestamp": "2026-01-09 15:36:46.661406",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Account reordering attack] Can an attacker reorder the accounts in accountsPartial at lines 69-83 to cause the on-chain program to use incorrect account references, enabling token theft? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_72c6c054-c7ed-49f6-bcf3-cc78460f9e67?mode=deep",
+    "timestamp": "2026-01-09 15:37:06.289739",
+    "report_generated": false
   }
 ]
