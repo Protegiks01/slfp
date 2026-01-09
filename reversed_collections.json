@@ -2098,5 +2098,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cb5b4f1f-a196-45d5-83d2-ae24603b801f?mode=deep",
     "timestamp": "2026-01-09 14:28:20.863381",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Auction: Empty Curve with Start Time] Can combining empty pointsAndTimeDeltas with future startTime cause orders to use default formula starting far in future, making them unfillable? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed7e6073-21fa-42fa-9291-9b50ab74830a?mode=deep",
+    "timestamp": "2026-01-09 14:29:33.148346",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Auction: Discontinuous Curves] Can gaps or overlaps in pointsAndTimeDeltas time ranges create discontinuous auction curves that enable front-running specific price points? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ee24360c-38ce-4616-8a63-c06607b2d224?mode=deep",
+    "timestamp": "2026-01-09 14:29:45.089541",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Auction: Time Delta Overflow] Can cumulative time deltas in pointsAndTimeDeltas exceed the auction duration, causing undefined behavior in rate calculation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3836f31b-50e6-4d6f-80b7-23588691b607?mode=deep",
+    "timestamp": "2026-01-09 14:29:57.793053",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Auction: Rate Bump Ordering] Can pointsAndTimeDeltas be ordered such that rate bumps decrease over time instead of increase, inverting the auction and enabling price manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bc711b7f-d069-4b21-b00c-c23c333f4bd4?mode=deep",
+    "timestamp": "2026-01-09 14:30:10.353163",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Auction: Start Time Manipulation] Can setting startTime to far future (as in defaultAuctionData) combined with short expiration time create orders that expire before auction starts, locking funds permanently? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4d16533-bd99-4935-8669-716675ac340a?mode=deep",
+    "timestamp": "2026-01-09 14:30:23.709546",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Protocol: Order Book Manipulation] Can creating many orders with carefully chosen hashes enable an attacker to manipulate the order book or auction prices system-wide? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7649ee06-bacf-494c-b552-9717539b621b?mode=deep",
+    "timestamp": "2026-01-09 14:30:37.635819",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Protocol: Escrow Draining] Can understanding the escrow PDA derivation allow an attacker to find and drain escrow accounts from cancelled or expired orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a44334d3-c084-4649-bc62-6fabf6888a2d?mode=deep",
+    "timestamp": "2026-01-09 14:30:52.678964",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Protocol: Fee Recipient Manipulation] Can an attacker set protocolDstAcc or integratorDstAcc to addresses they control, siphoning fees meant for the protocol or integrators? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e54647db-5b3f-495f-a145-e672882528d9?mode=deep",
+    "timestamp": "2026-01-09 14:31:08.577247",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Protocol: Whitelist Bypass] Can manipulating the resolver access PDA derivation allow a non-whitelisted user to derive the same PDA as a whitelisted resolver and fill orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_25cfc72a-574e-4811-9651-874f6d85f395?mode=deep",
+    "timestamp": "2026-01-09 14:31:25.710668",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Protocol: Resolver Griefing] Can a malicious resolver use knowledge of the PDA derivation logic to pre-create accounts at escrow addresses, preventing legitimate order creation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f8536d59-5251-4a6f-a5f1-01e893c05c59?mode=deep",
+    "timestamp": "2026-01-09 14:31:43.346735",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Protocol: Cross-Order Interference] Can manipulating order hashes enable an attacker to interfere with other users' orders by creating hash collisions that derive to same PDAs? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f5b9f70f-229f-4f32-8024-e731a7b9652e?mode=deep",
+    "timestamp": "2026-01-09 14:32:01.342727",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: ID Collision] Can two orders from the same maker use the same ID field, and does this cause escrow PDA collision if other fields differ but ID remains same? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2f88d091-6ac5-4502-8f68-9b73efe78092?mode=deep",
+    "timestamp": "2026-01-09 14:32:20.412532",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Zero Duration Auction] Can setting auction duration to 0 cause the auction to complete instantly, bypassing price discovery and enabling instant arbitrage? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_04680842-c8c6-4099-8ee4-80f629cd12c2?mode=deep",
+    "timestamp": "2026-01-09 14:32:39.703669",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Estimated vs Min] Can estimatedDstAmount be set much lower than minDstAmount, creating orders that signal one price but enforce another, enabling bait-and-switch attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_11a12c98-901c-4bf1-b1df-9701d62e83b4?mode=deep",
+    "timestamp": "2026-01-09 14:32:59.868269",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Cancellation Premium] Can maxCancellationPremium be set to exceed srcAmount, allowing resolvers who cancel orders to extract more than the escrowed amount? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_089c733c-7746-4c9f-8a06-de4fcdbe0f3d?mode=deep",
+    "timestamp": "2026-01-09 14:33:21.044642",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Native Asset Flags] Can srcAssetIsNative or dstAssetIsNative flags be set inconsistently with the mint addresses (e.g., native flag true but mint is not SOL wrapper), causing wrapping/unwrapping exploits? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_faba8a2d-58ff-4566-90f4-b4d93c605c65?mode=deep",
+    "timestamp": "2026-01-09 14:33:42.556601",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Self-Receiver] Can an attacker set the receiver to be the same as the maker, and does this enable any exploits in fund flow or fee distribution? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_61ede982-8f90-4538-b0cf-5905a70a692f?mode=deep",
+    "timestamp": "2026-01-09 14:34:05.022628",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Mint Confusion] Can an attacker create orders with srcMint == dstMint, and does the hash calculation allow such orders that would be economically meaningless? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b461b6ab-d095-491f-bc2e-1d9271e30c7c?mode=deep",
+    "timestamp": "2026-01-09 14:34:27.563790",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Auction Curve Manipulation] Can an attacker construct pointsAndTimeDeltas arrays that create auction curves with sudden price drops, enabling MEV or front-running attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a7b03bd0-83c4-409c-8516-57f14e04c1f3?mode=deep",
+    "timestamp": "2026-01-09 14:34:50.883733",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Logic: Fee Configuration Bypass] Can an attacker set all fee-related PublicKeys to null but set non-zero fee percentages, bypassing fee payment while the order claims to have fees configured? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_91e9d8f5-1a72-4beb-a478-71478e26d513?mode=deep",
+    "timestamp": "2026-01-09 14:35:14.754767",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Error: Network Timeout] Can network timeouts during mint account fetching cause stale or default decimal values to be used in order creation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5bf6cb85-36fd-4c64-ab99-f058cc13973e?mode=deep",
+    "timestamp": "2026-01-09 14:35:39.226247",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Error: RPC Failures] If getTokenDecimals fails due to RPC errors, is the error propagated correctly, or does it return undefined causing subsequent NaN calculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b9385313-1bc0-4391-b4fc-11cd33226283?mode=deep",
+    "timestamp": "2026-01-09 14:36:02.869409",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Error: Partial Success] Can some fields in OrderConfig be serialized successfully while others fail, creating partially hashed data that leads to incorrect order hashes? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_74f96f62-a61c-4a4d-ae91-040ed5ea2742?mode=deep",
+    "timestamp": "2026-01-09 14:36:25.159659",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Error: Exception Handling] If borsh.serialize throws an exception for invalid data, is it caught and handled, or does it crash the order creation process? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5892d427-4628-40d4-b1b1-620ca5be0ee0?mode=deep",
+    "timestamp": "2026-01-09 14:36:47.983056",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Error: Silent Failures] Can errors in PDA derivation, hash calculation, or serialization fail silently without throwing, causing incorrect values to be used in transactions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a5d094c-8aae-40b1-acca-b99c1f25b5c3?mode=deep",
+    "timestamp": "2026-01-09 14:37:10.466466",
+    "report_generated": false
   }
 ]
