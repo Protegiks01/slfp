@@ -1498,5 +1498,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8c162302-1a0c-42bc-8f97-41db1ee383d5?mode=deep",
     "timestamp": "2026-01-09 13:55:54.740783",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [DoS attack] Can an attacker repeatedly initialize and close the whitelist_state account through a vulnerability in account closure checks, preventing legitimate initialization and causing protocol-wide DoS? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ac705eb8-5696-4235-bc86-967b7f757135?mode=deep",
+    "timestamp": "2026-01-09 13:56:59.890627",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [Initialization race] If multiple transactions attempt to initialize() simultaneously, can this lead to undefined behavior where multiple authorities are set, or can one transaction override another's authority setting? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_60db2586-b23d-4d23-9f28-e51bd69c4d73?mode=deep",
+    "timestamp": "2026-01-09 13:57:11.823160",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [Missing validation] Does initialize() validate that the authority parameter is not a system account (e.g., SystemProgram, null address), which could permanently brick the whitelist by setting an unusable authority? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_921ce362-029a-46bd-88ab-ae5582155e04?mode=deep",
+    "timestamp": "2026-01-09 13:57:24.097459",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [Payer exploitation] Can a malicious payer set during initialize() extract rent fees or manipulate account initialization to gain unauthorized benefits, leading to economic attacks on protocol deployment? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_289b8eb9-f070-4b70-bc4a-8d1a0b0a5e2a?mode=deep",
+    "timestamp": "2026-01-09 13:57:36.694519",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Access control bypass] Can an attacker bypass the authority constraint check at line 70 by providing a valid whitelist_state but using a compromised or fake authority signer, allowing unauthorized resolver registration? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0a022509-88c5-47ed-9f05-ae8b59d9426c?mode=deep",
+    "timestamp": "2026-01-09 13:57:49.952367",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [PDA collision] Can an attacker pre-compute resolver_access PDAs for multiple addresses and register malicious resolvers before legitimate ones, enabling them to fill orders with manipulated terms? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_61c61eb7-5418-4fe0-92ad-280e648fb019?mode=deep",
+    "timestamp": "2026-01-09 13:58:03.992513",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Duplicate registration] If register() is called multiple times for the same user, does it properly handle already-initialized resolver_access accounts, or can this lead to state corruption or rent drain through repeated initialization attempts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0ac4e91d-d573-438d-a3c3-0c43f53b6210?mode=deep",
+    "timestamp": "2026-01-09 13:58:18.848412",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [User parameter manipulation] Can an attacker pass a different user pubkey in the instruction parameter versus what's used in the resolver_access PDA seeds, causing mismatch between the registered resolver and the PDA, enabling unauthorized access? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c3f97748-7276-4874-a470-254a3874edd3?mode=deep",
+    "timestamp": "2026-01-09 13:58:34.680824",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Bump seed manipulation] The register() function stores the bump at line 26, but can an attacker manipulate this bump value during registration to create resolver_access accounts that pass PDA validation but don't match expected derivations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1de30554-ddce-4e51-8a4b-4e071c37a1dc?mode=deep",
+    "timestamp": "2026-01-09 13:58:51.710519",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Sybil attack] Can a compromised authority register an unlimited number of resolver addresses in a single transaction or through flash loan attacks, overwhelming the whitelist and enabling mass order manipulation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f0812889-ea52-412a-9bbc-7e651fb6bacc?mode=deep",
+    "timestamp": "2026-01-09 13:59:08.517392",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Cross-program exploitation] If the register() function is called via CPI from another program, can that program bypass authority checks or inject malicious resolver addresses without proper validation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a4c9d252-3c65-44ed-8278-b4a1514bc604?mode=deep",
+    "timestamp": "2026-01-09 13:59:26.714893",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Rent drain attack] Can an attacker cause the authority to register many resolver accounts then immediately deregister them, draining the authority's SOL through repeated rent payments and refunds? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d67b3eb7-95ac-4228-bf0f-593817a2c374?mode=deep",
+    "timestamp": "2026-01-09 13:59:45.613899",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Authority front-running] Can an attacker monitor mempool for register() transactions and front-run them to register malicious resolvers first, stealing order-filling opportunities from legitimate resolvers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a3bf63f1-e273-4889-b852-7d25637c9b52?mode=deep",
+    "timestamp": "2026-01-09 14:00:04.580998",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Space calculation exploit] If ResolverAccess::INIT_SPACE is incorrectly calculated, can this lead to buffer overflows, memory corruption, or account truncation that breaks resolver access validation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_11f3a3b4-9ca7-4711-bac7-1667ac9718ff?mode=deep",
+    "timestamp": "2026-01-09 14:00:24.070337",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Zero address registration] Can the register() function be called with a zero pubkey or system program address as the user parameter, creating invalid resolver_access accounts that break access control logic? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8f1886c8-6844-4d6c-9b22-19dc4fc5fab8?mode=deep",
+    "timestamp": "2026-01-09 14:00:43.589084",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: register()] [Program ID spoofing] Can an attacker create a fake whitelist program with the same interface and use it to register resolvers that appear valid but bypass actual authorization checks in the fusion-swap program? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_738e9618-6638-432c-a910-bccdceda01ea?mode=deep",
+    "timestamp": "2026-01-09 14:01:02.391336",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Access control bypass] Can an attacker bypass the authority constraint at line 96 to deregister legitimate resolvers, causing DoS by preventing authorized resolvers from filling orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ce989d57-406d-4275-879f-60d3ebf6cbe7?mode=deep",
+    "timestamp": "2026-01-09 14:01:22.821482",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [PDA collision] Can an attacker provide a crafted user pubkey that results in a valid resolver_access PDA for a different user, allowing them to deregister other resolvers and monopolize order filling? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f1d9bb6d-f2f1-4baa-8b1c-cc7c3c18a59f?mode=deep",
+    "timestamp": "2026-01-09 14:01:43.766182",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Rent recipient manipulation] The deregister() function closes the resolver_access account to the authority at line 102, but can an attacker manipulate this to redirect rent refunds to a malicious address, stealing SOL? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_84d17c88-3bb6-4fb6-9dd5-a5d93ffb2908?mode=deep",
+    "timestamp": "2026-01-09 14:02:05.249957",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Double deregister] Can deregister() be called on an already-closed resolver_access account, causing unexpected behavior, rent drain, or breaking protocol invariants? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8cd381cb-a233-4012-8fde-44bf1be7415f?mode=deep",
+    "timestamp": "2026-01-09 14:02:26.329045",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Race condition] If a resolver is being deregistered while simultaneously filling an order in another transaction, can this create race conditions that allow unauthorized order fills or state corruption? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e6451882-93e8-4243-b121-3822b956266b?mode=deep",
+    "timestamp": "2026-01-09 14:02:46.539488",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Malicious resolver griefing] Can a compromised authority deregister all resolvers in a coordinated attack, halting all order fills across the protocol and causing complete DoS? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4a3eae81-dbce-44b0-9ee0-b65659f596f5?mode=deep",
+    "timestamp": "2026-01-09 14:03:06.890021",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [User parameter mismatch] Can an attacker pass incorrect user parameter that doesn't match the actual resolver_access account being closed, bypassing validation and closing wrong accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b168ff4d-fe10-4ec4-8b5e-df6b6b20a62b?mode=deep",
+    "timestamp": "2026-01-09 14:03:27.521636",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Bump validation bypass] Does deregister() properly validate the bump seed of the resolver_access account, or can an attacker provide accounts with incorrect bumps that still pass PDA validation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2c573fab-a574-468e-81fd-ffe552cfba4d?mode=deep",
+    "timestamp": "2026-01-09 14:03:47.123772",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Cross-program deregister] If deregister() is called via CPI from an unauthorized program, can this bypass authority checks and allow malicious programs to remove legitimate resolvers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f5e63e1b-2105-4268-8f37-5cf08a969677?mode=deep",
+    "timestamp": "2026-01-09 14:04:07.102503",
+    "report_generated": false
   }
 ]
