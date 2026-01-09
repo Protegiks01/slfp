@@ -448,5 +448,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8b792641-324d-4b8b-a891-229c2a624182?mode=deep",
     "timestamp": "2026-01-09 12:55:46.268310",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [DoS] [Account Spam] Can an attacker register thousands of resolvers to spam resolver_access accounts, exhausting storage and making legitimate operations expensive? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9c1bc004-2471-42a2-a087-c2eaebfda354?mode=deep",
+    "timestamp": "2026-01-09 12:56:56.503263",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [DoS] [Compute Unit Exhaustion] Can an attacker craft instructions with maximum account list lengths or complex PDA derivations to exhaust compute units and DoS the whitelist? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d5f39c6e-f033-414b-9a19-3b14175b2096?mode=deep",
+    "timestamp": "2026-01-09 12:57:08.351694",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Fusion Integration] [Cross-Program State] Can inconsistencies between whitelist state and fusion-swap state (e.g., resolver registered in whitelist but not active in fusion-swap) create exploits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b89a045e-0f76-4027-b288-e2d00d1b672e?mode=deep",
+    "timestamp": "2026-01-09 12:57:20.508920",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Fusion Integration] [Resolver Revocation] If a resolver is deregistered mid-order-fill in fusion-swap, can this cause the fill transaction to fail, locking tokens in escrow? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01760498-c74a-4963-a325-81567295d4df?mode=deep",
+    "timestamp": "2026-01-09 12:57:33.085628",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Fusion Integration] [Authorization Timing] Is there a time gap between resolver registration and when they can fill orders, allowing unauthorized fills during registration? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_85666830-affc-400e-8a95-42761e34f671?mode=deep",
+    "timestamp": "2026-01-09 12:57:46.998353",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Fusion Integration] [Account Passing] Can fusion-swap pass fake resolver_access accounts that aren't actually whitelisted but have the correct PDA structure? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e81fd11c-b6eb-4f90-9dcd-de8648a78e4b?mode=deep",
+    "timestamp": "2026-01-09 12:58:00.734697",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Fusion Integration] [Resolver Validation Bypass] When fusion-swap checks resolver authorization, can it bypass whitelist validation by directly checking resolver_access PDA existence without CPI? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_27c90c19-f789-4471-b7f4-b4858650f06e?mode=deep",
+    "timestamp": "2026-01-09 12:58:15.824474",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Economic Attack] [Resolver Bribery] Can resolvers bribe the authority to get registered, and does the whitelist design prevent such off-chain corruption? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3ff1e414-3a70-44b5-b4a3-7572f8c28291?mode=deep",
+    "timestamp": "2026-01-09 12:58:31.796189",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Economic Attack] [Whitelist Griefing] Can an attacker force the authority to waste compute units by repeatedly triggering failed register/deregister operations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ac29b1fd-0424-4342-bf55-3d3cbcd1b295?mode=deep",
+    "timestamp": "2026-01-09 12:58:48.429557",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Economic Attack] [Deregistration Refund] When resolver_access is closed via deregister, are refunded lamports properly credited, or can they be stolen through refund manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8e24e1bc-387f-4c18-b12c-8bf138ed4135?mode=deep",
+    "timestamp": "2026-01-09 12:59:05.616699",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Economic Attack] [Registration Cost] Does register require the authority to pay rent for resolver_access accounts, and can this be exploited to drain authority funds through mass registrations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1f239f24-349d-425f-9a7c-2eba3114c752?mode=deep",
+    "timestamp": "2026-01-09 12:59:23.695212",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [State Transition] [Atomic State Updates] Are state updates in whitelist_state and resolver_access atomic, or can partial updates occur during transaction failures? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5e1fbe50-f06a-4902-962e-542727ed843f?mode=deep",
+    "timestamp": "2026-01-09 12:59:42.494280",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [State Transition] [Concurrent Operations] If multiple instructions (register, deregister, set_authority) execute concurrently, can this cause race conditions or state corruption? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_60b64461-cd2d-4b23-92d2-174fae9d2904?mode=deep",
+    "timestamp": "2026-01-09 13:00:01.089330",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [State Transition] [Deregistration -> Re-registration] Can a deregistered resolver be immediately re-registered with the same user pubkey, and does this create security risks or state inconsistency? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_88249717-113a-4aec-8440-bed7007593d9?mode=deep",
+    "timestamp": "2026-01-09 13:00:20.537439",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [State Transition] [Authority Change -> Operations] After set_authority is called, are there race conditions where the old authority can still perform operations before state updates propagate? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed0b5109-5e77-45de-97e3-6df4c2bb90d7?mode=deep",
+    "timestamp": "2026-01-09 13:00:41.026022",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [State Transition] [Registration -> Deregistration] Can a resolver be deregistered while they have active orders in fusion-swap, stranding tokens in escrow? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_02cff6d5-d76f-4a0f-8f81-a24870e40430?mode=deep",
+    "timestamp": "2026-01-09 13:01:01.816925",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [State Transition] [Initialization -> Registration] Can register be called before initialize completes, causing undefined behavior or allowing registration without proper authority setup? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f552d48d-e905-4e67-ba6c-c3cd84f11581?mode=deep",
+    "timestamp": "2026-01-09 13:01:23.411530",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [Account Discriminator Check] Do all instructions validate account discriminators before deserializing, preventing type confusion attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_03738706-6633-48be-9bd7-5ccf0a7fcd2b?mode=deep",
+    "timestamp": "2026-01-09 13:01:43.954320",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [Account Size Verification] Do instructions verify that account sizes match expected sizes for WhitelistState and ResolverAccess, preventing buffer overflow or underflow? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_245d45e2-50d5-4ab7-b89e-e37545403548?mode=deep",
+    "timestamp": "2026-01-09 13:02:04.955332",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [Account Initialization State] Do instructions check whether accounts are initialized before operating on them, preventing operations on uninitialized accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_510595b1-4c64-4c09-b1cc-f5b3b75c40d7?mode=deep",
+    "timestamp": "2026-01-09 13:02:26.881304",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [System Program Validation] Is the system_program address (11111111111111111111111111111111) validated as the actual system program, or can a fake program be substituted? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d34535cc-0f6e-48b1-98c9-e003bdb8bc45?mode=deep",
+    "timestamp": "2026-01-09 13:02:49.900405",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [Writable Account Abuse] For accounts marked writable (authority, whitelist_state, resolver_access), can attackers exploit write permissions to corrupt data or drain lamports? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_062858b0-28f0-4f18-ac46-c1dc6ee4bd64?mode=deep",
+    "timestamp": "2026-01-09 13:03:11.058066",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [Account Ownership] Do instructions validate that whitelist_state and resolver_access are owned by the whitelist program (5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S)? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eb11bd99-b425-4716-b39b-f43a538ed707?mode=deep",
+    "timestamp": "2026-01-09 13:03:32.241401",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [PDA Derivation Verification] Do all instructions that use PDAs (whitelist_state, resolver_access) verify the PDA is derived with correct seeds and bump, or can fake accounts be provided? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_66c30452-4f90-4916-941c-ac939fcb01c9?mode=deep",
+    "timestamp": "2026-01-09 13:03:54.223304",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account Validation] [Authority Signer Check] Across all instructions, is the authority/current_authority account properly validated as a signer, or can unsigned accounts be passed? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_77157a4e-1ab2-403a-85db-0ea4c51351ba?mode=deep",
+    "timestamp": "2026-01-09 13:04:15.692865",
+    "report_generated": false
   }
 ]
