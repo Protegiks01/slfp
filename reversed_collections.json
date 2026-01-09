@@ -748,5 +748,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_71942706-bdd9-4718-a2de-518f3387b988?mode=deep",
     "timestamp": "2026-01-09 13:12:35.836145",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: whitelist_state] [Cross-Program PDA] Can another program derive the same whitelist_state PDA and create it first, hijacking the whitelist initialization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0f1b9f87-e501-4aef-a548-af65d5956ffc?mode=deep",
+    "timestamp": "2026-01-09 13:13:49.875529",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: whitelist_state] [Canonical Bump] Does the protocol use the canonical bump (255 -> 0 search) for whitelist_state derivation, or can non-canonical bumps cause validation bypasses? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_47b7cd10-782f-400a-bd00-4b3aa6487927?mode=deep",
+    "timestamp": "2026-01-09 13:14:01.978631",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: whitelist_state] [Seed Hardcoding] Are the seed bytes [119, 104, 105, 116, 101, 108, 105, 115, 116, 95, 115, 116, 97, 116, 101] correctly encoding 'whitelist_state', or is there an encoding mismatch? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b7c51071-52a4-4044-bcaf-90d2168f6503?mode=deep",
+    "timestamp": "2026-01-09 13:14:14.211125",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: whitelist_state] [Seed Collision] Can an attacker find alternative seed combinations that produce the same PDA as 'whitelist_state', enabling impersonation attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9da8a64f-c121-4ea6-aaa8-3ab3cf93cd80?mode=deep",
+    "timestamp": "2026-01-09 13:14:27.338908",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: ResolverAccess] [Bump Modification] Can the bump field be modified after ResolverAccess creation, enabling attackers to manipulate PDA verification in fusion-swap operations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7778933c-e90f-4af0-97a2-6280510d909e?mode=deep",
+    "timestamp": "2026-01-09 13:14:40.316102",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: ResolverAccess] [Account Reuse] After deregistration, can the resolver_access account address be reused for a different resolver, causing authorization confusion? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0f4e7a52-41d2-4d60-acaa-ad133b3ace7a?mode=deep",
+    "timestamp": "2026-01-09 13:14:54.292481",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: ResolverAccess] [Memory Alignment] Can the single u8 bump field cause memory alignment issues or padding exploits during serialization/deserialization? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a3fee5c6-d240-4bbb-a7f9-bec1d5b54105?mode=deep",
+    "timestamp": "2026-01-09 13:15:08.814082",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: ResolverAccess] [Struct Minimal Data] Does ResolverAccess containing only a bump field (u8) provide sufficient information, or should it include additional metadata like registration timestamp or resolver status? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_42c235d9-a67a-4ce2-9190-cda4fadc105b?mode=deep",
+    "timestamp": "2026-01-09 13:15:24.820626",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: ResolverAccess] [Discriminator Collision] Can an attacker create accounts with discriminator [32, 2, 74, 248, 174, 108, 70, 156] that pass as legitimate resolver_access accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d0aa2d4f-6ed6-4e8d-b3c1-36324cc79b86?mode=deep",
+    "timestamp": "2026-01-09 13:15:41.460869",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: ResolverAccess] [Bump Seed Range] Is the bump field in ResolverAccess properly constrained to valid bump values (0-255), or can it be set to invalid values causing PDA derivation failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3f6c00b9-f29b-49ab-8ea1-2075afdd1470?mode=deep",
+    "timestamp": "2026-01-09 13:15:59.621894",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: WhitelistState] [Account Closure] Can WhitelistState be closed through system program calls, permanently destroying the whitelist and disabling all resolver access control? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b992c525-00ac-47f9-82af-fbba0905bffa?mode=deep",
+    "timestamp": "2026-01-09 13:16:17.259822",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: WhitelistState] [PDA Bump Storage] Should WhitelistState also store its own bump seed for verification, or does the absence of this field enable PDA collision attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_564c3660-614a-4e6e-b451-93c85e4d8da9?mode=deep",
+    "timestamp": "2026-01-09 13:16:35.653657",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: WhitelistState] [Authority Zero Check] Does WhitelistState validate that authority is not the zero pubkey during initialization or updates, preventing permanent protocol lockout? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_25556d5e-e3b3-4eca-9a0f-0b11deb3a005?mode=deep",
+    "timestamp": "2026-01-09 13:16:54.880396",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: WhitelistState] [Struct Size] Is WhitelistState allocated with exactly 32 bytes for the authority pubkey, or can size mismatches cause deserialization errors or buffer overflows? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8ab5ca20-f2a6-43b8-9802-af9c73dbc7d6?mode=deep",
+    "timestamp": "2026-01-09 13:17:14.668636",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: WhitelistState] [Discriminator Forgery] Can an attacker create a fake account with discriminator [246, 118, 44, 60, 71, 37, 201, 55] that passes validation but contains malicious authority data? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0122f749-3376-4fb2-b238-792cf811930a?mode=deep",
+    "timestamp": "2026-01-09 13:17:35.020517",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Account: WhitelistState] [Authority Immutability] Can the authority field in WhitelistState be modified through memory manipulation or buffer overflow attacks, bypassing set_authority validation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_28de340c-4961-49a1-bcf5-ce98ba23f1cf?mode=deep",
+    "timestamp": "2026-01-09 13:17:55.812413",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [State Initialization Check] Does set_authority verify that whitelist_state is initialized before allowing authority changes, or can it operate on uninitialized state? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7cdeb22c-9748-40aa-9489-7180579c08e1?mode=deep",
+    "timestamp": "2026-01-09 13:18:16.423719",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Reentrancy Guard] Can set_authority be called recursively through CPI, enabling reentrancy attacks that manipulate authority state mid-execution? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7199d895-104d-4e7b-a43b-2f1af20913c4?mode=deep",
+    "timestamp": "2026-01-09 13:18:35.569472",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Event Emission] If set_authority doesn't emit an event, can authority changes go unnoticed, enabling stealth takeover attacks without off-chain detection? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3fdc0c3e-3fe7-446d-b8e0-ce72ef27e66a?mode=deep",
+    "timestamp": "2026-01-09 13:18:55.088629",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [New Authority Collision] Can an attacker set new_authority to an address that collides with existing resolver_access PDAs, causing authorization conflicts? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0484783f-ea06-4cad-a8a5-d618d4f391b9?mode=deep",
+    "timestamp": "2026-01-09 13:19:14.501943",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Multiple Authority Transitions] Can an attacker chain multiple set_authority calls in a single transaction to perform complex authority manipulation attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_91f6f82e-481d-414d-afb9-fcf239408326?mode=deep",
+    "timestamp": "2026-01-09 13:19:34.703481",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Account Writable Exploit] Since current_authority is marked writable, can an attacker exploit set_authority to drain lamports from the current authority account? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_784f5614-82f8-465f-b6ec-6761d34fe3c8?mode=deep",
+    "timestamp": "2026-01-09 13:19:54.991186",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Whitelist State Ownership] Does set_authority verify that whitelist_state is owned by the whitelist program, or can it modify accounts owned by malicious programs? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_25f5e314-50f6-478e-a16e-86f06f7b904b?mode=deep",
+    "timestamp": "2026-01-09 13:20:15.852555",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Authority Signer Validation] Is current_authority properly validated as a signer, or can an unsigned account be passed, enabling authority changes without proper authentication? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7e61a6c6-fbff-46b7-893f-64e37fe6f4e7?mode=deep",
+    "timestamp": "2026-01-09 13:20:36.713451",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Same Authority Assignment] Can current_authority set new_authority to themselves, and if so, does this create unnecessary state writes or expose transaction replay vulnerabilities? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e8cfb79c-abba-4c78-a0ab-50bbdf4dd36b?mode=deep",
+    "timestamp": "2026-01-09 13:20:57.361108",
+    "report_generated": false
   }
 ]
