@@ -2548,5 +2548,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d365251a-ec2e-4f6b-9211-45ec881f6a70?mode=deep",
     "timestamp": "2026-01-09 14:54:24.411737",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Signer validation] At line 131, only makerKeypair is listed as signer, and again at line 137 - can an attacker exploit missing multi-sig validation if the maker account is meant to require multiple signers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1bc67d45-dca8-4b45-8721-bcf7b0aaa99d?mode=deep",
+    "timestamp": "2026-01-09 14:55:36.650730",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Escrow ATA collision] At lines 94-98, escrowAta is derived using getAssociatedTokenAddress() with allowOwnerOffCurve=true - can an attacker create an order where this ATA already exists with different ownership, causing fund misdirection? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_917bdfee-29ab-467c-b6e6-8546476634a6?mode=deep",
+    "timestamp": "2026-01-09 14:55:48.631133",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [ATA derivation mismatch] The escrowAta at lines 94-98 uses the escrow PDA as owner and srcMint as mint - if these don't match what the on-chain program expects, can tokens be transferred to an incorrect ATA? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a0ab574e-3b24-44f6-ae79-719708a1c2ae?mode=deep",
+    "timestamp": "2026-01-09 14:56:00.908051",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [allowOwnerOffCurve risk] At line 97, allowOwnerOffCurve is set to true - can this allow deriving ATAs for PDAs that shouldn't have ATAs, potentially causing fund loss or stuck tokens? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cb275097-112d-4f3a-a2b0-00069a4892a6?mode=deep",
+    "timestamp": "2026-01-09 14:56:13.724431",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Maker native ATA] At lines 104-107, makerNativeAta is derived only when srcMint == NATIVE_MINT - if this ATA doesn't exist, does the SystemProgram.transfer() at lines 109-114 fail or create it incorrectly? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_81839185-9c0f-4e04-9103-edcbcf6e90ee?mode=deep",
+    "timestamp": "2026-01-09 14:56:27.053101",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Sensitive data leakage] At line 86, the full order config including potentially sensitive data is written to 'order.json' - can an attacker access this file to front-run orders or extract private order details? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c293356a-8042-48fc-903e-0b44867b5a14?mode=deep",
+    "timestamp": "2026-01-09 14:56:41.473110",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [File permission vulnerability] The fs.writeFileSync() at line 86 writes to 'order.json' with default permissions - can this file be read by other users on the system, leaking order information? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9433da13-75d4-4fa2-818f-0c8b0fe586b4?mode=deep",
+    "timestamp": "2026-01-09 14:56:56.379856",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [File overwrite attack] At line 86, 'order.json' is written without checking if it exists - can an attacker cause important previous order data to be overwritten, leading to loss of order tracking information? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_183822c1-6281-42a0-b5bb-ee2e79e226fd?mode=deep",
+    "timestamp": "2026-01-09 14:57:12.220913",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Console log exposure] At line 79, the order hash is logged to console as hex - in production environments, can this leak sensitive order identifiers that could be exploited? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_967be0cd-a4f9-4d9d-934f-ff334e419413?mode=deep",
+    "timestamp": "2026-01-09 14:57:28.850940",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Keypair path traversal] At line 146, makerKeypairPath is read from user input without sanitization - can an attacker use path traversal (../) to access arbitrary keypair files outside intended directories? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_209e3da8-b78b-4453-9991-db8e9ff1c0e8?mode=deep",
+    "timestamp": "2026-01-09 14:57:46.724175",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Public key injection] At lines 147-148, srcMint and dstMint are constructed from user input without validation - can an attacker provide invalid public keys causing transaction failures or exploitation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c98f3848-8d5f-41bd-889d-6ae24103f540?mode=deep",
+    "timestamp": "2026-01-09 14:58:04.846507",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Amount parsing vulnerability] At lines 149-150, amounts are parsed as Number() without validation - can negative numbers, NaN, or Infinity values cause unexpected behavior or crashes? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1086011e-8b3f-4d8d-ae29-40674919bb14?mode=deep",
+    "timestamp": "2026-01-09 14:58:23.833233",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Order ID injection] At line 151, orderId is parsed as Number() from user input - can special values (negative, float, extremely large) cause the order creation to behave unexpectedly? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2614aebc-4855-4ec9-8f8c-7633b7ec2ebd?mode=deep",
+    "timestamp": "2026-01-09 14:58:43.345922",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Keypair loading vulnerability] At line 156, loadKeypairFromFile() is called with unsanitized path - can this be exploited to load malicious keypairs or cause path traversal attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_93c703fe-a1aa-46fd-a534-dc83a2d84558?mode=deep",
+    "timestamp": "2026-01-09 14:59:03.345620",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [RPC endpoint manipulation] At line 145, clusterUrl is obtained from environment variable - can an attacker manipulate CLUSTER_URL to point to a malicious RPC that returns false confirmations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5a5d25dd-52a8-459f-8f52-9a1eb2a93a86?mode=deep",
+    "timestamp": "2026-01-09 14:59:22.886918",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Confirmation level risk] At line 153, the connection uses 'confirmed' commitment - can this cause race conditions where the order is considered created but the escrow isn't actually funded on-chain? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_af80f23f-456b-4a5e-8a88-892503bc5680?mode=deep",
+    "timestamp": "2026-01-09 14:59:42.722623",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Transaction confirmation] At lines 136-138, sendAndConfirmTransaction() is used - if this times out or fails after the transaction is submitted, can it result in tokens being stuck in escrow without a valid order record? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_541a9352-981a-4a31-960e-72a27c1dc5a4?mode=deep",
+    "timestamp": "2026-01-09 15:00:02.609748",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Escrow PDA predictability] At lines 89-93, the escrow address is deterministically derived from maker and orderHash - can an attacker precompute escrow addresses to execute front-running or griefing attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_362d9cf4-cf67-4c40-ba8f-e6b2ba709f5e?mode=deep",
+    "timestamp": "2026-01-09 15:00:21.558190",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Escrow reuse attack] If a maker cancels an order and creates a new one with the same parameters, will the escrow PDA at lines 89-93 be the same, allowing potential exploitation of residual state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_484b17ad-80ad-4b97-812e-0d98546d5eab?mode=deep",
+    "timestamp": "2026-01-09 15:00:41.573994",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Cross-maker escrow] Can two different makers craft orders that result in the same escrow PDA at lines 89-93, causing one maker's funds to be accessible by another maker's order? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_af68e698-6ff8-42f6-8e1b-ff1423c98fe8?mode=deep",
+    "timestamp": "2026-01-09 15:01:00.774061",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Missing account validation] At lines 119-132, accounts are passed to the create instruction using accountsPartial() - are all required accounts properly validated by the program, or can missing accounts cause exploits? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0846161f-248e-4a6a-996d-3575000b57d9?mode=deep",
+    "timestamp": "2026-01-09 15:01:20.745710",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Account substitution] Since accountsPartial() is used at line 121, can an attacker provide malicious accounts for optional fields to bypass security checks in the on-chain program? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_21e82548-a7f0-4316-a1c1-cca727a1b836?mode=deep",
+    "timestamp": "2026-01-09 15:01:41.970412",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Maker verification] At line 122, maker is set to makerKeypair.publicKey and listed as signer at line 131 - if the signer is not actually the maker, can this cause ownership issues for the escrow? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ad9012b4-a893-43b1-810c-037323dbd379?mode=deep",
+    "timestamp": "2026-01-09 15:02:01.197745",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Amount relationship validation] At lines 36-37, srcAmount and minDstAmount are accepted without checking their relationship - can a maker set minDstAmount > fair market value * srcAmount to create unfillable orders that lock tokens? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b58f529d-e1f5-4d8a-84fe-77570ad02263?mode=deep",
+    "timestamp": "2026-01-09 15:02:19.832870",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Zero amount orders] Can srcAmount or minDstAmount be zero at lines 36-37, allowing creation of orders that could be exploited to drain fees or manipulate protocol metrics? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1d511d49-d876-4123-912b-9f5dd1b7cab6?mode=deep",
+    "timestamp": "2026-01-09 15:02:39.094905",
+    "report_generated": false
   }
 ]
