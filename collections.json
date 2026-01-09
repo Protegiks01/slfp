@@ -2848,5 +2848,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cd7344d5-5cc7-469f-a3b7-29db1cfeb09e?mode=deep",
     "timestamp": "2026-01-09 15:11:20.100321",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [defaultExpirationTime consistency] At line 41, expirationTime defaults to defaultExpirationTime() which is now + 1 day - if the maker's clock is skewed, can orders be created with incorrect expiration? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3cc4e6b7-2ddf-40b4-b133-94f22b7680e6?mode=deep",
+    "timestamp": "2026-01-09 15:12:28.783525",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Config serialization mismatch] The reducedOrderConfig at lines 53-64 is serialized into order hash at line 78 and also sent to program at line 120 - can discrepancies in serialization cause the program to reject orders with valid hashes? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_50170f70-0a5e-482c-911b-7e1485fb4557?mode=deep",
+    "timestamp": "2026-01-09 15:12:40.650535",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Account list completeness] The accountsPartial() call at line 121 provides specific accounts, but are all accounts required by the IDL included, or can missing optional accounts cause unexpected behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fb7a84a4-ce36-4198-9fe7-28d15a9c228f?mode=deep",
+    "timestamp": "2026-01-09 15:12:53.225748",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Decimal overflow] At lines 165-166, Math.pow(10, decimals) is used - for very high decimal values (e.g., 100), can this produce Infinity, causing incorrect amount calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_61eeaf79-8194-43bb-8bcc-5dcff13212e4?mode=deep",
+    "timestamp": "2026-01-09 15:13:05.891591",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Decimal mismatch] If the fetched decimals at lines 158-159 don't match what the token actually uses on-chain, can this cause the order to have wildly incorrect amounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b335af46-140e-4611-a4d1-0acd4c80eb81?mode=deep",
+    "timestamp": "2026-01-09 15:13:19.161226",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Zero decimal handling] Can tokens with 0 decimals at lines 158-159 cause the Math.pow(10, 0) to return 1, and if so, does this correctly handle integer token amounts? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_12f5606e-5ca7-4cb8-b64d-af7212f7d458?mode=deep",
+    "timestamp": "2026-01-09 15:13:33.334498",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [ATA initialization assumption] At lines 94-98, escrowAta is derived but not explicitly created - does the on-chain program handle ATA creation, or will the token transfer fail if the ATA doesn't exist? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_67fff13d-6fcf-41c9-946f-0e593f48d1cc?mode=deep",
+    "timestamp": "2026-01-09 15:13:48.576644",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Maker ATA existence] For SOL wrapping at lines 104-107, is the maker's native ATA created if it doesn't exist, or will the transfer at line 109-114 fail? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_75fb286a-1745-418e-9884-ffc7b952edf1?mode=deep",
+    "timestamp": "2026-01-09 15:14:04.431480",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Number type parameters] Several parameters (orderId at line 40, expirationTime at line 41, cancellationAuctionDuration at line 50) are typed as number but should be u32 - can values > u32::MAX cause overflow in the program? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c758692f-be28-4ea8-8f5f-e4e712cfe54e?mode=deep",
+    "timestamp": "2026-01-09 15:14:20.826410",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Boolean flag safety] The srcAssetIsNative and dstAssetIsNative flags at lines 43-44 are booleans - can these be manipulated via prototype pollution or type coercion to have unexpected values? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1ba1f41f-8615-4a58-b959-fb3f7fea734a?mode=deep",
+    "timestamp": "2026-01-09 15:14:38.020941",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [JSON serialization attack] At line 86, JSON.stringify() is used - can circular references or specially crafted objects in orderConfigs cause stringification to fail or produce incorrect data? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_62de03c7-98d8-47a5-8527-1195d291cf9e?mode=deep",
+    "timestamp": "2026-01-09 15:14:55.800415",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [BN JSON serialization] The orderConfigs at line 84 contain BN types - does JSON.stringify() correctly serialize these, or will they be lost/corrupted in the saved file? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1b522aaa-5fca-4e0f-bf48-e5fc88b7edde?mode=deep",
+    "timestamp": "2026-01-09 15:15:14.490977",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [SPL token version] At line 51, TOKEN_PROGRAM_ID is used by default - if the actual token uses Token-2022 with transfer fees or other extensions, can this cause incorrect escrow accounting? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_97b38e29-1fac-49a5-999a-db78c5cfc327?mode=deep",
+    "timestamp": "2026-01-09 15:15:34.039844",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Token program validation] The srcTokenProgram at line 127 is passed to the create instruction - does the on-chain program validate this is a legitimate token program, or can a malicious program be substituted? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8cb66261-2a06-41e2-b280-88ba4ce12e1d?mode=deep",
+    "timestamp": "2026-01-09 15:15:53.762224",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Funding source validation] The create instruction at lines 119-132 doesn't explicitly show the token transfer from maker to escrow - is this handled within the program, and can the funding be front-run or manipulated? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a136952e-af6c-470d-94bf-be1161fd8383?mode=deep",
+    "timestamp": "2026-01-09 15:16:14.661167",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Maker balance check] Before creating the order, is the maker's balance of srcMint checked to ensure they have sufficient tokens, or can orders be created with insufficient funds? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_da8b550c-02d7-431e-a7f3-d529d816ec1d?mode=deep",
+    "timestamp": "2026-01-09 15:16:36.331568",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Required fields validation] The reducedOrderConfig at lines 53-64 and orderConfig at lines 66-76 contain multiple fields - are all required fields present and validated, or can missing fields cause undefined behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01ca22c8-474e-4141-a886-edb6580a36e6?mode=deep",
+    "timestamp": "2026-01-09 15:16:59.518506",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Field type consistency] Do all fields in the order configs have types that match the on-chain program's expectations, or can type mismatches cause deserialization errors? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4062d90e-5c14-41b8-b439-5511dea9437d?mode=deep",
+    "timestamp": "2026-01-09 15:17:21.410480",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Auction points manipulation] The dutchAuctionData at line 49 includes pointsAndTimeDeltas array - can a maker provide empty array, single point, or malformed points to break auction price calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6f3bd0c4-f0dd-46b6-b324-acf0e4cc750e?mode=deep",
+    "timestamp": "2026-01-09 15:17:42.555522",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Rate bump overflow] If the auction points include rate bumps that sum to > u16::MAX in dutchAuctionData at line 49, can this cause overflow in on-chain price calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cce882b4-ad70-48ff-89cb-75de4d5c68df?mode=deep",
+    "timestamp": "2026-01-09 15:18:04.050199",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Rent exemption handling] When wrapping SOL at lines 109-114, is rent exemption for the native ATA considered, or can the maker transfer insufficient lamports causing the ATA to be rent-collected? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c8ce7481-2081-4159-b5d6-a585bcdc408c?mode=deep",
+    "timestamp": "2026-01-09 15:18:24.703861",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [SOL balance after wrap] After the SOL wrap at lines 109-116, does the maker's regular SOL balance have enough for transaction fees, or can they become unable to cancel the order later? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_94c6d852-d285-4bd5-abf0-5a45c3e99537?mode=deep",
+    "timestamp": "2026-01-09 15:18:46.648694",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Verbose logging risk] At lines 79, 87, and 139, sensitive information is logged - in production, can these logs be captured by attackers to track orders before they're filled? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_521a9056-9585-4b30-853d-fefdeda49e8e?mode=deep",
+    "timestamp": "2026-01-09 15:19:09.559621",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Address logging] At lines 172-173, escrow addresses are logged - can this information be used to monitor and front-run order fills? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_388d7b0f-a8d2-4e06-ae3a-4bc5d91872a8?mode=deep",
+    "timestamp": "2026-01-09 15:19:32.031148",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [CLUSTER_URL injection] At line 145, CLUSTER_URL environment variable is used - can an attacker manipulate this via environment to redirect all transactions to malicious endpoints? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c8ee8abd-79a5-48ef-82d9-99eef9ab843b?mode=deep",
+    "timestamp": "2026-01-09 15:19:54.710382",
+    "report_generated": false
   }
 ]
