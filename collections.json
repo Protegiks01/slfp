@@ -2098,5 +2098,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_68991056-2613-46dd-a072-eb7256c3e633?mode=deep",
     "timestamp": "2026-01-09 14:29:12.085171",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Access: Stale resolver check] After deregistration, can old resolver_access account data remain accessible, allowing deregistered resolvers to fill orders? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_19ef2be0-98dc-4338-9f65-376b936d7e07?mode=deep",
+    "timestamp": "2026-01-09 14:30:25.830450",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Access: Cross-chain bypass] Can an attacker exploit cross-chain bridges or oracles to create valid-looking resolver_access accounts? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e474db4f-b01e-4d05-993e-f447483bd03c?mode=deep",
+    "timestamp": "2026-01-09 14:30:37.828780",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [DoS: Whitelist state closure] Can an attacker close the whitelist_state account, causing all register/deregister operations to fail? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e61bebe-a2cf-42f7-85c7-41dd10988e45?mode=deep",
+    "timestamp": "2026-01-09 14:30:50.155283",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [DoS: Authority lockout] Can set_authority() be exploited to set an invalid authority, permanently locking out all administrative functions? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4c28d7e-c45f-4d7d-9a20-7dc5ae80026b?mode=deep",
+    "timestamp": "2026-01-09 14:31:02.821222",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [DoS: Mass deregistration] Can a compromised authority deregister all resolvers simultaneously, halting order fills across the protocol? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a491cb7d-bf1d-4d9e-a909-84c118d63ab3?mode=deep",
+    "timestamp": "2026-01-09 14:31:16.618992",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [DoS: PDA griefing] Can an attacker grief PDA derivation by creating accounts at expected addresses, preventing legitimate registrations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a64ecdd5-43d0-4100-9439-6fd77c734eef?mode=deep",
+    "timestamp": "2026-01-09 14:31:30.417742",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [DoS: Compute limit] Can specially crafted transactions cause register/deregister to exceed compute limits, making operations impossible? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5b7d1a9f-7bfe-45f0-b26c-b70b6d237903?mode=deep",
+    "timestamp": "2026-01-09 14:31:45.242478",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Upgrade: Account migration] If the program is upgraded with new account structures, can this break existing resolver_access accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6d363041-673b-49cb-b62f-ee72634da2f1?mode=deep",
+    "timestamp": "2026-01-09 14:32:01.127792",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Upgrade: PDA changes] If PDA derivation logic changes in an upgrade, can this invalidate existing resolver registrations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e9508288-7ee3-4b1d-8dab-6cf5329d66a1?mode=deep",
+    "timestamp": "2026-01-09 14:32:18.373165",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Upgrade: Authority preservation] Does the program ensure authority is preserved across upgrades, or can upgrade reset the authority? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3af57308-a1bd-4123-ae50-06cb39a144ef?mode=deep",
+    "timestamp": "2026-01-09 14:32:36.668971",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Upgrade: Backwards compatibility] Are upgrades backwards compatible with existing resolver_access accounts, or can upgrades break access control? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b6d3c29a-3cc2-468f-8a92-6e7e9f8e74cb?mode=deep",
+    "timestamp": "2026-01-09 14:32:54.294515",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Crypto: Signature verification] Are all signatures properly verified using Solana's built-in verification, or can fake signatures be accepted? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ba37d678-87df-479b-8de2-437abff2115c?mode=deep",
+    "timestamp": "2026-01-09 14:33:13.070438",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Crypto: PDA derivation] Is PDA derivation cryptographically secure against preimage attacks where attackers find colliding seeds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_45dc2a85-43ca-4187-9037-64ae445776c1?mode=deep",
+    "timestamp": "2026-01-09 14:33:32.274794",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Crypto: Bump grinding] Can attackers grind for specific bump values that create exploitable PDA addresses? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_37dc2a76-98d2-422e-95a5-70aaf349ff58?mode=deep",
+    "timestamp": "2026-01-09 14:33:52.339777",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Validation: User pubkey] In register() and deregister(), is the user pubkey validated to prevent zero addresses, system accounts, or invalid keys? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1b53c007-dc79-4621-bc3a-1fc9d1785b34?mode=deep",
+    "timestamp": "2026-01-09 14:34:13.120054",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Validation: Authority pubkey] In set_authority(), is new_authority validated to ensure it's a valid, signable account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9592d6ae-a62b-4935-baea-496b2ec8f2a4?mode=deep",
+    "timestamp": "2026-01-09 14:34:34.464540",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Validation: Account discriminator] Are account discriminators properly validated to prevent fake accounts from passing as WhitelistState or ResolverAccess? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_181fa8cf-3678-4d77-b80b-69f86e0e720a?mode=deep",
+    "timestamp": "2026-01-09 14:34:54.617814",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Validation: Seeds] Are PDA seeds validated to prevent injection attacks or seed manipulation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e46a580f-92b4-4c7d-ac84-8e5db55dddaf?mode=deep",
+    "timestamp": "2026-01-09 14:35:15.967861",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Timing: Registration delay] Can an attacker exploit timing between register() and when the resolver becomes active to fill orders before registration completes? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b69182bb-5e17-4611-b7cb-53cfa929ade1?mode=deep",
+    "timestamp": "2026-01-09 14:35:37.468823",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Timing: Deregistration race] Can a resolver fill orders between when deregister() is called and when the account is actually closed? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b0a449b3-757d-4324-8cbf-8474f9921409?mode=deep",
+    "timestamp": "2026-01-09 14:35:59.092097",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Timing: Authority change race] Can operations use the old authority during the window when set_authority() is executing? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_220a3fa7-bc84-462a-ab6a-752e285335ee?mode=deep",
+    "timestamp": "2026-01-09 14:36:21.532810",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Ordering: Operation sequence] Can changing the order of operations (e.g., deregister before register) create exploitable states? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a2cb5c8f-3761-482c-a95d-32abfe31b3f5?mode=deep",
+    "timestamp": "2026-01-09 14:36:42.099987",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Edge case: Empty whitelist] If all resolvers are deregistered, can this create a DoS state where no orders can be filled? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e5c8a36c-ef5d-44d0-980b-0b7ef21d01aa?mode=deep",
+    "timestamp": "2026-01-09 14:37:01.566313",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Edge case: Maximum resolvers] Is there a limit on the number of registered resolvers, or can unlimited registrations exhaust resources? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cf51538a-35ff-48ea-b406-7cbc31f5b8db?mode=deep",
+    "timestamp": "2026-01-09 14:37:21.597931",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Edge case: Self-registration] Can the authority register themselves as a resolver, creating conflicts of interest? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f37c15aa-0be3-4306-be8e-f26427d0f783?mode=deep",
+    "timestamp": "2026-01-09 14:37:41.365080",
+    "report_generated": false
   }
 ]
