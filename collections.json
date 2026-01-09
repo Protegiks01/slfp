@@ -1198,5 +1198,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e144558e-0a67-4ea8-a8ac-65fd72233c4c?mode=deep",
     "timestamp": "2026-01-09 13:39:09.090340",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Type mixing] Can the mixing of u16 (rate_bump, time_delta), u32 (start_time, duration), and u64 (timestamp) types cause subtle casting bugs in arithmetic operations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fba053c5-dfe5-49fa-93d4-225457927a2d?mode=deep",
+    "timestamp": "2026-01-09 13:40:11.968250",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Widening casts] Do the widening casts from u16 to u64 (lines 19, 26, 30, 31) properly preserve values, or can sign extension or truncation issues occur? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_652dbba0-eccb-4459-b167-5f9ad703c7a0?mode=deep",
+    "timestamp": "2026-01-09 13:40:23.820114",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Type consistency] Can the use of u32 timestamps in calculate_premium versus u64 in calculate_rate_bump cause timing inconsistencies when both are called in the same transaction? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5f1df3ec-3ee1-47f0-8542-b81c902631c6?mode=deep",
+    "timestamp": "2026-01-09 13:40:36.132117",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Narrowing cast implications] Does the code elsewhere properly handle the fact that calculate_premium uses u32 timestamps, potentially limiting auction durations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1d0a4100-34d8-4169-94b0-fc2684415093?mode=deep",
+    "timestamp": "2026-01-09 13:40:48.749911",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Empty vector with zero duration] If points_and_time_deltas is empty AND duration is 0, does the function panic, return undefined behavior, or handle gracefully? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_51b8eee2-22ff-444d-bfd1-b877584c92b8?mode=deep",
+    "timestamp": "2026-01-09 13:41:01.912933",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [All zero rates] If initial_rate_bump and all point rate_bumps are 0, does calculate_rate_bump always return 0, making orders unfillable? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8b4452d9-a65f-47d0-b035-96a502f83ff3?mode=deep",
+    "timestamp": "2026-01-09 13:41:15.666476",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Identical consecutive rates] If consecutive PointAndTimeDelta entries have identical rate_bump values, does the interpolation degenerate correctly to constant rates? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9b550a79-1bb1-4ce2-a306-c0e1707b07e3?mode=deep",
+    "timestamp": "2026-01-09 13:41:30.852140",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Single nano-second deltas] Can an attacker use time_delta values of 1 (nanosecond) to create near-infinite points that exhaust compute while passing validation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_371c4af4-2b21-4dc9-8a32-eb5eaa3e4b7e?mode=deep",
+    "timestamp": "2026-01-09 13:41:46.671184",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Future start time] If start_time is far in the future (e.g., start_time = u32::MAX - 1000), does line 18 correctly handle all timestamps before that time? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_153db75b-205a-4cfc-af8f-d4cb0fc67dc6?mode=deep",
+    "timestamp": "2026-01-09 13:42:03.079791",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Past auction] If auction_start_time is in the far past and auction_duration is small, can timestamp overflow or time_elapsed overflow at line 66? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7d0f8e33-7a81-4ccd-8382-779042a12990?mode=deep",
+    "timestamp": "2026-01-09 13:42:19.824017",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Max premium value] If max_cancellation_premium is u64::MAX, can the multiplication at line 71 overflow before division? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e1dba3dd-d905-42a9-ab80-f8d77b2cad3c?mode=deep",
+    "timestamp": "2026-01-09 13:42:37.392941",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Loop state preservation] Does the state update at lines 44-45 maintain invariants required for the final calculation at lines 52-53, or can loop execution leave inconsistent state? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_60321684-e2ce-43de-84c9-a5aba3e296ac?mode=deep",
+    "timestamp": "2026-01-09 13:42:55.396078",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Early return vs fallthrough] When the loop returns early at line 41, are there cases where falling through to line 52 would give different results, indicating logic errors? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_20ba831d-e6cd-4e16-8e96-eb9682d823f6?mode=deep",
+    "timestamp": "2026-01-09 13:43:14.564013",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Point time accumulation] As current_point_time accumulates through loop iterations at line 45, can it exceed auction_finish_time before the loop completes, causing invalid final calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed149b5d-c0a5-4ce0-a38d-dbd9be9539d8?mode=deep",
+    "timestamp": "2026-01-09 13:43:34.005453",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Iteration complexity] What is the computational complexity of the loop at line 29, and can an attacker create AuctionData requiring O(n) iterations with n > compute unit limits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dcdc7282-e7f6-469b-9628-06f798742243?mode=deep",
+    "timestamp": "2026-01-09 13:43:53.800213",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Worst-case compute] Can an attacker craft AuctionData to maximize compute consumption by forcing execution of all loop iterations plus final calculation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_51f3e867-420d-4c97-9e36-afb4bda03b67?mode=deep",
+    "timestamp": "2026-01-09 13:44:14.487969",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Compute efficiency] Does calculate_premium's constant-time execution prevent DoS, or can specific input combinations cause unexpected performance degradation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cd12d3ef-704a-4552-b45c-0fe04a73e562?mode=deep",
+    "timestamp": "2026-01-09 13:44:35.928194",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Rate declining enforcement] Does the auction mechanism ensure resolvers have decreasing incentive to delay fills, or can rate curves be crafted where waiting is optimal? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8db95227-15e5-4cb8-a8f3-a816766c84c2?mode=deep",
+    "timestamp": "2026-01-09 13:44:57.463985",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Premium sufficiency] Does the linear premium at line 71 sufficiently disincentivize malicious resolver cancellations, or can resolvers profit from cancel-and-refill strategies? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eaf47991-9981-4504-b779-eebf832027e0?mode=deep",
+    "timestamp": "2026-01-09 13:45:19.642002",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Zero-rate exploitation] When rate_bump reaches 0 at line 23, can this enable resolvers to fill orders at arbitrary exchange rates, violating maker expectations? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a7a6408a-6813-4c72-8141-711df2387a83?mode=deep",
+    "timestamp": "2026-01-09 13:45:39.369494",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Premium bypass] Can a resolver exploit the timestamp <= auction_start_time check at line 62 to cancel orders immediately after creation with zero premium? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_957f1ccf-bd60-446f-a817-165859e35017?mode=deep",
+    "timestamp": "2026-01-09 13:45:58.928078",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Interpolation stability] Does the linear interpolation at lines 39-41 remain numerically stable with extreme rate_bump differentials between consecutive points? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_90cc736a-1389-44f4-a65a-a39b0b45df89?mode=deep",
+    "timestamp": "2026-01-09 13:46:19.028997",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Catastrophic cancellation] Can subtraction operations at lines 39-40 cause catastrophic cancellation when timestamp is very close to current_point_time or next_point_time? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_025cdf19-5b4a-4667-8990-cd75900be55d?mode=deep",
+    "timestamp": "2026-01-09 13:46:38.966228",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Multiplication order] Does the order of operations at line 71 (multiply then divide) minimize precision loss, or should division occur first? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_94d15614-530b-4dbc-9dd0-a819d4f84aff?mode=deep",
+    "timestamp": "2026-01-09 13:46:59.925102",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Monotonic decrease invariant] Does the function guarantee that subsequent calls with later timestamps always return lower or equal rate_bump values? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f5042d0c-5444-45f6-8449-4a7b9cb214de?mode=deep",
+    "timestamp": "2026-01-09 13:47:21.747971",
+    "report_generated": false
   }
 ]
