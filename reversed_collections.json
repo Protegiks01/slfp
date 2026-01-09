@@ -598,5 +598,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_77157a4e-1ab2-403a-85db-0ea4c51351ba?mode=deep",
     "timestamp": "2026-01-09 13:04:15.692865",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Discriminator: ResolverAccess] [Account Impersonation] Can an attacker create fake resolver_access accounts with discriminator [32, 2, 74, 248, 174, 108, 70, 156] to impersonate whitelisted resolvers? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2c8a0232-26e1-4a93-8e36-74d7d2561955?mode=deep",
+    "timestamp": "2026-01-09 13:05:25.802598",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Discriminator: WhitelistState] [Account Type Confusion] Can an attacker create an account with WhitelistState discriminator [246, 118, 44, 60, 71, 37, 201, 55] that passes type checks but contains invalid data? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ad639321-91ac-4330-9656-81b8c214740b?mode=deep",
+    "timestamp": "2026-01-09 13:05:37.775769",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Discriminator: set_authority] [Discriminator Brute Force] Can an attacker brute-force instruction discriminators to find collisions with set_authority [133, 250, 37, 21, 110, 163, 26, 121], enabling unauthorized authority changes? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_53cfb2ee-8a09-416f-a49c-c8db116a051c?mode=deep",
+    "timestamp": "2026-01-09 13:05:49.886877",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Discriminator: deregister] [Instruction Spoofing] Can an attacker craft a transaction with the deregister discriminator [161, 178, 39, 189, 231, 224, 13, 187] that bypasses validation by appearing legitimate? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_39ad82cd-0f20-453a-a320-d83e114f45b5?mode=deep",
+    "timestamp": "2026-01-09 13:06:02.971578",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Discriminator: register] [Discriminator Prediction] Can an attacker predict the register discriminator [211, 124, 67, 15, 211, 194, 178, 240] and craft malicious transactions that execute register with forged parameters? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2c578661-c7b9-4439-96b3-2367d64bc559?mode=deep",
+    "timestamp": "2026-01-09 13:06:16.173500",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Discriminator: initialize] [Instruction Collision] Can the initialize discriminator [175, 175, 109, 31, 13, 152, 155, 237] collide with discriminators from other programs, causing unintended instruction execution? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_066f1e8d-e588-406e-baae-4250224cf526?mode=deep",
+    "timestamp": "2026-01-09 13:06:30.067409",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Error: Unauthorized] [Error Message Leakage] Does the 'Unauthorized' error message leak sensitive information about whitelist state or authority addresses that could aid attackers? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f9e008d2-4a96-4003-ae83-31c0a51d3387?mode=deep",
+    "timestamp": "2026-01-09 13:06:44.888665",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Error: Unauthorized] [Missing Errors] Are there missing error definitions for critical failure cases like DoubleInitialization, InvalidPDA, or AccountClosureFailed that could obscure security vulnerabilities? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e10641f3-743a-4ef5-a208-857b896c175a?mode=deep",
+    "timestamp": "2026-01-09 13:07:00.988584",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Error: Unauthorized] [Error Propagation] When whitelist returns Unauthorized through CPI to fusion-swap, can this error be properly caught and handled, or does it cause transaction failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0dd988c2-2b11-4608-ab30-e548df73a0f5?mode=deep",
+    "timestamp": "2026-01-09 13:07:17.397047",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Error: Unauthorized] [Generic Error] Is the single 'Unauthorized' error sufficient, or should whitelist define more specific errors (e.g., InvalidAuthority, ResolverNotFound, AlreadyRegistered) for better debugging? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d829302e-7430-4a0e-a94d-08bdf3a601d4?mode=deep",
+    "timestamp": "2026-01-09 13:07:34.737223",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Error: Unauthorized] [Error Code Collision] Can error code 6000 (Unauthorized) collide with error codes from other programs, causing confusion in error handling or client applications? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a68a001e-e835-4987-bbf4-175794cece5d?mode=deep",
+    "timestamp": "2026-01-09 13:07:52.324296",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [Program ID Validation] Does whitelist validate that the invoking program is authorized (e.g., fusion-swap), or can any program call whitelist instructions through CPI? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ae5f6fdb-186f-4f11-af94-b3ce51e1ab29?mode=deep",
+    "timestamp": "2026-01-09 13:08:11.229873",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [Instruction Discrimination] Does whitelist properly discriminate between direct calls and CPI calls, applying appropriate validation for each context? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3d95af79-fcfa-405e-83b8-c5a475f8d75a?mode=deep",
+    "timestamp": "2026-01-09 13:08:29.987790",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [Account Ownership Transfer] Can CPIs to whitelist change account ownership in unexpected ways, enabling account hijacking or state corruption? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_806675ff-cf18-4a50-9889-29e370e5834c?mode=deep",
+    "timestamp": "2026-01-09 13:08:50.324977",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [System Program CPI] When whitelist instructions invoke the system program to create/close accounts, can an attacker intercept or manipulate these CPIs? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_641e4336-f7ef-4912-855e-7aea03cd3a2e?mode=deep",
+    "timestamp": "2026-01-09 13:09:11.256668",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [Reentrancy Attacks] Can a malicious program call whitelist instructions through CPI in a recursive manner, causing state corruption or compute unit exhaustion? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4184f04c-2f96-4f34-b7a9-ebef9611609d?mode=deep",
+    "timestamp": "2026-01-09 13:09:31.829573",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [PDA Verification] Does the whitelist program verify that CPIs are coming from the legitimate fusion-swap program, or can malicious programs call whitelist functions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0e1dd1ac-b4dc-4aae-b21d-df0d7b8a533e?mode=deep",
+    "timestamp": "2026-01-09 13:09:52.982273",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [Account Passing] Can fusion-swap pass incorrect resolver_access accounts to whitelist CPI calls, enabling unauthorized resolvers to fill orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2cf4518b-ea68-4f03-bbf1-9deae186bde6?mode=deep",
+    "timestamp": "2026-01-09 13:10:13.759914",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [CPI Security] [Fusion-Swap Integration] When fusion-swap calls whitelist through CPI to validate resolver access, can an attacker provide a fake whitelist program address to bypass authorization? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_28f7b27c-19e8-4bcc-9416-032d2c12b254?mode=deep",
+    "timestamp": "2026-01-09 13:10:34.669008",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: resolver_access] [Canonical Bump Validation] Does the protocol verify that the stored bump in ResolverAccess matches the canonical bump from derivation, preventing bump manipulation attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b32780c0-5a24-49df-813d-f287d8da0310?mode=deep",
+    "timestamp": "2026-01-09 13:10:55.437930",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: resolver_access] [Multi-Program Collision] Can resolver_access PDAs derived by the whitelist program collide with PDAs from other programs (like fusion-swap), causing authorization conflicts? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c23cfbc9-ff60-46ce-bc52-57b49ee0ea63?mode=deep",
+    "timestamp": "2026-01-09 13:11:17.107132",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: resolver_access] [Seed Length] Are the seed bytes [114, 101, 115, 111, 108, 118, 101, 114, 95, 97, 99, 99, 101, 115, 115] correctly encoding 'resolver_access', or is there truncation/padding? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2ca09ee5-6085-4d36-9cee-391d5e05e279?mode=deep",
+    "timestamp": "2026-01-09 13:11:37.229536",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: resolver_access] [Bump Exhaustion] Can an attacker provide a user pubkey where no valid bump exists (0-255 exhausted), causing DoS for that specific resolver registration? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4637d50c-cda0-4046-9e7b-0e46b381ee15?mode=deep",
+    "timestamp": "2026-01-09 13:11:56.833897",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: resolver_access] [Seed Order] Are the seeds for resolver_access correctly ordered as ['resolver_access', user], or can seed order manipulation enable PDA prediction attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_de75cfb3-dec4-421c-94b0-4c6984b54351?mode=deep",
+    "timestamp": "2026-01-09 13:12:16.052950",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [PDA: resolver_access] [User Pubkey Manipulation] Can an attacker craft specific user pubkeys that, when combined with 'resolver_access' seed, produce PDAs that collide with critical system accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_71942706-bdd9-4718-a2de-518f3387b988?mode=deep",
+    "timestamp": "2026-01-09 13:12:35.836145",
+    "report_generated": false
   }
 ]
