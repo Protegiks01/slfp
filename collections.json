@@ -2998,5 +2998,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c8ee8abd-79a5-48ef-82d9-99eef9ab843b?mode=deep",
     "timestamp": "2026-01-09 15:19:54.710382",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [User prompt injection] At lines 146-151, prompt() is used for user input without sanitization - can malicious input cause command injection, path traversal, or other security issues? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6f639384-1953-4d6b-be84-d2cc4c5b3852?mode=deep",
+    "timestamp": "2026-01-09 15:21:34.664982",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Prompt library safety] The prompt-sync library at line 30 is used for input - are there known vulnerabilities in this library that could be exploited? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d0e69f0f-f90a-4ff1-b34b-8a22f85e5fec?mode=deep",
+    "timestamp": "2026-01-09 15:21:46.558784",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Empty transaction] If srcMint is not NATIVE_MINT at line 102, the transaction at line 100 starts empty - can an attacker cause the create instruction to be the only instruction, potentially allowing race conditions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bc90e37f-face-4ef6-ad53-07881245a40d?mode=deep",
+    "timestamp": "2026-01-09 15:21:58.867150",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Instruction ordering dependency] The SOL wrap instructions at lines 109-116 must complete before create at line 134 - if instruction ordering is not enforced, can funds be at risk? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ebf3d347-617e-4e66-9459-52fb99389e1c?mode=deep",
+    "timestamp": "2026-01-09 15:22:11.562205",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Keypair file security] At line 156, the keypair is loaded from filesystem - if this file is compromised or modified during execution, can orders be created with attacker-controlled makers? (\n\n### Citations\n\n**File:** scripts/fusion-swap/create.ts (L1-176)\n```typescript\nimport {\n  Connection,\n  Keypair,\n  PublicKey,\n  SystemProgram,\n  Transaction,\n  sendAndConfirmTransaction,\n} from",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_895af07b-669f-47c6-868e-3ac39573297e?mode=deep",
+    "timestamp": "2026-01-09 15:22:25.476156",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Order hash collision] Can an attacker craft two different OrderConfig structures that produce the same calculateOrderHash() output at line 39, allowing them to fill a different order than intended and steal tokens from an unrelated escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0d4aa98d-cbda-47ba-b8c8-1bb8a8a0599a?mode=deep",
+    "timestamp": "2026-01-09 15:22:39.584827",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Hash manipulation] Does the calculateOrderHash() call at line 39 properly validate all orderConfig fields before hashing, or can an attacker manipulate the hash by injecting malformed data structures to target arbitrary escrow accounts? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a126bffe-23ec-494c-b994-75c0d4b94012?mode=deep",
+    "timestamp": "2026-01-09 15:22:54.489083",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Hash collision attack] Can an attacker exploit the order hash calculation at line 127 by crafting orderConfig with specific field values that collide with existing escrow PDAs, enabling unauthorized access to other users' escrowed funds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d32e7fa7-a3fc-4828-9490-8f7ea43d78e3?mode=deep",
+    "timestamp": "2026-01-09 15:23:10.760197",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Hash preimage attack] Can a malicious resolver analyze the calculateOrderHash() implementation to generate preimages that match existing escrow addresses, allowing them to drain funds from arbitrary orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b4406e49-59b7-443a-b3ea-643f4b5d93b9?mode=deep",
+    "timestamp": "2026-01-09 15:23:27.588140",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [PDA collision] Can an attacker manipulate the maker address and orderHash Buffer at lines 41-45 to generate a colliding escrow PDA that matches a different user's escrow, enabling cross-order token theft? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_72dd9285-b13a-4694-bb3a-f3c801830ad8?mode=deep",
+    "timestamp": "2026-01-09 15:23:44.742272",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [PDA seed manipulation] Does the findEscrowAddress() call at lines 41-45 properly validate the Buffer.from(orderHash) conversion, or can an attacker inject malformed buffers to derive unauthorized escrow PDAs? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b96efbeb-651e-4997-a2e5-20d2bd3505c1?mode=deep",
+    "timestamp": "2026-01-09 15:24:02.421707",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Resolver access bypass] Can an attacker exploit the findResolverAccessAddress() call at lines 52-55 by providing a different whitelistProgramId to bypass whitelist validation and fill orders without authorization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f3738b93-8134-472e-893a-bb8fd6fbd16f?mode=deep",
+    "timestamp": "2026-01-09 15:24:20.197015",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Escrow PDA collision] Can the findEscrowAddress() call at lines 129-133 be exploited with manipulated maker/orderHash values to access escrows belonging to other users, enabling fund theft? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9c307eb8-d357-4225-8a46-2b0080f563ae?mode=deep",
+    "timestamp": "2026-01-09 15:24:38.141849",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [PDA authority bypass] Can an attacker craft a fake orderHash that derives an escrow PDA controlled by their own program, allowing them to drain the escrow without proper authorization? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a98f02d6-123a-43a5-90ff-db58dce2bcc4?mode=deep",
+    "timestamp": "2026-01-09 15:24:56.052268",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Integer overflow] Can the amount multiplication at line 68 (amount * Math.pow(10, srcMintDecimals)) overflow for large amount values, causing incorrect token transfers or complete transaction failure? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b1ad531d-9806-4a24-81e9-1ed2e5b1d0fa?mode=deep",
+    "timestamp": "2026-01-09 15:25:14.977789",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Decimal precision loss] Does the Math.pow(10, srcMintDecimals) calculation at line 68 handle edge cases where srcMintDecimals is 0 or extremely large (>18), potentially causing precision loss or overflow in amount calculation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bc4d3804-9e5d-4426-997d-ae00b2c24da7?mode=deep",
+    "timestamp": "2026-01-09 15:25:33.808490",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Amount underflow] Can a malicious resolver provide a very small amount value that, after decimal conversion at line 68, becomes 0 due to rounding, allowing them to extract src tokens without paying any dst tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_134617a9-3bcf-47a4-b65b-17b56fe57721?mode=deep",
+    "timestamp": "2026-01-09 15:25:53.688815",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [User input overflow] Can the Number(prompt()) conversion at line 120 overflow or produce NaN for extremely large inputs, leading to undefined behavior in the subsequent fill() call? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3b4e8690-61de-42f7-a16b-a09b5cf2f763?mode=deep",
+    "timestamp": "2026-01-09 15:26:12.332988",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [BN conversion attack] Can the new BN(amount * Math.pow(10, srcMintDecimals)) at line 68 produce incorrect values if the JavaScript number loses precision before BN conversion, enabling partial token theft? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_46946ffb-98bd-40c3-ac42-1647fb8a1d3b?mode=deep",
+    "timestamp": "2026-01-09 15:26:31.881444",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Negative amount bypass] Does the amount parameter validation prevent negative values? Can an attacker pass a negative amount that becomes a large positive value after type coercion, draining the entire escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed284b87-8525-4a0c-82ff-9bba32ed35c3?mode=deep",
+    "timestamp": "2026-01-09 15:26:52.875322",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Zero amount exploit] Can a resolver call fill() with amount=0 to trigger escrow closure logic without transferring any tokens, potentially locking or stealing escrowed funds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f9e0d2e7-dbb9-495b-809e-cffe30a91971?mode=deep",
+    "timestamp": "2026-01-09 15:27:14.279290",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [ATA ownership bypass] Can an attacker provide a malicious srcMint at line 47 to derive an escrowSrcAta that they control, allowing them to receive tokens from the fill operation instead of the legitimate taker? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4e697d78-6a39-428f-81bd-d77963703453?mode=deep",
+    "timestamp": "2026-01-09 15:27:35.542824",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fake mint attack] Does the getAssociatedTokenAddress() call at lines 46-50 validate that orderConfig.srcMint is a legitimate token mint, or can an attacker use a fake mint to bypass token transfer validations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ad1eb233-523c-46b1-87b1-4533b0522a93?mode=deep",
+    "timestamp": "2026-01-09 15:27:57.942309",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [ATA collision] Can the getAssociatedTokenAddress() calls at lines 46-50 and 57-60 produce colliding ATAs for different mints, enabling token theft through account confusion? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_670d1588-1730-48be-bf39-44c06f177836?mode=deep",
+    "timestamp": "2026-01-09 15:28:19.674447",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Taker ATA manipulation] Can a malicious resolver provide a takerKeypair that owns a takerSrcAta for a different mint, causing the fill instruction to transfer tokens to the wrong account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c752d39e-498a-495e-8f2a-a6bacbb258d8?mode=deep",
+    "timestamp": "2026-01-09 15:28:42.307096",
+    "report_generated": false
   }
 ]
