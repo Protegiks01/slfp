@@ -2998,5 +2998,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_049525d8-98b8-4655-b3da-e025f07c693f?mode=deep",
     "timestamp": "2026-01-09 15:19:40.405031",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Recent blockhash] The transaction at line 57 doesn't explicitly set a recent blockhash - can stale blockhashes cause the transaction to be rejected after the maker has committed to cancellation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89f0aa81-c4f8-4989-aee5-11e053526d88?mode=deep",
+    "timestamp": "2026-01-09 15:20:53.193965",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Keypair format validation] At line 76, loadKeypairFromFile expects a specific JSON format - can malformed keypair files cause parsing errors that expose sensitive key material in error messages? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ea02da06-f82c-4dd4-bd46-1c578c818bc7?mode=deep",
+    "timestamp": "2026-01-09 15:21:05.114304",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Signer deduplication] At line 60, makerKeypair is added as signer - if the same keypair is referenced multiple times in the transaction, can this cause signature verification failures or wasted compute units? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_03b6749f-a65e-48b8-a53a-4b3ceb18921c?mode=deep",
+    "timestamp": "2026-01-09 15:21:17.622434",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Connection timeout] At line 73, no timeout is specified for the connection - can hanging RPC requests cause the script to block indefinitely, preventing cancellations during network issues? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f60d1407-557b-40e2-8b81-054bb07e5085?mode=deep",
+    "timestamp": "2026-01-09 15:21:30.222806",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Associated token program version] At line 42, getAssociatedTokenAddress uses allowOwnerOffCurve parameter - can mismatches between expected and actual PDA derivation cause the on-chain program to reject the provided ATA address? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5f71182f-2925-4413-aa18-b0d23be73697?mode=deep",
+    "timestamp": "2026-01-09 15:21:43.640835",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Unicode handling] If prompt inputs at lines 67-71 contain Unicode characters, can encoding issues cause public key parsing to fail or orderHash conversion to produce incorrect byte arrays? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bb15cd1b-fdb2-4032-b07f-ad0462b32aac?mode=deep",
+    "timestamp": "2026-01-09 15:21:57.450083",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account reallocation] If the on-chain program reallocates account data during cancellation, can this cause the transaction to fail due to insufficient compute units or unexpected account size changes? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_392ac56a-632a-46cd-8a2d-323e52bcfc36?mode=deep",
+    "timestamp": "2026-01-09 15:22:11.971159",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [File system race] At line 76, loadKeypairFromFile performs file I/O - can concurrent modifications to the keypair file cause partial reads that produce invalid keypairs, leading to signature verification failures? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a47e665a-a137-4bc3-96d3-1c05f2f90a0b?mode=deep",
+    "timestamp": "2026-01-09 15:22:27.677118",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Instruction data size] Can extremely long order hashes or account lists cause the instruction data to exceed Solana's transaction size limits, resulting in failed transaction submission? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ea9d6c98-0086-4911-81ca-e2562556fc01?mode=deep",
+    "timestamp": "2026-01-09 15:22:44.465729",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Concurrent cancellation] If multiple instances of this script run concurrently with the same maker keypair, can they attempt to cancel the same order multiple times, causing nonce conflicts and transaction failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e781b7c-a55c-4a0b-b94b-777806cfb429?mode=deep",
+    "timestamp": "2026-01-09 15:23:01.619331",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Compute unit exhaustion] The script doesn't specify compute unit limits - can complex cancel instructions with many CPI calls exceed default limits and fail after consuming fees? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2f4a07d1-df35-4725-b9d3-0ab02d552311?mode=deep",
+    "timestamp": "2026-01-09 15:23:19.098339",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Fee payer validation] At line 59, the maker keypair pays transaction fees - if the maker's SOL balance is insufficient, can this cause cancellation failures that still deduct partial fees, draining the maker's account? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8b160163-7980-4058-be61-4b436cab15dc?mode=deep",
+    "timestamp": "2026-01-09 15:23:37.099733",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Priority fee exploitation] The script doesn't set priority fees - during network congestion, can attackers prevent cancellations by forcing makers to compete with excessively high priority fees, making cancellations economically infeasible? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2707be18-09de-4589-8ec6-4ec8253429c2?mode=deep",
+    "timestamp": "2026-01-09 15:23:55.143217",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Rent economics] At line 91, the script checks escrow existence but doesn't validate rent exemption status - can orders with insufficient rent be canceled, leaving the maker unable to recover rent exemption amounts? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_76518e54-af2d-4125-b1d8-ea8bf17b82f0?mode=deep",
+    "timestamp": "2026-01-09 15:24:14.661728",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Gas griefing] Can an attacker repeatedly trigger failed cancellations by manipulating account states, causing the maker to waste SOL on transaction fees without successfully canceling the order? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e91022d7-eab4-4049-a205-86ace9710270?mode=deep",
+    "timestamp": "2026-01-09 15:24:34.565888",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Close authority] When the escrow ATA is closed during cancellation, does the on-chain program validate that the escrow PDA is the close authority, preventing unauthorized account closures? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_36b061da-2be5-415c-8f29-164303e0d2b3?mode=deep",
+    "timestamp": "2026-01-09 15:24:53.961334",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Delegate validation] If escrowSrcAta has a delegate set, can the on-chain cancel instruction properly revoke the delegation before closing the account, or can delegates retain control over tokens? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3fc1610d-eb5d-499d-a938-554788d7680c?mode=deep",
+    "timestamp": "2026-01-09 15:25:14.096089",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Token program validation] At line 52, TOKEN_PROGRAM_ID is used - but does the script verify this matches the token program that owns escrowSrcAta, or can mismatched programs cause CPI failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f2615cba-ebed-46f6-bb9b-f7e0103d8c5a?mode=deep",
+    "timestamp": "2026-01-09 15:25:33.241853",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Mint authority] Does the script validate that srcMint has proper mint authority and isn't a fake token, or can an attacker create a malicious token mint that allows arbitrary minting during cancellation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e66a5dd-3b95-48d5-bc8d-ffec572ef160?mode=deep",
+    "timestamp": "2026-01-09 15:25:54.019592",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [ATA owner validation] At line 39-42, getAssociatedTokenAddress derives escrowSrcAta but doesn't verify the owner - can an attacker create a fake ATA at that address owned by themselves, causing token transfers to go to the wrong account? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8402f171-d8a6-4e58-95b4-9a61294ef28c?mode=deep",
+    "timestamp": "2026-01-09 15:26:14.425142",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Seed concatenation] When deriving escrow PDA at line 33-36, are the seeds properly concatenated with correct separators, or can missing boundaries cause seed ambiguity where different (maker, orderHash) pairs produce the same PDA? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_71628f69-ffc7-4f34-8a6d-142344f382b2?mode=deep",
+    "timestamp": "2026-01-09 15:26:34.496711",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Hash validation] The script doesn't validate that orderHash at line 68 is a valid 32-byte hex string before attempting conversion - can shorter/longer hashes cause buffer overflow or underflow in PDA derivation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7807429f-6228-4111-8814-00b10f1c1f1b?mode=deep",
+    "timestamp": "2026-01-09 15:26:54.329925",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Byte order] At line 29-31, the orderHash is converted from hex string to byte array - can incorrect byte ordering (big-endian vs little-endian) cause the PDA derivation to use reversed hash values, targeting wrong escrows? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5c383a73-214f-43b9-9119-add3be845125?mode=deep",
+    "timestamp": "2026-01-09 15:27:14.882835",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Hash collision] If two different orders produce the same orderHash due to hash collisions, can an attacker cancel one order by providing the hash of another, causing cross-order cancellation attacks? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_320a03f0-baec-4c6f-a032-a8169d3adbbb?mode=deep",
+    "timestamp": "2026-01-09 15:27:35.556346",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Order hash integrity] The orderHash passed at line 27 should match the hash computed by the on-chain program - can an attacker provide a valid-looking but incorrect hash that passes PDA derivation but targets a different order's escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9a16560c-3d24-445a-8897-002ac3017f91?mode=deep",
+    "timestamp": "2026-01-09 15:27:56.005491",
+    "report_generated": false
   }
 ]
