@@ -1948,5 +1948,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_60c272a5-56e7-42fe-a813-191bd6cab4b4?mode=deep",
     "timestamp": "2026-01-09 14:20:45.199948",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: SetAuthority] [State persistence] After set_authority() executes, can the old authority still perform actions due to stale state or race conditions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_34c69295-3fbe-4319-8e48-0d4426b82c31?mode=deep",
+    "timestamp": "2026-01-09 14:21:54.230205",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Error: WhitelistError::Unauthorized] Can the Unauthorized error be silently caught and bypassed by malicious programs calling the whitelist via CPI? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0b8233da-870d-4acc-9b83-312906de6522?mode=deep",
+    "timestamp": "2026-01-09 14:22:06.115303",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Error handling: General] Are all critical operations properly wrapped in Result types, or can errors be ignored to bypass security checks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5b8884dc-8dde-487f-9a75-5367e8e03139?mode=deep",
+    "timestamp": "2026-01-09 14:22:18.861854",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Error handling: Panic] Can any function panic instead of returning errors, causing transaction failure and potential DoS? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3ee8659e-5b71-4826-b41b-fec3036eb11e?mode=deep",
+    "timestamp": "2026-01-09 14:22:31.517197",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Program ID: declare_id] Can the program ID at line 7 be spoofed or replaced during deployment to create a malicious whitelist program? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5f0ffb53-918e-461a-913a-f890df77050b?mode=deep",
+    "timestamp": "2026-01-09 14:22:44.825188",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Program ID: Validation] Do other programs properly validate they're calling the correct whitelist program ID, or can attackers substitute fake programs? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7a90a2e7-e152-48c2-8d30-11e377da8de8?mode=deep",
+    "timestamp": "2026-01-09 14:22:58.729472",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Program ID: Upgrade] If the program is upgraded, can the program ID change in ways that break PDA derivations or access control? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_998c5320-0748-4ad8-a5d8-a949fab5e15a?mode=deep",
+    "timestamp": "2026-01-09 14:23:14.774183",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Accounts: Signer validation] Can any signer requirements be bypassed through fake signatures, replayed signatures, or signature malleability? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f0f0c97a-c863-47c3-86fd-8749b600031c?mode=deep",
+    "timestamp": "2026-01-09 14:23:31.134742",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Accounts: Mut validation] Are all mutable accounts properly validated, or can attackers modify accounts that should be immutable? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bfedfe92-7584-4b80-8c0a-6dbd8fda67a6?mode=deep",
+    "timestamp": "2026-01-09 14:23:48.267788",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Accounts: Owner validation] Does the program validate that accounts are owned by expected programs, or can attackers provide accounts owned by malicious programs? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d3e7d6ff-4ef7-4aee-9c90-3fb405212a3b?mode=deep",
+    "timestamp": "2026-01-09 14:24:05.883735",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Accounts: Size validation] Are account sizes validated to prevent buffer overflows or truncation attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_adb46796-20c4-4d61-aa5e-a3a8a32081b5?mode=deep",
+    "timestamp": "2026-01-09 14:24:23.352362",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [State: Initialization ordering] If register() is called before initialize(), can this lead to undefined behavior or state corruption? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c437c9fc-6733-48da-a234-c4c32abdfddd?mode=deep",
+    "timestamp": "2026-01-09 14:24:41.988828",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [State: Concurrent operations] Can simultaneous register/deregister operations on the same resolver cause race conditions or state inconsistencies? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4cf9d76d-5c6c-4df0-9526-99c3ca52aa45?mode=deep",
+    "timestamp": "2026-01-09 14:25:01.385518",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [State: Atomicity] Are all state transitions atomic, or can partial failures leave the whitelist in an inconsistent state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a9e1801-c9fa-470c-9cea-4407656ea09f?mode=deep",
+    "timestamp": "2026-01-09 14:25:20.481228",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [State: Rollback] If a transaction fails mid-execution, are state changes properly rolled back or can partial state persist? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_80f09da7-f5e3-4b62-8380-167520ad602e?mode=deep",
+    "timestamp": "2026-01-09 14:25:40.958112",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Integration: Fill validation] When fusion-swap's Fill instruction validates resolver_access at lines 511-516, can an attacker provide stale or revoked resolver_access accounts? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a07d5a81-0d81-4270-afb6-3d11971613ff?mode=deep",
+    "timestamp": "2026-01-09 14:26:01.161464",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Integration: CancelByResolver validation] When fusion-swap's CancelByResolver validates resolver_access at lines 648-653, can timing attacks allow deregistered resolvers to cancel orders? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f81a38a4-6f40-4afb-bece-ba025cb9b467?mode=deep",
+    "timestamp": "2026-01-09 14:26:21.662947",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Integration: PDA derivation mismatch] Can differences in PDA derivation between whitelist and fusion-swap programs create validation bypass opportunities? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d64a2c1b-1934-432b-a8e9-93acfce21c39?mode=deep",
+    "timestamp": "2026-01-09 14:26:42.433172",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Integration: Program account validation] Does fusion-swap properly validate that resolver_access accounts come from the correct whitelist program using seeds::program? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_00e19b10-6fce-4271-acbd-b1c13992c0d4?mode=deep",
+    "timestamp": "2026-01-09 14:27:03.277350",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Integration: Bump validation] When fusion-swap checks resolver_access.bump, can an attacker provide accounts with manipulated bumps that still pass validation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ab43ff14-6a47-47c6-9400-741d08d8a7ec?mode=deep",
+    "timestamp": "2026-01-09 14:27:24.547742",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Economic: Registration spam] Can an attacker spam register() to create massive numbers of resolver_access accounts, exhausting protocol resources? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_53f1c707-2f13-42f5-80a3-c7432c3efb18?mode=deep",
+    "timestamp": "2026-01-09 14:27:46.619298",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Economic: Rent drain] Can repeated register/deregister cycles drain the authority's SOL through rent payments? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_efa7be31-e1e4-4eff-9439-664fd12e4878?mode=deep",
+    "timestamp": "2026-01-09 14:28:09.069362",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Economic: Compute exhaustion] Can malicious inputs cause register/deregister operations to consume maximum compute units, enabling DoS attacks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_73836014-ce52-46c4-9738-e344522d5d34?mode=deep",
+    "timestamp": "2026-01-09 14:28:30.517539",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Economic: Front-running] Can attackers monitor and front-run register() transactions to register resolvers before legitimate parties? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eb922f01-b15a-42e9-bbee-185d6b6087c2?mode=deep",
+    "timestamp": "2026-01-09 14:28:51.255933",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Access: Direct account creation] Can an attacker directly create resolver_access accounts without going through register(), bypassing authority checks? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_68991056-2613-46dd-a072-eb7256c3e633?mode=deep",
+    "timestamp": "2026-01-09 14:29:12.085171",
+    "report_generated": false
   }
 ]
