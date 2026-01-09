@@ -2698,5 +2698,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1d511d49-d876-4123-912b-9f5dd1b7cab6?mode=deep",
     "timestamp": "2026-01-09 15:02:39.094905",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Amount proportion attack] If srcAmount is very small but minDstAmount is very large at lines 36-37, can this cause precision loss in price calculations that could be exploited during fills? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2db8b3e3-d940-4b47-971d-6a3b87252b9e?mode=deep",
+    "timestamp": "2026-01-09 15:03:54.158148",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Mint equality check] At lines 38-39, srcMint and dstMint are accepted without checking if they're equal - can a maker create same-token swaps to exploit fee mechanisms or cause unexpected behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_56898855-e14e-4b9c-bc27-034e68b599fe?mode=deep",
+    "timestamp": "2026-01-09 15:04:06.089637",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Mint existence validation] At lines 158-159, getTokenDecimals() is called on srcMint and dstMint - if these mints don't exist on-chain, will the function fail gracefully or can it cause unexpected states? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_77c15023-dded-4c9a-990a-82645deb2cb6?mode=deep",
+    "timestamp": "2026-01-09 15:04:18.222933",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Fake mint attack] Can an attacker provide fake or malicious mint addresses at lines 38-39 that pass initial validation but cause issues during token transfers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_400b3aac-8269-4b8b-96be-0ec135e23997?mode=deep",
+    "timestamp": "2026-01-09 15:04:30.765791",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [BN constructor overflow] At lines 165-166, new BN() is called with potentially very large numbers from Math.pow() - can this overflow or create incorrect BN values? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_420cf4e7-584d-4613-bdd9-80375302696a?mode=deep",
+    "timestamp": "2026-01-09 15:04:44.112826",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [BN precision loss] When BN values are used throughout the create function (lines 36-37, 48), are there any .toNumber() calls that could lose precision for amounts > 2^53? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0867630e-5ce5-4a76-9e48-4d32fbe17736?mode=deep",
+    "timestamp": "2026-01-09 15:04:58.534625",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [BN comparison issues] If BN amounts at lines 36-37, 48 need to be compared, are proper BN comparison methods used or could JavaScript number comparison cause bugs? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a991decc-bbcd-4de0-8507-4d600a168c3b?mode=deep",
+    "timestamp": "2026-01-09 15:05:13.605788",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Config mismatch] At lines 53-76, reducedOrderConfig and orderConfig are created separately - can discrepancies between these cause the saved order.json to differ from what's submitted on-chain? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2603caad-8a59-423a-bf62-22ce32e401a2?mode=deep",
+    "timestamp": "2026-01-09 15:05:29.840632",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Partial config exploit] The reducedOrderConfig at lines 53-64 is passed to the program at line 120, while the full orderConfig at lines 66-76 includes additional fields - can this mismatch be exploited? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d51e465b-c71b-465a-86f1-b9b68f95cd86?mode=deep",
+    "timestamp": "2026-01-09 15:05:46.313617",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Fee config spreading] At lines 71-75, the fee object spreads the reduced fee then adds additional fields - can this cause field collision or overwriting that changes fee behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6f8cd852-9ab3-457f-9708-fed723d53286?mode=deep",
+    "timestamp": "2026-01-09 15:06:03.613271",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Return value usage] At line 141, the function returns [escrow, escrowAta], and at lines 161-170 these are received but only logged - are there scenarios where incorrect return values could be used by callers without validation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_665a7f8e-8230-4c7e-bb78-053c7b48640e?mode=deep",
+    "timestamp": "2026-01-09 15:06:21.615649",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Escrow address verification] The returned escrow and escrowAta at line 141 are computed off-chain - can these differ from actual on-chain PDAs if the program's derivation logic differs? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_092f54ab-253d-4442-ba5c-222289af7773?mode=deep",
+    "timestamp": "2026-01-09 15:06:40.354832",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Program ID trust] At lines 34, 90, the program's programId is used for PDA derivation - if the program object is initialized with wrong programId, can this cause all orders to have incorrect escrow addresses? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3da75d33-b503-41c7-af99-ef5aa07d0959?mode=deep",
+    "timestamp": "2026-01-09 15:06:59.424304",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [IDL mismatch] At line 154, the program is created from FUSION_IDL - if this IDL doesn't match the deployed program, can instruction encoding cause funds to be locked or stolen? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ce7dcf7c-1a66-4a7d-8f4b-3940eb49a8d6?mode=deep",
+    "timestamp": "2026-01-09 15:07:19.744428",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Unhandled async errors] Throughout the create function (lines 32-142), multiple async operations occur - are all potential errors properly caught, or can unhandled rejections cause funds to be stuck? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ece612f8-456f-4d31-8d4e-b212db4967ce?mode=deep",
+    "timestamp": "2026-01-09 15:07:40.437912",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Try-catch absence] The main function at lines 144-176 has no try-catch wrapper - can uncaught errors cause the process to crash with user funds in inconsistent state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_43099bdc-e3af-4525-bef2-1e3066688916?mode=deep",
+    "timestamp": "2026-01-09 15:08:02.002622",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [getAssociatedTokenAddress failure] At lines 94-98 and 104-107, getAssociatedTokenAddress() is called - if this fails (e.g., due to network issues), are funds at risk? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e13e219d-16bd-492d-afb9-c89589b9cb1c?mode=deep",
+    "timestamp": "2026-01-09 15:08:23.645682",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Instruction parameters] At lines 119-132, the create instruction is built with specific accounts and signers - can the .instruction() method fail silently, causing incorrect instruction data to be sent? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_17f43c53-53c4-4a08-abb8-f32570e94609?mode=deep",
+    "timestamp": "2026-01-09 15:08:45.805714",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Method chaining risk] The instruction builder at lines 119-132 uses method chaining - if any intermediate method fails, can this cause incorrect instruction construction without throwing an error? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4d2b57a2-7491-451a-82ad-bcbfeac84054?mode=deep",
+    "timestamp": "2026-01-09 15:09:07.995752",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Buffer conversion consistency] At line 92, orderHash is passed as Buffer.from(orderHash) but orderHash is already Uint8Array from calculateOrderHash() - can this double conversion cause data corruption? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_602ef655-2212-46c6-b8e5-8393cb1b2bf6?mode=deep",
+    "timestamp": "2026-01-09 15:09:29.977587",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Hash length validation] The orderHash returned at line 78 should be 32 bytes - is there validation before using it for PDA derivation at lines 89-93, or can invalid length hashes cause escrow derivation failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fbfdd1cd-23e0-4ed2-85b2-eddcf940f869?mode=deep",
+    "timestamp": "2026-01-09 15:09:51.513667",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Signature verification] At line 136-139, the transaction signature is logged but not validated - can a malicious RPC return a fake signature while not actually processing the transaction? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fd75bd82-a2df-4da6-8a2f-e0434313adad?mode=deep",
+    "timestamp": "2026-01-09 15:10:13.422522",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Transaction confirmation race] Between getting the signature at line 136 and returning at line 141, is there risk that the transaction is confirmed but then dropped due to network issues? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_77c7a2f2-bd58-4f44-b37a-cd3f3515d88a?mode=deep",
+    "timestamp": "2026-01-09 15:10:35.854863",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [defaultFeeConfig manipulation] At line 45, fee defaults to defaultFeeConfig from utils - if this default has been maliciously modified in the imported utils module, can all orders created have incorrect fees? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7baca960-1104-46ec-a012-e0461d673627?mode=deep",
+    "timestamp": "2026-01-09 15:10:57.388143",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [defaultAuctionData exploitation] At line 49, dutchAuctionData defaults to defaultAuctionData with far-future startTime - can this cause orders to be unfillable until the far future, locking maker funds? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cd7344d5-5cc7-469f-a3b7-29db1cfeb09e?mode=deep",
+    "timestamp": "2026-01-09 15:11:20.100321",
+    "report_generated": false
   }
 ]
