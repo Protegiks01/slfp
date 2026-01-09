@@ -898,5 +898,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a92a8ee1-4180-47d5-9942-a1d5645a5670?mode=deep",
     "timestamp": "2026-01-09 13:22:55.352888",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Auction completion edge case] If the loop processes all points but timestamp is exactly between the last point and auction_finish_time, can the final calculation at lines 52-53 produce incorrect rates due to stale current_point_time? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1199b996-ea38-41d9-a290-f5d310189f06?mode=deep",
+    "timestamp": "2026-01-09 13:24:03.864054",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Rate declining validation] Does the function validate that the calculated rate_bump is always less than or equal to the previous rate, or can timing exploits cause rate increases in violation of Dutch auction principles? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1b51c5fa-5714-40ed-a4bd-c3100edead76?mode=deep",
+    "timestamp": "2026-01-09 13:24:16.236789",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Timestamp comparison] At line 62, can an attacker exploit the <= comparison to bypass premium charges by providing timestamp exactly equal to auction_start_time, enabling free cancellations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7b19a975-6741-46f6-b22d-7581d6c6fdf5?mode=deep",
+    "timestamp": "2026-01-09 13:24:28.443959",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Zero premium] At line 63, returning 0 premium when timestamp <= auction_start_time could enable attackers to cancel orders before auction starts without penalty, but is this intended behavior or exploitable? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c6e42a2f-d9ff-4d70-ab1f-f3097fd99c50?mode=deep",
+    "timestamp": "2026-01-09 13:24:41.328750",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Time calculation] At line 66 (timestamp - auction_start_time), can this subtraction underflow if auction_start_time > timestamp due to type casting or validation bypass, causing transaction panic? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1aa6a69e-503c-4e7f-9f1a-d5cf6b661a4e?mode=deep",
+    "timestamp": "2026-01-09 13:24:54.213244",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Duration comparison] At line 67, can an attacker set auction_duration to 0 to trigger the >= condition and immediately receive max_cancellation_premium at line 68, enabling premium manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3d8191e8-460d-44ec-832f-2abeb3ba6f6e?mode=deep",
+    "timestamp": "2026-01-09 13:25:07.814733",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Maximum premium return] At line 68, returning max_cancellation_premium when time_elapsed >= auction_duration could be exploited if max_cancellation_premium is set to an extremely high value, enabling excessive fee extraction? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ee50197c-a2b9-42bf-b00b-f67389ee8c69?mode=deep",
+    "timestamp": "2026-01-09 13:25:22.512742",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Type casting in calculation] At line 71, can the casting of time_elapsed and auction_duration to u64 cause overflow or precision loss when multiplied, enabling premium manipulation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7eb4f3f4-57c5-405a-b459-a9fc4fa0172b?mode=deep",
+    "timestamp": "2026-01-09 13:25:38.380174",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Multiplication overflow] At line 71, can (time_elapsed as u64 * max_cancellation_premium) overflow u64 if both values are near their maximum, causing incorrect premium calculations or transaction panic? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0899335d-0251-48c9-a468-fe9c11745d4d?mode=deep",
+    "timestamp": "2026-01-09 13:25:54.613414",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Division by zero] At line 71, if auction_duration is zero despite the check at line 67, can this cause division by zero in the premium calculation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e2ea8f62-5328-44e9-88b6-46849d0531f2?mode=deep",
+    "timestamp": "2026-01-09 13:26:12.062860",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Precision loss] Does the integer division at line 71 cause significant rounding down of premiums, enabling attackers to exploit timing to minimize cancellation costs? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b79a0dc1-4ab8-455c-a603-08811d4d60e6?mode=deep",
+    "timestamp": "2026-01-09 13:26:30.056137",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Linear premium assumption] Does the linear premium calculation at line 71 properly reflect economic incentives, or can resolvers exploit the linear growth to cancel orders at optimal times for maximum profit extraction? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_59c2c641-3c5a-42e2-a979-ad8dad04c1f7?mode=deep",
+    "timestamp": "2026-01-09 13:26:48.741117",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Premium boundary] At the exact moment when time_elapsed equals auction_duration, does the function return max_cancellation_premium (line 68) or calculate it (line 71), and can this boundary be exploited? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8f8e1639-b683-40db-8250-283ca14b368c?mode=deep",
+    "timestamp": "2026-01-09 13:27:08.551210",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Functions: calculate_rate_bump + calculate_premium] [Timestamp consistency] Can an attacker exploit inconsistencies between how calculate_rate_bump (using u64 timestamp) and calculate_premium (using u32 timestamp) handle time, causing arbitrage opportunities or state inconsistencies? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0c19e9fe-6905-4197-bcee-077b39edc384?mode=deep",
+    "timestamp": "2026-01-09 13:27:27.162804",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Functions: calculate_rate_bump + calculate_premium] [Duration mismatch] If AuctionData.duration and the auction_duration parameter in calculate_premium differ, can this create exploitable timing windows where premiums don't align with auction phases? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d0c23cbd-2995-4038-bb76-a03870d0f030?mode=deep",
+    "timestamp": "2026-01-09 13:27:47.591282",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Functions: calculate_rate_bump + calculate_premium] [Time synchronization] Can an attacker exploit Clock differences between when calculate_rate_bump and calculate_premium are called in the same transaction to manipulate both rate and premium calculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_72f663ac-fc46-4466-91e0-e3361e57dfd3?mode=deep",
+    "timestamp": "2026-01-09 13:28:06.939628",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Functions: Both functions] [Max value exploitation] Can an attacker set max_cancellation_premium extremely high while keeping auction rates low, creating economic imbalance where cancellation premiums exceed order values? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5ec7c342-f4c8-421c-a6b9-98d738314592?mode=deep",
+    "timestamp": "2026-01-09 13:28:26.105538",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Caller validation] Does the calling code in lib.rs validate that the timestamp parameter passed to calculate_rate_bump is from a trusted Clock sysvar, or can attackers provide manipulated timestamps to exploit rate calculations? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_39db4420-c793-4e27-b992-671628494977?mode=deep",
+    "timestamp": "2026-01-09 13:28:45.097871",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [AuctionData source] Are AuctionData structs validated and sanitized before being passed to calculate_rate_bump, or can malicious order creators embed exploit data in auction parameters during order creation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5aaa5446-073f-47ff-93e0-e8169574f490?mode=deep",
+    "timestamp": "2026-01-09 13:29:04.970702",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Return value validation] Does the calling code validate that calculate_rate_bump never returns a rate_bump higher than initial_rate_bump, or can calculation errors cause rate increases that violate auction logic? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8c8a3105-ad9a-40fe-988e-7500451f527c?mode=deep",
+    "timestamp": "2026-01-09 13:29:25.482268",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Premium usage] How is the premium returned by calculate_premium used in cancel_by_resolver - can a malicious resolver exploit premium calculation to extract excessive fees from order creators? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_91e84a5e-0189-4583-86c2-152e5e59aca8?mode=deep",
+    "timestamp": "2026-01-09 13:29:46.792569",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Rate application] When calculate_rate_bump returns a rate, how is it applied to src_amount and dst_amount calculations - can precision loss in downstream multiplication/division operations be exploited? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4dabecf3-e11f-42e4-9a3a-30078cada480?mode=deep",
+    "timestamp": "2026-01-09 13:30:07.468666",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Multiple calls] Can an attacker call calculate_rate_bump multiple times in the same transaction with different timestamps to observe rate changes and exploit timing for optimal fill prices? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_53e0288d-9491-4fce-8168-3b30731c05ed?mode=deep",
+    "timestamp": "2026-01-09 13:30:28.473375",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Zero rate handling] If calculate_rate_bump returns 0 after auction expiration (line 23), does the calling code properly handle this to prevent division by zero or other calculation errors? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c136d442-8208-4287-8059-4e77ae0fe2fd?mode=deep",
+    "timestamp": "2026-01-09 13:30:49.012525",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Interpolation correctness] Does the piecewise linear interpolation at lines 39-41 correctly implement the intended auction curve, or can rounding errors accumulate to cause significant rate deviations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b0db1249-bbba-49c9-8f65-fd4253604675?mode=deep",
+    "timestamp": "2026-01-09 13:31:08.442243",
+    "report_generated": false
   }
 ]
