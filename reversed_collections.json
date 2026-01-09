@@ -2848,5 +2848,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bd995417-f913-48c7-8a0e-c51cdaca9c20?mode=deep",
     "timestamp": "2026-01-09 15:11:05.631558",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Hash Collision] Can an attacker craft two different OrderConfig objects that serialize to the same bytes due to the borsh serialization schema, producing identical order hashes and enabling escrow collision attacks? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d1a4c554-3f44-47a5-ba31-f4e9874ec2b4?mode=deep",
+    "timestamp": "2026-01-09 15:12:18.356979",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Precision Loss] Do the toNumber() conversions lose precision for amounts exceeding JavaScript's MAX_SAFE_INTEGER (2^53-1), allowing an attacker to create orders with amounts like 9007199254740992 and 9007199254740993 that hash to the same value? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_92f6ffd5-8d27-42b9-b7ab-cae16146ca29?mode=deep",
+    "timestamp": "2026-01-09 15:12:30.196259",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Integer Overflow] Can the BN.toNumber() conversions on lines 150-152 overflow for large token amounts (srcAmount, minDstAmount, estimatedDstAmount), causing truncated values to be hashed and creating hash collisions for different orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5d767bff-f572-4b77-8949-7c3403eb3533?mode=deep",
+    "timestamp": "2026-01-09 15:12:42.517706",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findWhitelistStateAddress()] [Cross-Program PDA Reuse] Can the whitelist state PDA collide with PDAs from other protocols using the same seed string, potentially allowing cross-protocol attacks or state confusion? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f727ad8c-d60a-4aa6-bbd6-a48a3914c1a3?mode=deep",
+    "timestamp": "2026-01-09 15:12:56.053330",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findWhitelistStateAddress()] [Program ID Validation] Does the function validate that programId is the correct whitelist program, or can an attacker pass a malicious program ID to derive a fake whitelist state PDA and bypass access controls? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ef7a0237-d22f-4331-a634-9795e6b16599?mode=deep",
+    "timestamp": "2026-01-09 15:13:09.301108",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findWhitelistStateAddress()] [Single Seed Vulnerability] Does deriving the whitelist state PDA from only the 'whitelist_state' string (line 128) without additional entropy create a deterministic single PDA that could be pre-computed and exploited if the program ID is known? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_781b2e5c-55c6-48c8-a464-770faba2fb76?mode=deep",
+    "timestamp": "2026-01-09 15:13:23.052548",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [Seed String Format] Can an attacker exploit the UTF-8 encoding of 'resolver_access' to inject null bytes or special characters that alter PDA derivation, potentially bypassing resolver access controls? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f26abbfc-09db-4b7e-9e76-d4d275346935?mode=deep",
+    "timestamp": "2026-01-09 15:13:37.814357",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [User Validation] Does the function validate that the user PublicKey is a valid Solana public key and not a system account or program ID, or can an attacker pass malicious addresses that derive to exploitable PDAs? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ccfa1f8e-ee62-478b-a806-c9b4a7584996?mode=deep",
+    "timestamp": "2026-01-09 15:13:53.634538",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [Cross-Program Collision] Can an attacker exploit the resolver access PDA seeds to collide with PDAs from other programs or other PDA derivations within the fusion protocol, potentially gaining unauthorized resolver privileges? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_321a9093-2816-4f57-a20d-90e148050b89?mode=deep",
+    "timestamp": "2026-01-09 15:14:10.319629",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [Seed Uniqueness] Does the PDA derivation using only 'resolver_access' prefix and user pubkey (lines 119-120) ensure sufficient uniqueness, or can the same PDA be derived for multiple logical resolver access grants, enabling unauthorized access control bypass? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_565ec8a1-5338-4793-bd86-1f69ec18cb54?mode=deep",
+    "timestamp": "2026-01-09 15:14:27.193711",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Odd-Length Hex] Can an attacker provide an odd-length hexadecimal string that causes the regex matching on line 96 to produce unexpected results, potentially truncating or padding the hash and leading to PDA manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a6e7eda-9cf8-444a-832b-da7d8cb59c22?mode=deep",
+    "timestamp": "2026-01-09 15:14:44.711373",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Case Sensitivity] If orderHash is provided as a hex string, can an attacker exploit case sensitivity differences (uppercase vs lowercase hex) to generate different buffers for the same logical hash, creating PDA collisions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e0fd8271-2b84-4c99-97dc-6ca1f6ba05ff?mode=deep",
+    "timestamp": "2026-01-09 15:15:03.032712",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Null/Undefined] Does the function handle null or undefined orderHash inputs, or can passing these values cause unexpected behavior that leads to default PDA derivation and potential escrow access control bypass? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89bae5ac-5c60-4263-addc-2b8fd37f0d57?mode=deep",
+    "timestamp": "2026-01-09 15:15:21.839576",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Empty Hash] Can an attacker pass an empty string for orderHash that results in an empty buffer, causing the PDA to be derived from only the 'escrow' seed and maker pubkey, potentially allowing collision with other orders from the same maker? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_43f8f5c9-ddef-4a1f-8e29-03bffbb9f0e3?mode=deep",
+    "timestamp": "2026-01-09 15:15:41.843672",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Seed Order] Does the PDA seed construction (lines 104-106) maintain consistent ordering of [escrow, maker, orderHash] across all protocol calls, or can seed order manipulation in other parts of the codebase lead to different PDAs being derived for the same logical escrow? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cc0c982e-5de6-48bf-bfb4-9b2ce570e98c?mode=deep",
+    "timestamp": "2026-01-09 15:16:03.246070",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Regex Vulnerability] Can the regex pattern (/../g) on line 96 be exploited with specially crafted strings that cause unexpected matching behavior, leading to incorrect buffer construction and PDA collision attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e005c1a1-8e3b-45db-ac74-56b84e121428?mode=deep",
+    "timestamp": "2026-01-09 15:16:25.081431",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Buffer Length] Does the function validate the length of the orderHash buffer after conversion, or can an attacker provide a truncated or oversized hash that still passes through but derives an incorrect PDA, enabling escrow manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a287b876-e503-4e8f-a7d5-0fa218e9cf4f?mode=deep",
+    "timestamp": "2026-01-09 15:16:47.644008",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Type Confusion] Can an attacker exploit the dual type acceptance (Buffer | string) for orderHash to cause inconsistent PDA derivation between different invocations, potentially creating multiple escrow accounts for the same order or accessing wrong escrow accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9691ebf5-eff9-46dd-b55a-928dc4afb5d0?mode=deep",
+    "timestamp": "2026-01-09 15:17:10.244411",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Input Validation] Does the hex string parsing logic (lines 96-99) properly validate that orderHash contains only valid hexadecimal characters, or can an attacker inject non-hex characters that get silently converted to unexpected bytes, leading to PDA derivation manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_be6e8bcb-7bee-4760-8adb-a19998b4aabf?mode=deep",
+    "timestamp": "2026-01-09 15:17:33.039739",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [PDA Collision] Can an attacker manipulate the orderHash parameter by providing a maliciously crafted string that, when converted to Buffer via the hex parsing logic (lines 96-99), produces the same PDA as another legitimate order, allowing escrow account collision and potential fund theft? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1bf1e007-421d-4987-8c0f-c3c4547e0959?mode=deep",
+    "timestamp": "2026-01-09 15:17:56.039112",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Program state validation] The script doesn't check if the fusion-swap program is paused or in maintenance mode - can cancellations be submitted when the program is not accepting transactions, wasting gas fees? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7da138dd-45d7-465a-abcb-e245e67275ba?mode=deep",
+    "timestamp": "2026-01-09 15:18:19.478623",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account discriminator] Does the on-chain program validate account discriminators to ensure escrow is the expected account type, or can attackers pass arbitrary accounts that satisfy PDA derivation but have wrong data layouts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4609c4fb-8dd3-488e-a813-f6fe40b60c7b?mode=deep",
+    "timestamp": "2026-01-09 15:18:40.440647",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Cross-account validation] Does the on-chain cancel instruction validate that maker, escrow, and escrowSrcAta all belong to the same order, or can an attacker mix accounts from different orders to manipulate cancellation logic? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_db0b43c9-285d-4780-ac4f-2aa154f1df3b?mode=deep",
+    "timestamp": "2026-01-09 15:19:00.311891",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Program upgrade] If the fusion-swap program is upgraded between escrow existence check at line 91 and cancellation at line 100, can instruction format changes cause the cancel to fail with cryptic errors? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3119da43-d235-4051-9629-864d0b4a2540?mode=deep",
+    "timestamp": "2026-01-09 15:19:20.691799",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Whitelist bypass] The cancel function doesn't check whitelist status - if the on-chain program allows only whitelisted resolvers to cancel after expiration, can makers cancel before expiration to avoid paying cancellation premiums they should owe? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_049525d8-98b8-4655-b3da-e025f07c693f?mode=deep",
+    "timestamp": "2026-01-09 15:19:40.405031",
+    "report_generated": false
   }
 ]
