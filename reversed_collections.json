@@ -1348,5 +1348,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e40c4c62-68f2-4571-8359-87673ebe1999?mode=deep",
     "timestamp": "2026-01-09 13:45:30.845936",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: PointAndTimeDelta] [Rate Bump Overflow] Can an attacker set rate_bump to u16::MAX in multiple points to cause cumulative rate bump additions to overflow during multi-point interpolation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c05899ce-781b-4d4a-b875-c3d5f66304a8?mode=deep",
+    "timestamp": "2026-01-09 13:46:37.549836",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: PointAndTimeDelta] [Time Delta Sum Overflow] Can an attacker craft points where the cumulative sum of time_delta values exceeds duration or u32::MAX, causing timestamp overflow in rate calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f7ba0ebc-789a-4ee7-8d06-d8464efe8756?mode=deep",
+    "timestamp": "2026-01-09 13:46:49.607402",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: PointAndTimeDelta] [Time Delta Zero] Can an attacker set time_delta to 0 in points to create instantaneous rate jumps that break piecewise linear interpolation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_69dc2fde-198a-49d8-9159-d3ebdd3d8662?mode=deep",
+    "timestamp": "2026-01-09 13:47:01.937124",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: PointAndTimeDelta] [Rate Bump Decrease] Can an attacker provide points_and_time_deltas with decreasing rate_bump values to create a reverse auction where rates get worse over time, manipulating fill economics? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c079b2b4-d3fe-4835-8816-ec34be6aef8b?mode=deep",
+    "timestamp": "2026-01-09 13:47:14.695873",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Oversized Points Vector] Can an attacker provide a points_and_time_deltas vector with thousands of elements to cause DoS through compute unit exhaustion during rate calculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ab110fa1-2b7a-4f01-9e8a-63795b3aa12f?mode=deep",
+    "timestamp": "2026-01-09 13:47:28.875351",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Empty Points Vector] Can an attacker provide an empty points_and_time_deltas vector to bypass piecewise linear auction mechanics and lock the rate at initial_rate_bump? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5c3b4b97-aba6-4845-b0e1-d1c447c3cb86?mode=deep",
+    "timestamp": "2026-01-09 13:47:42.921549",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Initial Rate Bump Maximum] Can an attacker set initial_rate_bump to u16::MAX to cause rate calculations to overflow when multiplied with token amounts during fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_aa8f024c-390b-41c0-96d5-e6a84ce2c1c0?mode=deep",
+    "timestamp": "2026-01-09 13:47:57.362682",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Initial Rate Bump Zero] Can an attacker set initial_rate_bump to 0 to start the auction with no rate improvement, potentially locking orders at unfavorable rates? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_15e395b4-89aa-4c63-81e8-a0ca345f3cee?mode=deep",
+    "timestamp": "2026-01-09 13:48:13.699170",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Duration Overflow] Can an attacker set duration to u32::MAX to cause timestamp calculations (start_time + duration) to overflow when checking auction completion? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a321eef-fe09-4493-91c0-df436ab2fa51?mode=deep",
+    "timestamp": "2026-01-09 13:48:29.979535",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Duration Zero] Can an attacker set duration to 0 to cause division by zero in rate calculations or bypass auction mechanics entirely? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_554b0ca3-3cf4-43a8-bb91-83428d506cd0?mode=deep",
+    "timestamp": "2026-01-09 13:48:47.348728",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Start Time in Future] Can an attacker set start_time far in the future to delay auction start and prevent fills until the order expires? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1ec7076d-562a-4b15-b64b-c644107ad290?mode=deep",
+    "timestamp": "2026-01-09 13:49:05.567413",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: AuctionData] [Start Time in Past] Can an attacker set start_time to a past timestamp to manipulate auction rate calculations and get better fill rates than intended? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c5900fc4-811f-440f-af61-0adc7e82d551?mode=deep",
+    "timestamp": "2026-01-09 13:49:24.181120",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: FeeConfig] [Zero Fee Exploitation] Can an attacker set all fees (protocol_fee, integrator_fee, surplus_percentage) to 0 to avoid all protocol revenue sharing and undermine the protocol's economic model? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ef72325a-fb31-4436-b71a-2b066c5b0e36?mode=deep",
+    "timestamp": "2026-01-09 13:49:43.773221",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: FeeConfig] [Max Cancellation Premium Exploit] Can an attacker set max_cancellation_premium to u64::MAX to force resolvers to pay exorbitant cancellation fees, creating permanent DoS on order cancellations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_05fbf2ec-e91b-406e-8417-599aed567cbd?mode=deep",
+    "timestamp": "2026-01-09 13:50:03.789680",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: FeeConfig] [Surplus Percentage Overflow] Can an attacker set surplus_percentage to u8::MAX (255, representing 255%), causing surplus fee calculations to extract more than the entire surplus amount? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_46c87488-44da-4acc-9436-0a9e8594e26c?mode=deep",
+    "timestamp": "2026-01-09 13:50:24.285172",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: FeeConfig] [Total Fee Exceeds 100%] Can an attacker set protocol_fee + integrator_fee > 100000 basis points to extract more than the entire order value in fees? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b22f38ed-2cad-455d-9bb4-abb6ff5a2087?mode=deep",
+    "timestamp": "2026-01-09 13:50:46.209120",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: FeeConfig] [Integrator Fee Overflow] Can an attacker set integrator_fee to u16::MAX to cause fee calculations to overflow when combined with protocol_fee, extracting more than 100% of order value? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_80ce8bb9-21ed-4799-9b2e-79ed38a71ee9?mode=deep",
+    "timestamp": "2026-01-09 13:51:07.702501",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: FeeConfig] [Protocol Fee Overflow] Can an attacker set protocol_fee to u16::MAX (65535 basis points, or 65.535%), causing fee calculations to extract more than intended from order proceeds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bb75d9d1-2072-4023-a96c-549865e4a21b?mode=deep",
+    "timestamp": "2026-01-09 13:51:29.041183",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: OrderConfig] [Native Asset Flag Inconsistency] Can an attacker set both src_asset_is_native and dst_asset_is_native to true to create SOL-to-SOL swaps that break protocol assumptions and cause double wrapping/unwrapping exploits? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e51be379-c3ce-43a4-a5db-4f620962d528?mode=deep",
+    "timestamp": "2026-01-09 13:51:50.655017",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: OrderConfig] [Expiration Time Zero] Can an attacker set expiration_time to 0 to create orders that are immediately expired, locking tokens in escrow without any fill opportunity? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_feb60d28-26cb-40a9-8834-146da3b407b8?mode=deep",
+    "timestamp": "2026-01-09 13:52:12.014109",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: OrderConfig] [Estimated vs Min Amount Manipulation] Can an attacker set estimated_dst_amount < min_dst_amount to bypass the InvalidEstimatedTakingAmount error and create malicious orders? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7a2a3fb7-4f90-4257-a691-701337f01c46?mode=deep",
+    "timestamp": "2026-01-09 13:52:33.398341",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: OrderConfig] [Min Dst Amount Underflow] Can an attacker set min_dst_amount to 0, allowing fills with zero destination tokens and enabling complete theft of src tokens without payment? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3201cd10-1181-411c-aa0e-8fdd6ee1c95a?mode=deep",
+    "timestamp": "2026-01-09 13:52:54.381750",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: OrderConfig] [Source Amount Overflow] Can an attacker set src_amount to u64::MAX, causing arithmetic operations during fills to overflow and produce incorrect token distributions? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_12af6196-5b05-4ba5-819b-c283d9bc0ba1?mode=deep",
+    "timestamp": "2026-01-09 13:53:14.623443",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: OrderConfig] [ID Collision] Can an attacker create multiple orders with the same id field from the same maker, causing order hash collisions that overwrite existing orders in escrow PDAs? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fbb8c1e0-5216-4706-aa4c-a10ccd938c86?mode=deep",
+    "timestamp": "2026-01-09 13:53:36.327981",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Double Fill Attack] Can an attacker fill the same order multiple times by exploiting missing nonce or state tracking, draining escrow beyond the original src_amount? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dad562a2-92c1-4c71-810d-34548b4f7208?mode=deep",
+    "timestamp": "2026-01-09 13:53:56.855254",
+    "report_generated": false
   }
 ]
