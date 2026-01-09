@@ -1348,5 +1348,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f5042d0c-5444-45f6-8449-4a7b9cb214de?mode=deep",
     "timestamp": "2026-01-09 13:47:21.747971",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Monotonic increase invariant] Does the function guarantee that subsequent calls with later timestamps always return higher or equal premium values? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_88500924-9954-4437-be9a-0fcbbcafbe7a?mode=deep",
+    "timestamp": "2026-01-09 13:48:46.390825",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Boundary value invariant] Does rate_bump at start_time always equal initial_rate_bump, and at auction_finish_time always equal 0? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_22a5ffc6-b3f1-4e74-bed3-3497136a0e75?mode=deep",
+    "timestamp": "2026-01-09 13:48:58.307790",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Premium bounds invariant] Does premium always satisfy 0 <= premium <= max_cancellation_premium, or can calculation errors violate this bound? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6e2b1bb9-44e7-49dc-b9e6-96a10b221816?mode=deep",
+    "timestamp": "2026-01-09 13:49:10.818636",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Clock manipulation] Can malicious validators manipulate Clock sysvar timestamps passed to calculate_rate_bump to provide advantageous rates to colluding resolvers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_927bebc5-74d8-44fe-8401-64635d2c4644?mode=deep",
+    "timestamp": "2026-01-09 13:49:23.348212",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Reentrancy] If calculate_rate_bump or calculate_premium are called multiple times in the same transaction, can reentrancy or state changes between calls cause inconsistent results? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c1e5d471-ba16-47da-8b94-6664166d5326?mode=deep",
+    "timestamp": "2026-01-09 13:49:36.587028",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Integration] [Account validation] Does the calling code validate that AuctionData is from a trusted account, or can attackers provide malicious AuctionData from arbitrary accounts? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_67921938-a9ab-43be-8da2-de8f69cf062e?mode=deep",
+    "timestamp": "2026-01-09 13:49:50.235208",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Division remainder] When dividing at lines 41 and 53, does the integer division truncate remainders in a way exploitable by attackers to gain fractional rate advantages? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a63ad48-df6b-4572-b45a-0a855e1061fd?mode=deep",
+    "timestamp": "2026-01-09 13:50:04.810910",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Multiplication commutativity] Does the order of multiplications at lines 39-40 matter for overflow prevention, or is the current order optimal? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ae214f50-cf80-4001-ad2b-cd28cf9e9da1?mode=deep",
+    "timestamp": "2026-01-09 13:50:20.498502",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Rounding direction] Does the integer division at line 71 round down premiums, and can this be exploited to pay less than economically fair cancellation costs? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_24bbadbd-9583-49f6-be30-c1643ef96c31?mode=deep",
+    "timestamp": "2026-01-09 13:50:37.538597",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Time unit assumptions] Does the function assume specific time units (seconds, milliseconds, nanoseconds) for timestamp, or can unit mismatches cause rate miscalculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_caef6f91-3f89-4ebc-a23f-f7b427591649?mode=deep",
+    "timestamp": "2026-01-09 13:50:54.725808",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Time unit consistency] Are timestamp and auction_start_time in the same time units, or can unit mismatches cause premium calculation errors? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_58643b94-f745-43e5-99ca-0081e4335ad2?mode=deep",
+    "timestamp": "2026-01-09 13:51:12.408494",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Clock drift] Can clock drift between order creation and fill execution cause timestamp inconsistencies that benefit resolvers? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a3611ea3-6b7e-463b-94ab-da3b76476c22?mode=deep",
+    "timestamp": "2026-01-09 13:51:30.977309",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Timestamp source] If timestamp comes from Clock sysvar, can it be manipulated or delayed to affect premium calculations in resolver's favor? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4c7af207-a492-4bdc-bc39-f8be61525058?mode=deep",
+    "timestamp": "2026-01-09 13:51:50.098405",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Rate curve validation] Does the protocol validate that the piecewise linear curve defined by points_and_time_deltas is geometrically valid and doesn't self-intersect? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_956023ed-f14b-4ba1-b02d-fb47396ea397?mode=deep",
+    "timestamp": "2026-01-09 13:52:09.860849",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Point density] Can extremely high-density point arrays (many points in small time ranges) cause precision issues in interpolation calculations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e4bf7130-af5c-42e4-b0ec-74626df6251f?mode=deep",
+    "timestamp": "2026-01-09 13:52:30.411511",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Terminal rate] Does the function guarantee that the final rate at auction_finish_time is exactly 0, or can numerical errors cause non-zero terminal rates? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_67fa8e2f-e4d5-4ba7-bc53-7ebb39f0321d?mode=deep",
+    "timestamp": "2026-01-09 13:52:52.028696",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Premium continuity] Is the premium function continuous at the auction_duration boundary, or can there be a discontinuity exploitable for arbitrage? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fb144cf2-7918-44a9-8654-10baac5d569b?mode=deep",
+    "timestamp": "2026-01-09 13:53:11.877749",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [All functions] [Determinism] Are both functions fully deterministic given the same inputs, or can non-determinism in floating-point operations (if any) cause inconsistent results? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_41e4950a-fdac-4694-86a1-212f9cf84df5?mode=deep",
+    "timestamp": "2026-01-09 13:53:33.484900",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [All functions] [Audit trail] Do these pure functions leave any audit trail for rate/premium calculations, or can malicious calculations occur without on-chain evidence? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_27e9400e-4a2e-4c5c-82e8-133226140302?mode=deep",
+    "timestamp": "2026-01-09 13:53:54.318753",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Rate application order] Does it matter whether rate_bump is applied before or after fees in token calculations, and can this be exploited? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01fd0ee3-c070-4df5-a161-1fb830523bf6?mode=deep",
+    "timestamp": "2026-01-09 13:54:14.614374",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Premium extraction] How is the calculated premium extracted from escrow, and can the extraction mechanism be exploited independently of premium calculation correctness? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9992188d-dd3c-4d60-afe0-0a3ab2620d77?mode=deep",
+    "timestamp": "2026-01-09 13:54:35.544623",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [State corruption] Can an attacker call initialize() multiple times if the whitelist_state account is not properly checked for existing initialization, allowing them to overwrite the authority and take control of the entire whitelist system? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_18b38168-fedd-4f39-8b67-560e522b6394?mode=deep",
+    "timestamp": "2026-01-09 13:54:55.999757",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [Authority takeover] Does the initialize() function validate that the authority signer is an expected address, or can any arbitrary account call initialize() during deployment and claim authority over the whitelist, enabling complete access control bypass? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0b6847fc-c4b1-49ca-a351-5e782071dcac?mode=deep",
+    "timestamp": "2026-01-09 13:55:15.972320",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [PDA collision] Can an attacker predict the whitelist_state PDA seed derivation and front-run the legitimate initialization transaction to initialize the account with their own authority, permanently locking out the protocol administrators? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5d8746dd-237b-4643-ae6a-8242f2a20a63?mode=deep",
+    "timestamp": "2026-01-09 13:55:35.416734",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: initialize()] [Rent exemption] If the whitelist_state account space calculation (DISCRIMINATOR + WhitelistState::INIT_SPACE) is incorrect, can this lead to rent collection that closes the account, causing all resolver access checks to fail and halting the entire protocol? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8c162302-1a0c-42bc-8f97-41db1ee383d5?mode=deep",
+    "timestamp": "2026-01-09 13:55:54.740783",
+    "report_generated": false
   }
 ]
