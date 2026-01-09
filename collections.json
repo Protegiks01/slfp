@@ -1798,5 +1798,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c858f3ab-2606-4766-89ca-915b16844b85?mode=deep",
     "timestamp": "2026-01-09 14:12:23.190521",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: ResolverAccess] [Space calculation] If ResolverAccess::INIT_SPACE is incorrect, can this lead to account corruption or allow attackers to store extra data in resolver accounts? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5bdeb2fa-f296-4d4b-ab3e-98290645e685?mode=deep",
+    "timestamp": "2026-01-09 14:13:33.785177",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [CPI: fusion-swap integration] When fusion-swap program validates resolver_access PDAs at lines 511-516, can an attacker provide fake resolver_access accounts from a different program that pass validation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eaf7bd7b-be2e-4eb1-9213-dbf007aaf3f6?mode=deep",
+    "timestamp": "2026-01-09 14:13:45.733492",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [CPI: Program ID validation] Can an attacker deploy a malicious whitelist program with the same interface but different ID, causing fusion-swap to accept invalid resolver_access accounts? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c5fb1608-7e73-44ef-9a5e-d0e2e9e36825?mode=deep",
+    "timestamp": "2026-01-09 14:13:57.995735",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [CPI: Reentrancy] Can the whitelist program be exploited through reentrancy attacks where CPI calls back to the whitelist program during register/deregister operations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_41281c9a-7b3f-45bc-b61e-272bfeaa3709?mode=deep",
+    "timestamp": "2026-01-09 14:14:10.675543",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [CPI: Account substitution] When fusion-swap validates resolver_access through CPI, can an attacker substitute resolver_access accounts that belong to different users but have the same bump? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_95fa781e-79f8-403d-b96f-32536642893c?mode=deep",
+    "timestamp": "2026-01-09 14:14:23.813125",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [CPI: State desync] Can the whitelist_state authority be changed while resolver_access accounts are being validated in fusion-swap, causing state desynchronization? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4f9d99be-74e3-455a-bd2b-7cebc07e67ed?mode=deep",
+    "timestamp": "2026-01-09 14:14:37.532439",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Initialize] [Authority signer bypass] Can the authority signer check be bypassed by providing a fake signature or exploiting Solana's signature verification? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3228a399-7838-4495-a419-0cdb120410a8?mode=deep",
+    "timestamp": "2026-01-09 14:14:52.340986",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Initialize] [Whitelist state PDA] Can an attacker provide a pre-existing account at the whitelist_state PDA address that passes seeds validation but contains malicious data? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_321eb107-e6f5-4848-9085-2638da23087d?mode=deep",
+    "timestamp": "2026-01-09 14:15:08.363431",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Initialize] [Init constraint] Does the init constraint properly prevent re-initialization, or can an attacker call initialize() on an existing account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_61a1cada-9ff9-4f37-b28f-057578cad28b?mode=deep",
+    "timestamp": "2026-01-09 14:15:24.893653",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Initialize] [Payer exploitation] Can a malicious payer refuse to pay rent or manipulate the initialization to cause transaction failure and DoS? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_de37aa06-5fcc-4092-8ff7-f4d176294acc?mode=deep",
+    "timestamp": "2026-01-09 14:15:41.973456",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Initialize] [System program substitution] Can an attacker provide a fake system_program account that allows malicious initialization behavior? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f5671df8-6dff-4248-a429-99c84a00205a?mode=deep",
+    "timestamp": "2026-01-09 14:15:59.414666",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Register] [Authority constraint] At line 70, can the constraint 'whitelist_state.authority == authority.key()' be bypassed through account data manipulation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_605fd80d-6276-4901-8d62-3c41369c8bef?mode=deep",
+    "timestamp": "2026-01-09 14:16:17.509702",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Register] [Resolver access init] Can the init constraint on resolver_access at line 75 be exploited to re-initialize existing accounts or cause state corruption? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f8a9dc39-cf80-4a4c-9c58-e7d143525e7c?mode=deep",
+    "timestamp": "2026-01-09 14:16:36.512632",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Register] [Seeds validation] Can an attacker provide resolver_access accounts with incorrect seeds that still pass the seeds constraint at lines 78-79? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a535d6c7-0fc0-4241-b4d6-d47245190d1e?mode=deep",
+    "timestamp": "2026-01-09 14:16:55.995051",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Register] [Bump derivation] Is the bump derivation secure against manipulation where an attacker provides accounts with pre-calculated bumps? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e896273d-059a-42bd-a888-9df316a8253f?mode=deep",
+    "timestamp": "2026-01-09 14:17:16.353682",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Register] [User parameter injection] Can an attacker inject malicious data through the user parameter that causes unexpected behavior in PDA derivation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_be066607-317c-4258-891c-234f58b8a510?mode=deep",
+    "timestamp": "2026-01-09 14:17:37.801677",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Deregister] [Authority constraint] At line 96, can the authority constraint be bypassed to allow unauthorized deregistration? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fd19567c-77c1-4399-8902-b6acb6f7cbef?mode=deep",
+    "timestamp": "2026-01-09 14:17:58.940035",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Deregister] [Close constraint] Can the close constraint at line 102 be exploited to close wrong accounts or redirect rent to attackers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_679f3239-5cfc-404e-b766-1e97421cabe6?mode=deep",
+    "timestamp": "2026-01-09 14:18:20.584630",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Deregister] [Seeds validation] Can resolver_access seeds validation at lines 103-104 be bypassed with crafted user parameters? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5c49a087-41dd-421a-b049-f2ef136fa1d5?mode=deep",
+    "timestamp": "2026-01-09 14:18:42.291185",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Deregister] [Double close] Can the same resolver_access account be closed multiple times, draining rent or causing state corruption? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dd378b53-4bf0-4b31-a4e8-6346630fc89b?mode=deep",
+    "timestamp": "2026-01-09 14:19:02.755090",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: Deregister] [Rent refund] Can an attacker manipulate the authority account to intercept rent refunds from deregistered accounts? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cec9a16d-8e80-4d09-9c57-e3c8d0d03ce5?mode=deep",
+    "timestamp": "2026-01-09 14:19:24.310452",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: SetAuthority] [Current authority check] At line 120, can the constraint verifying current_authority be bypassed through signature replay or account substitution? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7abcf5ec-718f-4389-8e04-b3edbd9fff24?mode=deep",
+    "timestamp": "2026-01-09 14:19:44.790387",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: SetAuthority] [Whitelist state mutability] Can the whitelist_state account mutation at line 116 be exploited to corrupt other fields or cause state inconsistencies? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e1a1fb09-0f54-40c4-a262-847aaadf7ae1?mode=deep",
+    "timestamp": "2026-01-09 14:20:05.123749",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: SetAuthority] [Seeds validation] Can whitelist_state PDA validation at lines 117-118 be bypassed with a fake account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b1c95e42-148a-4f64-abbd-2bb8960302ec?mode=deep",
+    "timestamp": "2026-01-09 14:20:25.145962",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Context: SetAuthority] [New authority validation] Is new_authority validated to ensure it's not a system account, PDA, or invalid address? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_60c272a5-56e7-42fe-a813-191bd6cab4b4?mode=deep",
+    "timestamp": "2026-01-09 14:20:45.199948",
+    "report_generated": false
   }
 ]
