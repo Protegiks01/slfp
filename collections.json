@@ -298,5 +298,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2d236e28-7ef7-4df0-8e86-cdb680b19371?mode=deep",
     "timestamp": "2026-01-09 12:48:03.292266",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Surplus calculation exploit] Lines 803-806 calculate surplus fee only if actual_dst_amount > estimated_dst_amount - can a resolver manipulate timing to ensure actual_dst_amount <= estimated_dst_amount, avoiding surplus fees and keeping more value? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b12ed58a-d161-46ab-8e64-27ea69f2743a?mode=deep",
+    "timestamp": "2026-01-09 12:49:25.454756",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Surplus percentage overflow] Line 805 performs (actual_dst_amount - estimated_dst_amount).mul_div_floor(surplus_percentage as u64, BASE_1E2) - can extreme values cause overflow? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c2bd72be-4d84-478f-96d4-e70425903166?mode=deep",
+    "timestamp": "2026-01-09 12:49:37.461993",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Fee sum verification] Line 812 calculates maker_dst_amount = dst_amount - integrator_fee_amount - protocol_fee_amount, but doesn't verify the sum equals dst_amount - can rounding errors accumulate to lose tokens? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_14105499-2e71-4361-86ff-81f9976b7ee1?mode=deep",
+    "timestamp": "2026-01-09 12:49:49.740495",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Negative surplus handling] If actual_dst_amount < estimated_dst_amount (unfavorable slippage), protocol_fee_amount is not reduced - can this cause maker to receive less than min_dst_amount after fees? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e6596489-1a7d-473a-bd48-ee07f51ed621?mode=deep",
+    "timestamp": "2026-01-09 12:50:02.430765",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Zero dst_amount] If dst_amount = 0 due to earlier overflow, all fee calculations return 0 - can this be exploited to drain escrow while paying nothing? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d43ae1f1-991d-44db-839a-2653481f98cc?mode=deep",
+    "timestamp": "2026-01-09 12:50:16.846217",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [PDA verification] The escrow PDA is validated at lines 608-614 using only order_hash and maker - can an attacker who knows an order_hash impersonate the maker to cancel their order? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3e0990f9-bdd5-4a03-af5a-38b486be1ef2?mode=deep",
+    "timestamp": "2026-01-09 12:50:30.749461",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Native trait bypass] Line 292 checks if src_mint equals native_mint or !order_src_asset_is_native - can an attacker provide a fake order_src_asset_is_native value to bypass this check? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_14799fe4-2302-4b7c-938e-b519f7c30b57?mode=deep",
+    "timestamp": "2026-01-09 12:50:45.459795",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Native trait double check] Lines 297-299 perform the same native trait check as line 292 - can contradictory values pass one check but fail the other, causing partial cancellation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_809ffdb2-ba70-494f-94c6-ce0476a13278?mode=deep",
+    "timestamp": "2026-01-09 12:51:00.949209",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Token transfer before close] Lines 303-326 transfer tokens back to maker before closing escrow - if this transfer fails, does the escrow still get closed at line 329, losing the tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5fb08bd2-782f-41f8-a5ea-f9ecdc76a721?mode=deep",
+    "timestamp": "2026-01-09 12:51:17.809263",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Missing maker_src_ata exploit] Line 313 requires maker_src_ata for non-native assets - can an attacker intentionally omit this to prevent makers from canceling their orders, locking tokens permanently? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_28a52130-1c87-4123-bfa1-7964bbcbe31e?mode=deep",
+    "timestamp": "2026-01-09 12:51:34.948841",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Wrapped SOL handling] For native assets (line 302 condition false), tokens remain in escrow and only close_account is called - are the wrapped SOL tokens properly unwrapped and returned to maker as native SOL? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_54692ae1-9341-43dd-afc3-5f915191f6eb?mode=deep",
+    "timestamp": "2026-01-09 12:51:53.183759",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Lamport destination] close_account at line 329 sends lamports to maker - if maker is a PDA without lamport handling, are these lamports lost? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a7e5380d-3918-451f-af18-88ef300f7493?mode=deep",
+    "timestamp": "2026-01-09 12:52:12.129924",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Order hash manipulation] The order_hash parameter at line 288 is provided by the caller - can a malicious maker provide a different order_hash to cancel someone else's order if they share the same maker address? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9de2b2ba-bd20-456a-a831-cf5afa45bbef?mode=deep",
+    "timestamp": "2026-01-09 12:52:32.191247",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [No expiration check] Unlike fill(), cancel() doesn't check if the order is expired - can makers cancel profitable orders after expiration to avoid losses? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8f193e95-4075-481a-a0fb-dee4c573726c?mode=deep",
+    "timestamp": "2026-01-09 12:52:52.748295",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel()] [Partial fill cancellation] If the order was partially filled, escrow_src_ata.amount at line 324 reflects remaining tokens - can a maker cancel after a small fill to reclaim most tokens, griefing resolvers? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5f3108db-301e-439a-86f7-a406690dfdea?mode=deep",
+    "timestamp": "2026-01-09 12:53:14.095876",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Premium requirement bypass] Line 351 checks max_cancellation_premium > 0, but what if this value is exactly 1 lamport? Can resolvers still profit from canceling? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3d6b71d4-bb05-45c0-9c58-6da82e58bc13?mode=deep",
+    "timestamp": "2026-01-09 12:53:36.179600",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Timestamp manipulation] Line 354 gets current_timestamp from Clock - can a validator manipulate this to allow resolvers to cancel orders prematurely? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_849d059d-64fb-428a-abfc-a55280260290?mode=deep",
+    "timestamp": "2026-01-09 12:53:58.380918",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Expiration check bypass] Line 356 requires current_timestamp >= expiration_time - can an attacker exploit clock precision or timezone differences to cancel before actual expiration? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed356e4a-fc90-495e-83a7-a2861eba686a?mode=deep",
+    "timestamp": "2026-01-09 12:54:19.821397",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Order hash recalculation] Lines 364-374 recalculate order_hash - can a malicious resolver provide modified order parameters that still hash to a valid PDA but have different premium calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_24dd575f-fc90-4f11-b04e-ebcd264ae443?mode=deep",
+    "timestamp": "2026-01-09 12:54:42.429385",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Token return before premium] Lines 377-402 return tokens to maker before calculating premium - can maker frontrun this to withdraw tokens before resolver claims premium? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_df7a9290-6f80-46da-bc2b-24851b495649?mode=deep",
+    "timestamp": "2026-01-09 12:55:03.644054",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Premium calculation exploit] Line 404 calls calculate_premium with current_timestamp - can an attacker exploit the linear interpolation in calculate_premium to game the timing and extract maximum premium? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_02389c39-f67d-4c14-b500-1e38aa1d1a6c?mode=deep",
+    "timestamp": "2026-01-09 12:55:25.080681",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Reward limit bypass] Line 411 uses std::cmp::min(cancellation_premium, reward_limit) - can a resolver set reward_limit = 0 to cancel orders without paying premium, then claim all lamports? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f4b7468c-ff40-410a-8ec9-207549f891cc?mode=deep",
+    "timestamp": "2026-01-09 12:55:46.977029",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Lamport calculation underflow] Line 410 calculates maker_amount = escrow_lamports - min(premium, reward_limit) - if premium > escrow_lamports, does this underflow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_602b060e-e75e-4c11-847e-1e96e0cabb6a?mode=deep",
+    "timestamp": "2026-01-09 12:56:08.088771",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Two-step transfer vulnerability] Lines 414-427 close escrow to resolver, then lines 430-435 transfer to maker - can a malicious resolver receive all lamports but fail to forward maker_amount? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_63cb8390-85e4-4945-b631-011747556c91?mode=deep",
+    "timestamp": "2026-01-09 12:56:28.556367",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Resolver griefing] Can a resolver set reward_limit to a very low value, making cancellation unprofitable for other resolvers and locking orders until they expire? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3b70c4e6-e2ad-46c7-a27d-4776853a6798?mode=deep",
+    "timestamp": "2026-01-09 12:56:49.202759",
+    "report_generated": false
   }
 ]
