@@ -1,1 +1,62 @@
-[ ]
+[
+  {
+    "question": "programs/fusion-swap/src/lib.rs",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_89f1da11-be11-4c86-af25-896c3b2fb6e3?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "programs/fusion-swap/src/auction.rs",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_d92b5abe-33c7-40cc-b263-3af9200b4a74?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "programs/whitelist/src/lib.rs",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_52f2860d-9125-4876-b860-859f32d6654b?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "scripts/fusion-swap/create.ts",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_1bc89240-d7a8-4a83-80de-2a25483eab4f?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "scripts/fusion-swap/fill.ts",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_c1861934-8f60-4d3a-83a7-26485d76b831?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "scripts/fusion-swap/cancel.ts",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_9811bbc8-b4fd-4718-ade1-e5a18abc7294?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "scripts/utils.ts",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_06a79905-f8ce-4e8c-bd7c-4c560980abc1?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "idl/fusion_swap.json",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_80285656-461e-4aaa-a74b-33d8495365a7?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "idl/fusion_swap.ts",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_b2bef2e8-3e5e-4d95-b48d-a7aebe1d769a?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "idl/whitelist.json",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_270d7e74-b311-4e23-b10c-aebd3835980d?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "idl/whitelist.ts",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_b9a381b2-0e6d-4cb3-873b-f084d3f57b3a?mode=deep",
+    "questions_generated": false
+  },
+  {
+    "question": "package.json",
+    "url": "https://deepwiki.com/search/-generate-150-targeted-securit_4d6da71d-8b15-461f-bdf8-6ef81c618418?mode=deep",
+    "questions_generated": false
+  }
+]
