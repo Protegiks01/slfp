@@ -1048,5 +1048,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b0db1249-bbba-49c9-8f65-fd4253604675?mode=deep",
     "timestamp": "2026-01-09 13:31:08.442243",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Continuity] When transitioning between interpolation segments at line 44-45, does the rate calculation maintain continuity, or can there be sudden rate jumps exploitable by resolvers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6a0cd4ec-055e-4656-b77a-91822048431d?mode=deep",
+    "timestamp": "2026-01-09 13:32:10.315611",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Overflow safety validation] Are the overflow safety comments at lines 35-41 and 48-53 mathematically proven, or do edge cases exist where u64 overflow can still occur with extreme input values? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0fae9aeb-0c47-4464-bdc5-67e802a78cdc?mode=deep",
+    "timestamp": "2026-01-09 13:32:22.142419",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Linear assumption] Does the linear premium growth at line 71 properly incentivize resolver behavior, or can economic attacks exploit the predictable premium curve? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bfc24c8f-214c-4d9a-8b78-660922433b54?mode=deep",
+    "timestamp": "2026-01-09 13:32:34.279298",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Rate monotonicity] Does the function guarantee that rate_bump decreases monotonically over time as expected in Dutch auctions, or can specific AuctionData configurations cause rate increases? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2050ff88-7d46-4479-b24f-5b10eab6cbc7?mode=deep",
+    "timestamp": "2026-01-09 13:32:46.953945",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Start time boundary] What happens if timestamp is exactly start_time + 1 nanosecond - does line 18 handle this correctly or is there an off-by-one error? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89155b3b-8817-428f-8c8c-6ea252fb8920?mode=deep",
+    "timestamp": "2026-01-09 13:33:00.171214",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Finish time boundary] What happens if timestamp is exactly auction_finish_time - 1 - does the interpolation or final calculation handle this boundary correctly? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_34503e94-5d31-4d87-ab22-b0e9765aaddb?mode=deep",
+    "timestamp": "2026-01-09 13:33:13.995831",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Single point] If points_and_time_deltas contains only one entry, does the function handle this correctly or can edge cases in the loop logic cause incorrect rates? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1853d122-f40a-4cf7-a2b2-63c76e944cc4?mode=deep",
+    "timestamp": "2026-01-09 13:33:28.762943",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Max u16 rates] If all rate_bump values are set to u16::MAX (65535), can the multiplication at lines 39-40 overflow despite being cast to u64? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2d7a6b9b-2e50-4fa7-abf1-f18a7072f023?mode=deep",
+    "timestamp": "2026-01-09 13:33:44.104366",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_rate_bump] [Max u32 times] If start_time and duration are both close to u32::MAX, can the addition at line 21 overflow the u64 cast? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9fca4a87-c312-4c02-99b5-207b0d1160cc?mode=deep",
+    "timestamp": "2026-01-09 13:33:59.904130",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Instant cancellation] If auction_start_time equals timestamp at line 62, does returning 0 premium allow free immediate cancellations that violate economic security? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_893f5309-a764-471d-a546-7136a1f624e1?mode=deep",
+    "timestamp": "2026-01-09 13:34:15.612747",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Max duration] If auction_duration is u32::MAX, can the multiplication at line 71 overflow when combined with max_cancellation_premium? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_55acde12-c37f-4a9a-8f0f-011c39c4c93e?mode=deep",
+    "timestamp": "2026-01-09 13:34:32.600921",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Function: calculate_premium] [Zero max premium] If max_cancellation_premium is 0, does the function return 0 at line 71, enabling free cancellations throughout the auction? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_120087df-2792-4819-a9ac-9278c39e0373?mode=deep",
+    "timestamp": "2026-01-09 13:34:50.728477",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Front-running] Can a resolver observe pending orders in mempool and calculate their exact rate_bump using calculate_rate_bump to front-run fills at optimal pricing moments? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4550ba3a-01f6-481a-b234-94b51e9503f3?mode=deep",
+    "timestamp": "2026-01-09 13:35:09.074223",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Timestamp manipulation] Can validator-level timestamp manipulation exploit the timestamp dependency in calculate_rate_bump to provide favorable rates to colluding resolvers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8084c34c-0e28-486c-86ab-c9be953084cd?mode=deep",
+    "timestamp": "2026-01-09 13:35:28.116314",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Compute exhaustion] Can an attacker create AuctionData with thousands of points_and_time_deltas entries to exhaust compute units during calculate_rate_bump execution, causing DoS? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_43ef9d9d-0d80-4810-8714-b77867d8f74b?mode=deep",
+    "timestamp": "2026-01-09 13:35:47.742796",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Precision exploitation] Can an attacker craft AuctionData with specific time_delta values that maximize integer division rounding errors in their favor across multiple orders? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5cd6dd3c-f213-41de-b41b-7a6fe7ded998?mode=deep",
+    "timestamp": "2026-01-09 13:36:08.362189",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Rate curve manipulation] Can an order creator craft malicious points_and_time_deltas to create auction curves that appear fair initially but suddenly jump to extreme rates at specific times? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bb03b03f-2046-412e-ab27-cb6590d6669c?mode=deep",
+    "timestamp": "2026-01-09 13:36:28.647123",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Premium avoidance] Can a malicious resolver exploit timing or premium calculation at line 71 to cancel orders repeatedly with minimal premiums, griefing order creators? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ebbb793e-3198-4ccc-81e9-4cf7d8e70c92?mode=deep",
+    "timestamp": "2026-01-09 13:36:49.243900",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Economic griefing] Can an attacker create orders with duration=1 second and max_cancellation_premium=1 lamport to enable instant nearly-free cancellations that disrupt protocol operations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bbb89ea2-5979-451e-a220-b383f03f3cee?mode=deep",
+    "timestamp": "2026-01-09 13:37:09.823333",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Attack: Rate starvation] Can an attacker set initial_rate_bump to 0 in AuctionData, causing calculate_rate_bump to always return 0 and making the order unfillable as a griefing attack? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8e4fbf38-6b26-4eb8-901d-b9d9c95e305b?mode=deep",
+    "timestamp": "2026-01-09 13:37:31.112267",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: PointAndTimeDelta] [Serialization] Can an attacker exploit AnchorSerialize/AnchorDeserialize at line 3 to inject malformed PointAndTimeDelta data that bypasses validation but causes exploits in calculate_rate_bump? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5af75749-fe86-4d9b-bde9-a08456da93f8?mode=deep",
+    "timestamp": "2026-01-09 13:37:51.820176",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: AuctionData] [Serialization] Can an attacker exploit AnchorSerialize/AnchorDeserialize at line 9 to inject malicious AuctionData with invalid vectors or values that survive deserialization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eb60e16e-2961-4747-9c8b-3482171bfae0?mode=deep",
+    "timestamp": "2026-01-09 13:38:11.441202",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: AuctionData] [Clone operation] Does the Clone implementation at line 9 properly handle the Vec<PointAndTimeDelta>, or can deep copy issues cause aliasing or memory corruption in concurrent operations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c37fc04b-ee1d-463a-95a4-baa766c5058a?mode=deep",
+    "timestamp": "2026-01-09 13:38:31.378233",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: PointAndTimeDelta] [Memory layout] Can the memory layout of rate_bump (u16) and time_delta (u16) at lines 5-6 cause alignment issues or padding exploitation in serialized form? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_895e2f4d-4ff5-47ef-a484-20b57747b068?mode=deep",
+    "timestamp": "2026-01-09 13:38:50.045249",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: AuctionData] [Vector size limits] Does Anchor enforce size limits on points_and_time_deltas vector at line 14, or can an attacker create unbounded vectors causing memory exhaustion? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e144558e-0a67-4ea8-a8ac-65fd72233c4c?mode=deep",
+    "timestamp": "2026-01-09 13:39:09.090340",
+    "report_generated": false
   }
 ]
