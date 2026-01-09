@@ -3298,5 +3298,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_72c6c054-c7ed-49f6-bcf3-cc78460f9e67?mode=deep",
     "timestamp": "2026-01-09 15:37:06.289739",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Missing account writable flags] Does the instruction properly set writable flags for accounts that should be mutated? Can missing flags cause transaction failures or enable exploits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cb66e124-7e44-4c77-a1ce-3ead29ed3833?mode=deep",
+    "timestamp": "2026-01-09 15:38:15.919964",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Token program substitution] Can an attacker provide malicious TOKEN_PROGRAM_ID values at lines 81-82 to redirect token transfers to a fake program that doesn't enforce transfer rules? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d0661c8f-90d4-4281-a03f-a16d5d02acd5?mode=deep",
+    "timestamp": "2026-01-09 15:38:27.752311",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Instruction data manipulation] Can the reducedOrderConfig parameter at line 68 be manipulated independently of the orderConfig used for hash calculation, causing order/escrow mismatch? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4451aa4a-1956-4f53-89f2-ebc4a30fcb36?mode=deep",
+    "timestamp": "2026-01-09 15:38:39.970614",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Transaction malleability] Can an attacker modify the transaction at line 87 after it's built but before signing to inject additional instructions that steal funds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eb202c8b-c8c1-4c1d-a5e1-fd6f67bd04b2?mode=deep",
+    "timestamp": "2026-01-09 15:38:53.341230",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Partial signature bypass] Does the signers array at line 84 include all required signers, or can an attacker exploit missing signers to bypass authorization checks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_588a5e6b-a7cf-49d5-8031-1a1b681bf2b3?mode=deep",
+    "timestamp": "2026-01-09 15:39:06.445708",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Transaction replay] Is there any replay protection for the fill transaction at lines 89-91? Can an attacker replay a successful fill transaction to drain more tokens? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_64f932ad-510e-44dd-8c22-ac2114077869?mode=deep",
+    "timestamp": "2026-01-09 15:39:21.270203",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Program ID substitution] Can an attacker provide a malicious program.programId at line 42 to derive PDAs for a fake fusion_swap program, enabling them to control the escrow logic? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b44ff4cb-c6d4-4247-af32-3448a0e8eb0a?mode=deep",
+    "timestamp": "2026-01-09 15:39:36.238633",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Whitelist program bypass] Can the whitelistProgramId parameter at lines 32, 53 be substituted with a fake whitelist program that always validates any resolver, bypassing access control? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_893a65ca-822a-4f5c-98a0-210031abcfef?mode=deep",
+    "timestamp": "2026-01-09 15:39:52.422147",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Fusion program swap] Can an attacker modify the fusionSwap program initialization at line 123 to point to a malicious program that steals funds during fill execution? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_85421f1c-045c-4f40-9ab4-90c509d96dc2?mode=deep",
+    "timestamp": "2026-01-09 15:40:09.439568",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Whitelist program substitution] Can the whitelist program at line 124 be replaced with a fake implementation that approves unauthorized resolvers? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f9a37ac7-98d8-4fba-af38-6a5cdc4a472c?mode=deep",
+    "timestamp": "2026-01-09 15:40:27.244054",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Cross-program exploitation] Can a malicious resolver exploit the interaction between the fill instruction and the whitelist program to bypass resolver access checks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cac10704-086f-40ab-ad39-aeab01699364?mode=deep",
+    "timestamp": "2026-01-09 15:40:45.585307",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Silent error handling] Does the try-catch block at lines 126-148 properly handle all error types, or can certain errors be suppressed allowing invalid orders to be processed? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8dca9a8a-46c3-4914-b83a-b0e5a35f92fd?mode=deep",
+    "timestamp": "2026-01-09 15:41:05.642111",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Escrow existence bypass] Can the escrow existence check at line 141 be fooled by a fake ATA that appears valid but doesn't actually hold the correct escrow tokens? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7a117672-530c-4a76-bacd-e7fcf5fa9211?mode=deep",
+    "timestamp": "2026-01-09 15:41:25.504491",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [RPC failure exploitation] If the connection.getAccount() or similar RPC calls fail, can this lead to incorrect state assumptions that enable exploits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_489b82d7-0de2-452c-b712-7f77cff803cf?mode=deep",
+    "timestamp": "2026-01-09 15:41:46.256111",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Async race condition] Can concurrent calls to fill() for the same order create race conditions that allow double-filling or partial fills that violate escrow invariants? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2ffb28ce-b3e9-475f-8045-a1259fc6336d?mode=deep",
+    "timestamp": "2026-01-09 15:42:07.289247",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Missing validation on error] If splToken.getAccount() at line 141 succeeds but returns an account with 0 balance, does the script still proceed with the fill, causing guaranteed transaction failure? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7264856e-d233-4a85-a726-dc01dd24bfb5?mode=deep",
+    "timestamp": "2026-01-09 15:42:28.961135",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Config mismatch] Can an attacker provide a reducedOrderConfig that has different amounts than the full orderConfig, causing the on-chain program to process amounts that don't match the escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed20e831-6a27-4bc1-bc51-ed48d217ce8d?mode=deep",
+    "timestamp": "2026-01-09 15:42:49.861721",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Reduced config manipulation] Can the reducedOrderConfig parsing at lines 111-116 be manipulated to contain amounts that differ from the full config, enabling amount mismatch exploits? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4181a2ae-2285-4430-91c1-4496bd401241?mode=deep",
+    "timestamp": "2026-01-09 15:43:10.140371",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fee config omission] If reducedOrderConfig doesn't include fee parameters but full orderConfig does, can this discrepancy be exploited to bypass fee payments? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ee000f22-6e04-45a8-a51d-4393e5dd61d2?mode=deep",
+    "timestamp": "2026-01-09 15:43:29.788291",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Auction data mismatch] Can differences in dutchAuctionData between reducedOrderConfig and full orderConfig cause the on-chain program to calculate incorrect exchange rates? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e48da8f2-6fdd-40d3-8cfe-242e89fba138?mode=deep",
+    "timestamp": "2026-01-09 15:43:50.077653",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [RPC endpoint manipulation] Can an attacker control the CLUSTER_URL environment variable to redirect all RPC calls to a malicious node that provides fake blockchain state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_99a8ee32-ffe5-4c21-afe3-54344cc66245?mode=deep",
+    "timestamp": "2026-01-09 15:44:09.742079",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Connection downgrade] Does the 'confirmed' commitment level at line 122 provide sufficient finality guarantees, or can an attacker exploit forks to reverse filled orders? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c975fff7-e4cb-4fe0-ae8a-fb818b4948ec?mode=deep",
+    "timestamp": "2026-01-09 15:44:27.868580",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Stale data exploitation] Can an attacker exploit timing between getTokenDecimals() at lines 62-65 and transaction submission to use outdated decimal values? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f18a008e-9f48-498c-9fbd-0e3ba9e20ba4?mode=deep",
+    "timestamp": "2026-01-09 15:44:47.135079",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [RPC censorship] Can a malicious RPC provider censor fill transactions for specific orders, enabling the provider to fill orders with their own resolver for profit? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a843f41f-e7d6-4ea9-bf03-9e4a7da94c09?mode=deep",
+    "timestamp": "2026-01-09 15:45:06.925357",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Native SOL confusion] If orderConfig.srcAssetIsNative is true but the script doesn't handle native SOL specially, can this cause the fill to fail or enable SOL theft? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3772848f-0a5f-4c70-8418-9fdc7cfb53b6?mode=deep",
+    "timestamp": "2026-01-09 15:45:26.038242",
+    "report_generated": false
   }
 ]
