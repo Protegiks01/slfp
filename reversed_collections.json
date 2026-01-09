@@ -2248,5 +2248,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a5d094c-8aae-40b1-acca-b99c1f25b5c3?mode=deep",
     "timestamp": "2026-01-09 14:37:10.466466",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Dependency: fs/path/os] Can vulnerabilities in Node.js built-in modules affect keypair file loading or path resolution, enabling path traversal attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b0c73179-ec9c-448c-8ff0-e4c10ad4fc26?mode=deep",
+    "timestamp": "2026-01-09 14:38:33.257488",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Dependency: borsh] Can the borsh serialization library have bugs that cause inconsistent serialization between client and on-chain program? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_aee89a74-d4cd-40b3-94b5-4f6768e9e5ef?mode=deep",
+    "timestamp": "2026-01-09 14:38:45.523742",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Dependency: @noble/hashes] Can the @noble/hashes library produce incorrect SHA256 hashes due to bugs, causing order hash mismatches with on-chain calculations? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f488d897-caba-4671-b723-f91e09d06935?mode=deep",
+    "timestamp": "2026-01-09 14:38:57.831523",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Dependency: @solana/spl-token] Can vulnerabilities in the SPL token library affect mint account fetching or decimal parsing, causing incorrect amount calculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0e35f02d-ad80-4fe9-af38-4ba19f560a1b?mode=deep",
+    "timestamp": "2026-01-09 14:39:10.569494",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Dependency: @coral-xyz/anchor] Can the Anchor framework's utility functions (anchor.utils.bytes.utf8.encode) have bugs that affect seed generation for PDAs? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_31e3cb8a-1ad8-427e-9ef3-637ceae66847?mode=deep",
+    "timestamp": "2026-01-09 14:39:24.353664",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Dependency: @solana/web3.js] Can vulnerabilities in the Solana web3.js library affect PDA derivation or PublicKey operations, enabling attacks on escrow addresses? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_27ba5db1-39fa-49ab-a240-3bfe30b214e0?mode=deep",
+    "timestamp": "2026-01-09 14:39:38.137163",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Time Delta Sequence] Can pointsAndTimeDeltas have non-monotonic or negative timeDelta values that break auction curve calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c0e25220-3e3f-497a-b2c2-88a4022ee358?mode=deep",
+    "timestamp": "2026-01-09 14:39:54.356033",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Rate Bump Overflow] Can initialRateBump and rateBump values in pointsAndTimeDeltas cause rate calculations to overflow during auction execution? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0f012b5b-0dd6-4b1c-b5b1-da125478a5ad?mode=deep",
+    "timestamp": "2026-01-09 14:40:10.019860",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Duration Bounds] Can auction duration be zero or extremely large, and does this break auction pricing calculations on-chain? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0bd4b4be-ccd0-42c2-a7b4-bb9f58931ea9?mode=deep",
+    "timestamp": "2026-01-09 14:40:26.599776",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Fee Percentage] Can fee percentages (protocolFee, integratorFee, surplusPercentage) sum to >100%, causing incorrect fee distribution that drains orders? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_910f669b-f258-40d9-b321-c62d7650f6bd?mode=deep",
+    "timestamp": "2026-01-09 14:40:43.934486",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Time Ordering] Can auction startTime be after expirationTime, and does this create orders that can never be validly filled? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b1101b67-a033-48ba-b639-46dc44481bf7?mode=deep",
+    "timestamp": "2026-01-09 14:41:02.079003",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Field Consistency] Can inconsistent fields (e.g., minDstAmount > estimatedDstAmount) pass through hash calculation and create economically irrational orders exploitable by resolvers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_11f6beec-d629-401a-b420-541c7661872b?mode=deep",
+    "timestamp": "2026-01-09 14:41:20.738534",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Max Values] Can maximum u64/u32/u16 values cause overflow in subsequent on-chain calculations even if they serialize correctly in the hash? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01452481-1283-4d09-accd-00e900150bf4?mode=deep",
+    "timestamp": "2026-01-09 14:41:40.616301",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Zero Values] Can zero values for critical fields (srcAmount, minDstAmount) pass through calculateOrderHash and create invalid orders that can't be filled? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_78397d29-1c85-4e8b-b0c8-8ad1782362ce?mode=deep",
+    "timestamp": "2026-01-09 14:42:00.480347",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: Negative Values] Can negative values be passed for amounts, fees, or time parameters, and do they get serialized as large unsigned integers due to two's complement representation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dd038e6f-afcb-467b-9b8e-e885f876dd99?mode=deep",
+    "timestamp": "2026-01-09 14:42:20.940823",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Validation: PublicKey Format] Do functions accepting PublicKey parameters validate they are well-formed base58 addresses, or can malformed addresses cause unexpected PDA derivation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_075cf810-89f0-4a3e-9383-f190128f02eb?mode=deep",
+    "timestamp": "2026-01-09 14:42:42.156460",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Race: Configuration Changes] Can order configuration be modified between hash calculation and on-chain submission, causing the submitted order to have a different hash than expected? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e885b30-0b9c-4739-9725-3e6069843ca7?mode=deep",
+    "timestamp": "2026-01-09 14:43:03.209686",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Race: Parallel Hash Calculation] If multiple clients calculate the same order hash simultaneously, can race conditions in escrow creation cause only one to succeed while others fail with DoS? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0d27df4b-3ba9-413a-a15d-c4eaafea2ffd?mode=deep",
+    "timestamp": "2026-01-09 14:43:25.316213",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Replay: PDA Reuse] After an escrow account is closed, can the same PDA be derived again for a new order, potentially accessing leftover lamports or account data? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ded6ad93-0067-4086-b9fb-0c6b221eba10?mode=deep",
+    "timestamp": "2026-01-09 14:43:48.286801",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Replay: Order Hash] Can an attacker replay an order hash from a previous order after it's been filled or cancelled to re-access the same escrow PDA and steal residual funds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_40440893-8553-4b88-a892-624af3f69b66?mode=deep",
+    "timestamp": "2026-01-09 14:44:10.946735",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Memory: File Size] Does loadKeypairFromFile limit the file size being read, or can an attacker cause DoS by pointing to extremely large files? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_373f0f4d-7398-41f4-8e48-dfaf4f7d48fd?mode=deep",
+    "timestamp": "2026-01-09 14:44:33.917693",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Memory: String Manipulation] Can the regex matching and array operations (lines 96-99) be exploited with very long hex strings to cause performance degradation or DoS? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_30e316fc-4ab7-4b6c-839a-838832ade17b?mode=deep",
+    "timestamp": "2026-01-09 14:44:57.355769",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Memory: Buffer Allocation] Does the Buffer.from conversion (line 99) for orderHash validate buffer size, or can enormous strings cause out-of-memory errors? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_93c3a193-b78d-4e60-9df3-a05511912ef5?mode=deep",
+    "timestamp": "2026-01-09 14:45:20.588759",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Memory: Large Arrays] Can an attacker create orders with extremely large pointsAndTimeDeltas arrays that cause memory exhaustion during serialization and hash calculation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_36f99cc9-be03-4331-83a5-25fb8c425693?mode=deep",
+    "timestamp": "2026-01-09 14:45:44.731554",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Crypto: Side Channel] Can timing differences in the SHA256 computation leak information about order configurations that enables targeted collision attacks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7cfa2445-0f45-492e-b97b-2118ec82e3cf?mode=deep",
+    "timestamp": "2026-01-09 14:46:07.995592",
+    "report_generated": false
   }
 ]
