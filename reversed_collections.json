@@ -1048,5 +1048,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d927304d-0422-4b79-a82c-54b5bd9dc8a0?mode=deep",
     "timestamp": "2026-01-09 13:29:12.775208",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Self-Deregistration Prevention] Can the authority accidentally or maliciously deregister themselves if they are also a resolver, locking themselves out of management functions? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0c69db39-96d5-415f-a825-bb386fa4b9f1?mode=deep",
+    "timestamp": "2026-01-09 13:30:14.049786",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Authority Bypass] Does deregister properly validate that the signer matches the authority in whitelist_state, or can any user deregister any resolver by forging the authority signature? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cb64e8f6-5d3b-4673-b0df-28ef405d3260?mode=deep",
+    "timestamp": "2026-01-09 13:30:26.078966",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Unauthorized Deregistration] Can a non-authority user call deregister() to remove legitimate resolvers from the whitelist, disrupting protocol operations and causing resolver access loss? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4e2178d7-cfa7-4f8d-8530-5eb2c8004413?mode=deep",
+    "timestamp": "2026-01-09 13:30:38.277600",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [PDA Bump Exhaustion] If the bump seed derivation fails for a specific user pubkey, does register handle this gracefully, or can it cause transaction failures exploitable for DoS? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2d66f1c6-cc67-4d54-a75b-0a8f40c8da5b?mode=deep",
+    "timestamp": "2026-01-09 13:30:51.049450",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Account Size Exploitation] Can an attacker manipulate account size during resolver_access creation to allocate excessive space, draining authority lamports through rent requirements? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_26a1eabb-1463-4e84-a7e6-1ab4d8fa484c?mode=deep",
+    "timestamp": "2026-01-09 13:31:04.717698",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Missing Initialization Check] Does register verify that resolver_access doesn't already exist, or can it be called repeatedly causing account reinitialization vulnerabilities? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a2356b9f-8a9a-4497-877d-521eb6101602?mode=deep",
+    "timestamp": "2026-01-09 13:31:18.628203",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Batch Registration DoS] Can an attacker force the authority to register thousands of fake resolvers, exhausting compute units or storage to DoS legitimate resolver operations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7ddaadd1-d1f4-4a64-9140-280199b6c064?mode=deep",
+    "timestamp": "2026-01-09 13:31:33.293284",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Program ID Registration] Can an attacker register program IDs as resolvers, enabling cross-program attacks or CPI exploits in the fusion-swap program? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ddadd2f4-1897-43e5-8ad9-0c6e7658cdc4?mode=deep",
+    "timestamp": "2026-01-09 13:31:49.251726",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Zero Address Registration] Can an attacker register the zero address (11111111111111111111111111111111) or other system accounts as resolvers, causing undefined behavior? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cc36f06b-ca7c-4a93-aea3-cf4da4e8a078?mode=deep",
+    "timestamp": "2026-01-09 13:32:06.156002",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Authority Lamport Drain] Since authority is marked writable, can an attacker exploit register to drain lamports from the authority account through excessive registrations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_df2fcfab-db2b-4c47-99b5-bc460a4e9812?mode=deep",
+    "timestamp": "2026-01-09 13:32:23.277398",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Rent Exemption] Does register ensure resolver_access is created with sufficient lamports for rent exemption, or can the account be reclaimed causing resolver access loss? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c8d9d8db-40f4-4d4d-8e95-cd4fb3991779?mode=deep",
+    "timestamp": "2026-01-09 13:32:41.304563",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Discriminator Verification] Can an attacker provide a fake whitelist_state account with the correct discriminator [246, 118, 44, 60, 71, 37, 201, 55] but malicious authority data? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e5405698-fabc-4b17-ae90-025e06de65f0?mode=deep",
+    "timestamp": "2026-01-09 13:32:58.781681",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Whitelist State Validation] Does register properly validate that whitelist_state is initialized before allowing registration, or can it be called with an uninitialized state account? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f2a54b45-b704-4670-be27-5369a8c36c72?mode=deep",
+    "timestamp": "2026-01-09 13:33:16.927124",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Seed Injection Attack] Can an attacker craft a user pubkey that, when combined with the 'resolver_access' seed, produces a PDA that collides with critical protocol accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b1ce9ca6-fe3e-4010-bb7f-54aa9324282f?mode=deep",
+    "timestamp": "2026-01-09 13:33:35.906370",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Self-Registration] Can the authority register themselves as a resolver, and if so, does this create a conflict of interest or enable privilege escalation attacks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_71435151-827d-4132-83ce-2fcc5fc0d6ed?mode=deep",
+    "timestamp": "2026-01-09 13:33:55.440319",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Account Ownership Validation] Does register verify that the created resolver_access account is owned by the whitelist program, or can an attacker provide a pre-existing account owned by another program? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f4510cda-31de-44bd-a5e6-b29a148b7c25?mode=deep",
+    "timestamp": "2026-01-09 13:34:16.123423",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Cross-Program Invocation] When register creates the resolver_access PDA, can a malicious program intercept the CPI to the system program and substitute malicious account data? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_892c1f8b-05c8-49fe-a7c2-48bcf4579c15?mode=deep",
+    "timestamp": "2026-01-09 13:34:36.212766",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Bump Seed Manipulation] Can an attacker exploit the bump field in ResolverAccess (u8) by providing a crafted user pubkey that generates a predictable bump, enabling PDA prediction attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3de5fb44-4ea7-4efd-a7ae-e6b4d4a3ab68?mode=deep",
+    "timestamp": "2026-01-09 13:34:53.915543",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Resolver Access Overwrite] If resolver_access PDA already exists for a user, does register fail properly, or can it overwrite existing access data including the bump seed? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2ee86c67-13db-4169-8f63-24097cd44a55?mode=deep",
+    "timestamp": "2026-01-09 13:35:11.954776",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Duplicate Registration] Can an attacker call register() multiple times for the same user to create duplicate resolver_access PDAs, causing state inconsistency or resource exhaustion? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_840e24bd-7b12-4d3f-abe8-cb68c74ebd80?mode=deep",
+    "timestamp": "2026-01-09 13:35:30.685597",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [PDA Collision Attack] Can an attacker manipulate the _user parameter to create a resolver_access PDA that collides with an existing account, potentially corrupting state or enabling unauthorized access? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_486abdbb-684b-49dd-a851-81d033cecf6c?mode=deep",
+    "timestamp": "2026-01-09 13:35:50.388734",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Authority Validation Bypass] Does register properly verify that the authority signer matches the authority stored in whitelist_state, or can an attacker sign with any account and register arbitrary resolvers? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_96309ae9-40fc-4f73-9a7e-b2f7def56443?mode=deep",
+    "timestamp": "2026-01-09 13:36:10.270942",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: register] [Unauthorized Registration] Can a non-authority user call register() by providing their own public key as the authority parameter, bypassing access control and adding themselves to the whitelist? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8accbf45-7f3c-4d65-b2ee-0b3a4ff2c20c?mode=deep",
+    "timestamp": "2026-01-09 13:36:29.510330",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Missing Signer Validation] Does the instruction properly verify that the authority account is a signer, or can an unsigned account be passed as authority? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_53c9a1eb-2d07-47f0-9471-e6996b75eaaf?mode=deep",
+    "timestamp": "2026-01-09 13:36:48.352743",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Concurrent Initialization] If multiple transactions attempt to initialize the whitelist simultaneously, can this lead to race conditions or undefined state? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6e5b82cf-b6f6-47b3-9011-d14327a08dbd?mode=deep",
+    "timestamp": "2026-01-09 13:37:08.132817",
+    "report_generated": false
   }
 ]
