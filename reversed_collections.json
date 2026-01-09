@@ -1498,5 +1498,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dad562a2-92c1-4c71-810d-34548b4f7208?mode=deep",
     "timestamp": "2026-01-09 13:53:56.855254",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [OrderConfig Tampering] Can an attacker provide a modified OrderConfig struct that doesn't match the original order hash, causing incorrect fee and amount calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_db682956-7c10-4d15-8ec3-84ff727d55b5?mode=deep",
+    "timestamp": "2026-01-09 13:55:09.850308",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Associated Token Program Manipulation] Can an attacker replace the associated_token_program to create malicious ATAs during fill operations? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_244b9cac-4d89-43d2-b147-297b57110afb?mode=deep",
+    "timestamp": "2026-01-09 13:55:21.815564",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [System Program Manipulation] Can an attacker replace the system_program account to intercept SOL transfers during fee distributions? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_87750f69-763d-47d7-ab5c-58386c6a4c45?mode=deep",
+    "timestamp": "2026-01-09 13:55:34.563765",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Cross-Order Token Theft] Can an attacker exploit PDA derivations to fill one order but extract tokens from a different order's escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c613a858-d1ff-4ace-a24f-c934c0288c3d?mode=deep",
+    "timestamp": "2026-01-09 13:55:47.205422",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Taker Signature Bypass] Can an attacker bypass the taker signer requirement through account delegation or PDAs to fill orders without proper authorization? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_12d97106-cf61-415c-ab11-7825e23a48ef?mode=deep",
+    "timestamp": "2026-01-09 13:56:00.346011",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Maker Account Drain] Can an attacker substitute the maker account to cause SOL rent payments or fee distributions to drain a victim's wallet instead of the legitimate maker? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3ef1ff08-0664-4a31-98e5-ae439091668a?mode=deep",
+    "timestamp": "2026-01-09 13:56:14.314447",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Estimated Dst Amount Exploitation] Can an attacker craft fills that exploit the relationship between estimated_dst_amount and actual calculated dst_amount to manipulate surplus calculations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_22b76707-3bc5-4886-80ae-8d402799c6e7?mode=deep",
+    "timestamp": "2026-01-09 13:56:28.797678",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Min Dst Amount Bypass] Can an attacker fill an order with a calculated dst_amount less than OrderConfig.min_dst_amount by exploiting insufficient validation, causing maker to receive less than minimum? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_330df2cb-ed59-4694-85a7-8332fc87523a?mode=deep",
+    "timestamp": "2026-01-09 13:56:45.593760",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Time Delta Overflow in Fill] Can an attacker fill an order at a time when the cumulative time_delta calculations overflow, causing the rate bump to wrap around and provide advantageous rates? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6f0e04a6-0a06-44d6-916a-65d3612d1217?mode=deep",
+    "timestamp": "2026-01-09 13:57:02.588488",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Rate Bump Calculation Exploit] Can an attacker exploit the piecewise linear rate bump calculation (initial_rate_bump + points_and_time_deltas) to fill orders at manipulated rates that don't match the intended auction curve? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e804e2ef-991b-42e8-909f-0aa613270c3b?mode=deep",
+    "timestamp": "2026-01-09 13:57:20.020403",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Auction Start Time Manipulation] Can an attacker fill an order before the auction's start_time by exploiting missing validation, getting better rates than intended? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a5cb47b5-0e9d-4c02-833d-cd5fb556b52c?mode=deep",
+    "timestamp": "2026-01-09 13:57:38.457261",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Escrow Balance Inconsistency] Can an attacker fill an order when escrow_src_ata has more tokens than the order's src_amount, extracting the excess tokens without proper accounting? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bafd233d-09a2-47bc-b258-0443774fa52a?mode=deep",
+    "timestamp": "2026-01-09 13:57:57.203329",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Escrow Closure Exploit] After a full fill, can an attacker prevent escrow account closure to cause rent exemption refunds to be lost or misdirected? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e1c80e5c-9b42-45ae-89dc-7f7bc97fb82a?mode=deep",
+    "timestamp": "2026-01-09 13:58:16.614829",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Native DST SOL Unwrapping] If dst_asset_is_native is true, can an attacker manipulate the SOL unwrapping to the maker to cause the wrapped SOL to remain locked without proper conversion to native SOL? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ee5b7457-9406-494d-82df-eea6777450a6?mode=deep",
+    "timestamp": "2026-01-09 13:58:36.907745",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Native SOL Wrapping Exploit] If src_asset_is_native is true, can an attacker exploit the SOL unwrapping process to extract more native SOL than they deposited in WSOL? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b94ae250-0923-4b31-b46b-42bfff6a93e1?mode=deep",
+    "timestamp": "2026-01-09 13:58:56.958473",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Fee Distribution Precision Loss] Can an attacker exploit rounding errors in fee calculations (protocol_fee + integrator_fee + surplus_fee) to retain dust amounts that accumulate to significant value over many fills? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_06fda5e1-6633-403f-9252-fd6ac5cd20fc?mode=deep",
+    "timestamp": "2026-01-09 13:59:18.427947",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Integrator Destination Account Exploit] Can an attacker exploit the optional integrator_dst_acc by omitting it when integrator_fee > 0, avoiding integrator fee payments? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1a375dfd-4189-4edc-b4c4-287b017f7e0a?mode=deep",
+    "timestamp": "2026-01-09 13:59:39.899423",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Protocol Destination Account Exploit] Can an attacker exploit the optional protocol_dst_acc by omitting it when protocol_fee > 0, avoiding protocol fee payments and stealing protocol revenue? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3ebffc6e-5f63-4e8c-9e72-2b99c31176b4?mode=deep",
+    "timestamp": "2026-01-09 14:00:01.862897",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Surplus Fee Bypass] Can an attacker manipulate the OrderConfig.fee.surplus_percentage calculation by providing an amount that results in negative or zero surplus, bypassing surplus fee payments? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b933d860-b09e-4e7e-acdb-1310cf13f778?mode=deep",
+    "timestamp": "2026-01-09 14:00:24.621271",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Integrator Fee Manipulation] Can an attacker manipulate the OrderConfig.fee.integrator_fee calculation to pay less than required or overflow the fee calculation to extract protocol value? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2f9ece2e-0b76-461a-9962-e6c823de350c?mode=deep",
+    "timestamp": "2026-01-09 14:00:46.621148",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Protocol Fee Manipulation] Can an attacker manipulate the OrderConfig.fee.protocol_fee calculation by providing extreme amount values that cause the fee to underflow or overflow? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_546338ff-6873-4c5c-9190-1b4bb3082c5b?mode=deep",
+    "timestamp": "2026-01-09 14:01:09.608883",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Missing Taker DST ATA] If taker_dst_ata is optional and not provided, can an attacker cause the MissingTakerDstAta error to be bypassed, receiving surplus or fee distributions they shouldn't receive? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_86fd63ea-8683-4540-ad67-66ca5880d7d3?mode=deep",
+    "timestamp": "2026-01-09 14:01:33.486903",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Missing Maker DST ATA] If maker_dst_ata is optional and not provided, can an attacker cause the MissingMakerDstAta error to be bypassed when dst_asset_is_native is false, losing maker's dst tokens? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ffe497ed-b3a6-42e2-b929-be1c5dbd02e5?mode=deep",
+    "timestamp": "2026-01-09 14:01:57.107898",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [ATA Creation Exploit] Can an attacker exploit the optional maker_dst_ata or taker_dst_ata accounts by causing the associated_token_program to create ATAs with incorrect ownership or mint? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0859f2de-a60b-424a-973b-d4b4b38b59a0?mode=deep",
+    "timestamp": "2026-01-09 14:02:19.710094",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Token Program Mismatch] Can an attacker provide different src_token_program and dst_token_program accounts that aren't the legitimate SPL Token programs, bypassing transfer validations? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_09ed421e-e3f6-4be0-a8cc-8ce4b0d0f403?mode=deep",
+    "timestamp": "2026-01-09 14:02:42.350932",
+    "report_generated": false
   }
 ]
