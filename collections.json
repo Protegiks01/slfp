@@ -3448,5 +3448,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3772848f-0a5f-4c70-8418-9fdc7cfb53b6?mode=deep",
     "timestamp": "2026-01-09 15:45:26.038242",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [WSOL wrapping bypass] Does the script properly handle wrapped SOL (WSOL) token addresses? Can an attacker exploit WSOL/SOL confusion to drain native SOL from escrows? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d091adf2-f01b-4da8-a1e2-e5e4430e329f?mode=deep",
+    "timestamp": "2026-01-09 15:46:36.226602",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Native SOL ATA creation] Can the getAssociatedTokenAddress() calls at lines 46-50, 57-60 fail or produce incorrect addresses for native SOL mints, causing transaction failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3c908f74-f00d-45de-937a-be1ada124383?mode=deep",
+    "timestamp": "2026-01-09 15:46:48.461220",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [ATA initialization race] If takerSrcAta doesn't exist yet, can a race condition allow an attacker to initialize it with incorrect parameters before the fill transaction executes? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9740c751-735c-4b0d-a439-638b1dd93163?mode=deep",
+    "timestamp": "2026-01-09 15:47:00.755758",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [allowOwnerOffCurve bypass] Does the getAssociatedTokenAddress() call with allowOwnerOffCurve=true at lines 46-50 create security risks by allowing PDAs with off-curve public keys? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0807cfef-66da-4cc0-a2e6-9c17ef8a4c03?mode=deep",
+    "timestamp": "2026-01-09 15:47:14.035645",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Missing ATA existence check] Does the script verify that takerSrcAta exists before building the transaction? Can a non-existent ATA cause transaction failure or enable exploits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1ca1d0d0-1151-4240-9444-6a8bcd448805?mode=deep",
+    "timestamp": "2026-01-09 15:47:27.202414",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Null fee account exploit] If orderConfig.fee.protocolDstAcc is null when it should exist, can this cause the on-chain program to skip fee collection or fail in an exploitable way? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_db2edc94-002a-4376-ac04-755b926277c7?mode=deep",
+    "timestamp": "2026-01-09 15:47:41.267379",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fee account ownership] Does the script validate that protocolDstAcc and integratorDstAcc at lines 79-80 are owned by the correct entities, preventing fee redirect attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cce10f21-1ccf-4095-9bef-6a0de19fd859?mode=deep",
+    "timestamp": "2026-01-09 15:47:56.116291",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fee account type mismatch] Can an attacker provide native SOL accounts as fee destinations when token ATAs are expected, causing transaction failures or fund locks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_168e8488-8761-48a4-bb9f-e9b1a6b980a4?mode=deep",
+    "timestamp": "2026-01-09 15:48:12.066510",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Resolver access PDA manipulation] Can the findResolverAccessAddress() call at lines 52-55 be exploited to derive a PDA that bypasses the whitelist check on-chain? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6c89f497-95c0-4caf-af8f-575afac6506a?mode=deep",
+    "timestamp": "2026-01-09 15:48:28.757416",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Resolver key substitution] Can an attacker substitute takerKeypair.publicKey at line 54 with a different key to use someone else's resolver access authorization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3fa1061c-13ab-41ac-926a-13c7ab0a73de?mode=deep",
+    "timestamp": "2026-01-09 15:48:46.449526",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Missing resolver validation] Does the script verify that takerKeypair has valid resolver access before attempting the fill, or does it rely solely on on-chain validation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c6e5161a-899a-469c-9d1a-89e6cf42d6fe?mode=deep",
+    "timestamp": "2026-01-09 15:49:04.446440",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Excessive fill amount] Can a resolver specify an amount at line 120 that exceeds the remaining escrow balance, causing the transaction to fail or enabling partial exploits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e42c601f-781a-44c5-a156-38f0d204b184?mode=deep",
+    "timestamp": "2026-01-09 15:49:23.410771",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Minimum fill bypass] Does the code enforce any minimum fill amount? Can a resolver fill with dust amounts to grief makers by fragmenting their orders? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5728c4fb-7bc4-4bfd-a395-717d1064288c?mode=deep",
+    "timestamp": "2026-01-09 15:49:42.794073",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fill amount precision] Can floating-point precision issues in the amount parameter at line 36 cause rounding errors that enable small-scale fund theft over many fills? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7df11b49-540f-401c-af8c-86e4743547c1?mode=deep",
+    "timestamp": "2026-01-09 15:50:03.152542",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Fake escrow detection] Does the escrow existence check at lines 135-141 verify that the escrow is properly initialized and contains the correct token amount, or just that an account exists? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_150dd2ef-bb72-4a1a-8dd8-5ab6582cecb8?mode=deep",
+    "timestamp": "2026-01-09 15:50:24.398243",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Escrow ATA ownership] Can the getAccount() call at line 141 be satisfied by an ATA that isn't actually owned by the escrow PDA, enabling fake escrow attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6dbb64b6-e69f-40ad-9201-c7ebe6626979?mode=deep",
+    "timestamp": "2026-01-09 15:50:45.532207",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Closed escrow exploitation] Can an attacker fill an order after the escrow has been closed but before the transaction is finalized, causing the on-chain program to error in an exploitable way? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a185a9fb-4daf-412a-9607-9db692d7cc61?mode=deep",
+    "timestamp": "2026-01-09 15:51:07.586036",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Auction timing attack] Can a resolver manipulate transaction timing to fill orders at favorable auction prices by delaying or rushing transaction submission? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a29fa54e-e92c-4b27-b6cb-8f4b8b070e65?mode=deep",
+    "timestamp": "2026-01-09 15:51:30.115406",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Timestamp manipulation] Can the resolver exploit block timestamp variability to get better prices than they should receive based on the intended auction curve? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_57a8d800-c8bf-47f6-bbe9-fbe0aed47a65?mode=deep",
+    "timestamp": "2026-01-09 15:51:51.563744",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Rate bump exploitation] If dutchAuctionData contains extreme rate bump values, can this cause overflow in the on-chain program's rate calculations, leading to incorrect pricing? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7b0a32fd-97fa-4193-9949-c0a8ce68a573?mode=deep",
+    "timestamp": "2026-01-09 15:52:13.298339",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Instruction injection] Can an attacker inject additional instructions into the transaction at line 87 that execute before or after the fill instruction to manipulate state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1577e4ce-df37-42c1-88b0-69e5ec578ec9?mode=deep",
+    "timestamp": "2026-01-09 15:52:33.480709",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Missing compute budget] Does the transaction include sufficient compute budget? Can complex orders cause compute exhaustion, enabling DoS attacks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1b5c3235-1c14-41d2-8418-d8ea42511c45?mode=deep",
+    "timestamp": "2026-01-09 15:52:54.314456",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Priority fee manipulation] Can a malicious resolver manipulate transaction priority fees to ensure their fills are processed before honest resolvers, gaining unfair auction advantages? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_19324d84-a49e-4b43-9c07-0e9bb1628e30?mode=deep",
+    "timestamp": "2026-01-09 15:53:14.564284",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Import validation] [Type confusion] Can type mismatches between the imported FUSION_IDL at line 12 and the actual deployed program cause the script to build invalid transactions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89e2c05c-d32b-4930-9542-b994c81e7944?mode=deep",
+    "timestamp": "2026-01-09 15:53:34.715121",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Import validation] [IDL version mismatch] If the IDL at line 12 is outdated compared to the deployed program, can this cause instruction data serialization errors that enable exploits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01876fcc-3c92-4fd2-814d-91369aa517b2?mode=deep",
+    "timestamp": "2026-01-09 15:53:55.440013",
+    "report_generated": false
   }
 ]
