@@ -1648,5 +1648,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_09ed421e-e3f6-4be0-a8cc-8ce4b0d0f403?mode=deep",
     "timestamp": "2026-01-09 14:02:42.350932",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Taker Source ATA Exploit] Can an attacker provide a taker_src_ata that belongs to a different owner, causing src tokens from escrow to be sent to a victim's account without consuming the attacker's tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5eca6d91-85fb-445c-b59d-59263c879b8b?mode=deep",
+    "timestamp": "2026-01-09 14:03:53.079314",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Maker Receiver Substitution] Can an attacker substitute the maker_receiver account with their own address to redirect dst tokens that should go to the maker, stealing order proceeds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c276b0c2-c0ca-42f2-afb7-e3474c5646fd?mode=deep",
+    "timestamp": "2026-01-09 14:04:05.370304",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Expiration Bypass] Can an attacker fill an expired order by exploiting missing expiration validation, or by manipulating the clock sysvar to make an expired order appear valid? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_51b8c0ec-7886-437e-84fd-90c150c0a514?mode=deep",
+    "timestamp": "2026-01-09 14:04:17.498343",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Rate Calculation Overflow] Can an attacker fill an order at a time when the auction rate bump calculation overflows (start_time + duration + time deltas), causing incorrect dst_amount calculations that result in token theft? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_67785f9e-02d3-4222-b8b0-bd7a3ac443d7?mode=deep",
+    "timestamp": "2026-01-09 14:04:30.802016",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Partial Fill Exploit] Can an attacker partially fill an order with a manipulated amount that causes the remaining escrow balance to be insufficient for future fills, creating permanent order locks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3c313d49-f5f0-46b4-b972-cca2e38fd27e?mode=deep",
+    "timestamp": "2026-01-09 14:04:43.788044",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Amount Underflow] Can an attacker provide amount = 0 to fill an order, bypassing amount validation and causing accounting errors or enabling repeated fills that drain escrow? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_17a59b75-fe37-4abf-b762-206f0881dc51?mode=deep",
+    "timestamp": "2026-01-09 14:04:57.311373",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Amount Manipulation] Can an attacker provide an amount parameter that's greater than the remaining order balance in escrow_src_ata, extracting more tokens than available through insufficient balance checks? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3eabf759-a35a-4378-99b9-e35a870ca479?mode=deep",
+    "timestamp": "2026-01-09 14:05:11.994548",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Resolver Access PDA Forgery] Can an attacker forge a resolver_access PDA with seeds ('resolver_access', attacker_address) from a malicious program that isn't the whitelist program (address: 46r3A...), bypassing access control? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_08a9e892-734b-485f-9b2b-79e0d9a245ce?mode=deep",
+    "timestamp": "2026-01-09 14:05:27.280575",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: fill] [Access Control Bypass] Can an attacker call fill without a valid resolver_access PDA by creating a fake PDA that isn't validated against the whitelist program, allowing unauthorized order filling? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0587f1c8-f609-4bd9-86aa-b5a98e537a63?mode=deep",
+    "timestamp": "2026-01-09 14:05:43.615693",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Associated Token Program Exploit] Can an attacker replace the associated_token_program with a malicious program to create fake ATAs that appear valid but have backdoor access? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_80a2cafe-4d06-4fce-ad4c-1d172f1384ec?mode=deep",
+    "timestamp": "2026-01-09 14:05:59.692625",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [System Program Exploit] Can an attacker replace the system_program account with a malicious program to intercept escrow account creation and manipulate its initialization? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4e33e98e-03be-4018-be46-75f24714ce58?mode=deep",
+    "timestamp": "2026-01-09 14:06:17.330667",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Token Lock Without Transfer] Can an attacker exploit the token transfer from maker_src_ata to escrow_src_ata to create an order without actually locking tokens, leaving escrow underfunded for subsequent fills? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f6167752-035c-4156-acf1-d1bcb91eef32?mode=deep",
+    "timestamp": "2026-01-09 14:06:36.044597",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Order ID Collision] Can an attacker create multiple orders with the same OrderConfig.id from the same maker address, causing order hash collisions that overwrite existing escrows? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1eff2de4-eb9b-4e54-b6b9-be5c18a742ab?mode=deep",
+    "timestamp": "2026-01-09 14:06:55.577866",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Cancellation Auction Duration] Can an attacker set cancellation_auction_duration > expiration_time, causing resolver cancellations to be enabled for longer than the order's lifetime and breaking the intended cancellation mechanics? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_032da9c7-0c2a-4eca-ae43-3f8c61a245cb?mode=deep",
+    "timestamp": "2026-01-09 14:07:15.517617",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Time Delta Overflow] Can an attacker set PointAndTimeDelta.time_delta values that sum to exceed u32::MAX or auction duration, causing timestamp calculations to overflow during fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dc8113be-be10-4c0c-8d99-03a92f36fd56?mode=deep",
+    "timestamp": "2026-01-09 14:07:36.114922",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Rate Bump Monotonicity] Can an attacker craft points_and_time_deltas with non-monotonic rate_bump values, causing rate calculations to decrease over time instead of increase, enabling auction manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_88ae1592-5834-4548-bec8-17af14a48bb8?mode=deep",
+    "timestamp": "2026-01-09 14:07:57.154700",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Points Vector Exploit] Can an attacker provide an empty or excessively large points_and_time_deltas vector in AuctionData, causing DoS through compute unit exhaustion or bypassing auction mechanics? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_92df54ec-5a10-41ff-b950-6f216ae23b59?mode=deep",
+    "timestamp": "2026-01-09 14:08:17.937764",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Initial Rate Bump Overflow] Can an attacker set AuctionData.initial_rate_bump to u16::MAX, causing rate calculations to overflow when multiplied with amounts during fill operations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2ce622bd-42cf-4ff1-ac55-b36191c670d2?mode=deep",
+    "timestamp": "2026-01-09 14:08:39.437570",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Auction Duration Exploit] Can an attacker set AuctionData.duration to 0 or u32::MAX, causing division by zero or timestamp overflow in rate bump calculations during order fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1c1d05f1-f73e-4f8e-99d4-d28e968f83a6?mode=deep",
+    "timestamp": "2026-01-09 14:09:01.221608",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [AuctionData Manipulation] Can an attacker craft AuctionData with start_time in the past or future, causing auction rate calculations to overflow or underflow during fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6bde8728-5f4a-40cb-82fd-2bf28f14bda9?mode=deep",
+    "timestamp": "2026-01-09 14:09:22.069112",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Integrator Fee Consistency] Can an attacker create an order with integrator_fee = 0 but still provide integrator_dst_acc, potentially exploiting the InconsistentIntegratorFeeConfig validation to create malformed orders? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_57030576-5a25-4326-9060-8924bb9a8f71?mode=deep",
+    "timestamp": "2026-01-09 14:09:44.197125",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Fee Account Consistency] Can an attacker create an order with protocol_fee = 0 but still provide protocol_dst_acc, potentially exploiting the InconsistentProtocolFeeConfig validation to create malformed orders? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_37ce7d6a-66a3-4853-8b7e-633180f9ed91?mode=deep",
+    "timestamp": "2026-01-09 14:10:07.086600",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Integrator Fee Theft] Can an attacker provide an integrator_dst_acc they control instead of the legitimate integrator, stealing integrator fees from all fills of their order? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8113c7b7-b397-4dd3-b48a-d891af08d9d9?mode=deep",
+    "timestamp": "2026-01-09 14:10:30.517054",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Protocol Fee Account Validation] Can an attacker provide a protocol_dst_acc that isn't the legitimate protocol treasury, redirecting protocol fees to their own account during order fills? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8570aba3-fb51-4c73-828f-7841ebd6788f?mode=deep",
+    "timestamp": "2026-01-09 14:10:53.104451",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Optional ATA Exploit] Since maker_src_ata is optional, can an attacker create native SOL orders without providing their SOL ATA, causing SOL wrapping to fail and locking native SOL in an inaccessible state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4e5da8bf-8139-4d44-a3fd-006419adc5e6?mode=deep",
+    "timestamp": "2026-01-09 14:11:15.195515",
+    "report_generated": false
   }
 ]
