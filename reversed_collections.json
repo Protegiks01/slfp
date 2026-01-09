@@ -898,5 +898,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e8cfb79c-abba-4c78-a0ab-50bbdf4dd36b?mode=deep",
     "timestamp": "2026-01-09 13:20:57.361108",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Atomic Authority Transfer] If set_authority fails mid-execution, can it leave the whitelist in a state where no authority is set, permanently bricking the protocol? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7b46f59d-a2dd-4eb4-8d41-371fe8112db9?mode=deep",
+    "timestamp": "2026-01-09 13:22:03.151999",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Discriminator Check] Does set_authority validate that whitelist_state has the correct discriminator [246, 118, 44, 60, 71, 37, 201, 55], or can it operate on accounts with forged discriminators? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_228947b3-59c6-43df-bc48-9f73dc398feb?mode=deep",
+    "timestamp": "2026-01-09 13:22:15.218492",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [PDA Validation] Does set_authority verify that whitelist_state is derived from the correct seed ('whitelist_state'), or can an attacker provide a fake state account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e473a711-5716-4afa-8e9d-bd117b4e317f?mode=deep",
+    "timestamp": "2026-01-09 13:22:27.597960",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Whitelist State Corruption] Since whitelist_state is marked writable, can set_authority accidentally corrupt other state fields beyond the authority field during the update? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cf137061-c607-4fe5-b77b-46c3d884e163?mode=deep",
+    "timestamp": "2026-01-09 13:22:41.393977",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [New Authority Validation] Does set_authority validate that new_authority is a valid public key and not a system program or invalid address? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_53ec9225-8fe6-4a11-a6e1-146960d5385a?mode=deep",
+    "timestamp": "2026-01-09 13:22:54.928679",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Authority Rotation DoS] Can the current authority repeatedly call set_authority in rapid succession, causing compute unit exhaustion or preventing other whitelist operations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_03a87138-9142-4d10-b058-27b0c349cb08?mode=deep",
+    "timestamp": "2026-01-09 13:23:09.021328",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Front-Running Attack] Can an attacker monitor the mempool for set_authority transactions and front-run them to set themselves as the new authority before the legitimate transaction executes? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_04581cdf-e718-46f8-b0bc-c4f5e0348d6f?mode=deep",
+    "timestamp": "2026-01-09 13:23:24.349160",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Permanent Authority Loss] If set_authority sets new_authority to an uncontrolled address (e.g., zero address, burn address), does it validate against this, or can the whitelist become permanently unmanageable? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b2e4c4df-7283-4f76-8b4d-356dfe46785f?mode=deep",
+    "timestamp": "2026-01-09 13:23:40.929168",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: set_authority] [Authority Validation Bypass] Does set_authority properly verify that current_authority matches the authority stored in whitelist_state, or can any user become the new authority? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c442a1b2-25f6-4906-8309-cd7b8e89013f?mode=deep",
+    "timestamp": "2026-01-09 13:23:57.903336",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Griefing Attack] Can a malicious authority repeatedly register and deregister resolvers to cause gas exhaustion or disrupt resolver operations through state churn? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_320ea33e-15fa-46a8-a6b5-9b60de9bd954?mode=deep",
+    "timestamp": "2026-01-09 13:24:14.923805",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Account Data Residue] After resolver_access is closed, does any data remain accessible that could leak sensitive information or enable reinitialization attacks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0632ca2d-d0f6-4475-98ec-8e9eac5769b5?mode=deep",
+    "timestamp": "2026-01-09 13:24:33.375270",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Bump Validation] Does deregister verify that the bump field in resolver_access matches the expected bump from PDA derivation, or can an attacker provide an account with an incorrect bump? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4c805e97-1507-4a13-b969-9edb06e90204?mode=deep",
+    "timestamp": "2026-01-09 13:24:51.926981",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [System Program Substitution] Can an attacker provide a fake system program address instead of 11111111111111111111111111111111 to prevent proper account closure? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_485a6f18-2547-46ae-8e28-5141b7fb8f47?mode=deep",
+    "timestamp": "2026-01-09 13:25:11.323649",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Resolver Access Writable] Since resolver_access is marked writable, can an attacker exploit this to corrupt the account data before it's closed, affecting other protocol operations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7649d4bd-cae7-4d96-85b1-89188e8b015e?mode=deep",
+    "timestamp": "2026-01-09 13:25:31.227132",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Authority Writable Exploit] Since authority is marked writable, can an attacker exploit deregister to modify authority account state beyond intended lamport returns? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_19ae4ef2-b3ce-4bbe-a977-5dbe7cd371b0?mode=deep",
+    "timestamp": "2026-01-09 13:25:51.895380",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Whitelist State Validation] Does deregister properly validate that whitelist_state is initialized and matches the expected PDA, or can it operate on a fake state account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cf1a60ae-9e80-4d90-a427-1e4cd4620450?mode=deep",
+    "timestamp": "2026-01-09 13:26:14.290569",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Active Order Check] Does deregister verify that the resolver has no active orders in fusion-swap before removal, or can deregistration strand orders mid-execution? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_949225a6-ceb6-405b-acac-76a22a25c63f?mode=deep",
+    "timestamp": "2026-01-09 13:26:34.427185",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Concurrent Deregistration] If multiple deregister transactions target the same resolver simultaneously, can this cause race conditions or double-spending of lamports? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_63eb63ca-4cf2-48ff-8548-5997454746e0?mode=deep",
+    "timestamp": "2026-01-09 13:26:54.075655",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Lamport Destination] When resolver_access is closed, does the instruction hardcode the lamport recipient as authority, or can an attacker redirect funds to an arbitrary account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8e49b152-6bb9-4100-9ce9-d195a0cf639d?mode=deep",
+    "timestamp": "2026-01-09 13:27:13.713424",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Discriminator Validation] Does deregister check that resolver_access has the correct discriminator [32, 2, 74, 248, 174, 108, 70, 156], or can an attacker provide any account with the correct PDA derivation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3b99f4ba-1375-4533-905a-996dad719452?mode=deep",
+    "timestamp": "2026-01-09 13:27:33.939226",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Account Ownership Check] Does deregister verify that resolver_access is owned by the whitelist program before closing, or can it close accounts owned by other programs? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7364dd0a-bf78-412e-9758-38aeb847fc39?mode=deep",
+    "timestamp": "2026-01-09 13:27:52.384211",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Double Deregistration] Can deregister be called multiple times for the same user after the resolver_access account is closed, enabling lamport theft or state corruption? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c97095ff-6fa4-4189-8e71-96cb30e4fa5f?mode=deep",
+    "timestamp": "2026-01-09 13:28:12.460180",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Non-Existent Resolver] Can an attacker call deregister with a user that was never registered, potentially causing undefined behavior or transaction failures exploitable for DoS? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c751fc9b-5b20-4619-b5ff-0e7db5951037?mode=deep",
+    "timestamp": "2026-01-09 13:28:32.136208",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [PDA Validation] Does deregister verify that the resolver_access account is derived from the correct seeds ('resolver_access' + user), or can an attacker provide a fake PDA? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6d94892b-f552-4c8b-8fc9-b164f70816ef?mode=deep",
+    "timestamp": "2026-01-09 13:28:52.116539",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: deregister] [Resolver Access Deletion] When deregister closes the resolver_access account, are lamports properly returned to the authority, or can they be stolen by providing a malicious destination account? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d927304d-0422-4b79-a82c-54b5bd9dc8a0?mode=deep",
+    "timestamp": "2026-01-09 13:29:12.775208",
+    "report_generated": false
   }
 ]
