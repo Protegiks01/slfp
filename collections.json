@@ -1,1 +1,152 @@
-[]
+[
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Token theft] Can an attacker create an order with src_amount = 1 and min_dst_amount = u64::MAX to cause integer overflow in subsequent get_dst_amount() calculations during fill, potentially allowing token theft through underflow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7aece34c-1749-4fb6-99ca-b9ebcc996147?mode=deep",
+    "timestamp": "2026-01-09 12:04:21.748900",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Validation bypass] The check at line 46 requires src_amount != 0 && min_dst_amount != 0, but does not validate against u64::MAX - can an attacker set these to u64::MAX causing overflow in mul_div operations during fill execution? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4dcaef7-3654-429d-94af-38788e36ac15?mode=deep",
+    "timestamp": "2026-01-09 12:04:33.873356",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Native asset confusion] At lines 51-53, the validation checks if src_mint equals native_mint::id() when src_asset_is_native is false - can an attacker bypass this by providing a fake native mint address that passes equality check but isn't the actual native mint? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4ffef6d1-f914-4723-96b3-15a3cbc49ba7?mode=deep",
+    "timestamp": "2026-01-09 12:04:46.217125",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Expiration manipulation] The expiration check at line 62 uses Clock::get()?.unix_timestamp < order.expiration_time as i64 - can an attacker set expiration_time to u32::MAX (year 2106) to create a permanent order that locks tokens indefinitely? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ac4ddbf5-86bd-4144-b74d-e8a7217757a6?mode=deep",
+    "timestamp": "2026-01-09 12:04:58.893871",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Fee manipulation] At line 67, surplus_percentage is validated <= BASE_1E2 (100), but protocol_fee and integrator_fee have no upper bounds - can an attacker set protocol_fee = u16::MAX (65535) causing the entire dst_amount to be consumed by fees, starving the maker? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9c70922a-26d5-4411-9b16-812045a299d6?mode=deep",
+    "timestamp": "2026-01-09 12:05:11.983137",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Estimated amount attack] Line 72 requires estimated_dst_amount >= min_dst_amount, but there's no upper bound check - can an attacker set estimated_dst_amount = u64::MAX to manipulate surplus fee calculations in get_fee_amounts(), extracting excessive protocol fees? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d1e5fce5-767c-491a-a861-fac52876be60?mode=deep",
+    "timestamp": "2026-01-09 12:05:26.823722",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Configuration inconsistency] Lines 77-81 enforce that protocol_dst_acc must be Some() if protocol_fee > 0 OR surplus_percentage > 0 - can an attacker exploit the OR logic by setting surplus_percentage = 0 and protocol_fee = 0 but protocol_dst_acc = Some(), bypassing fee validation in fill()? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_863a3407-b72c-4bd7-aec9-20dcdf550f03?mode=deep",
+    "timestamp": "2026-01-09 12:05:41.494754",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Configuration inconsistency] Lines 84-87 check integrator fee config, but what happens if integrator_fee = 0 and integrator_dst_acc = Some()? Can this cause the fill() function to attempt transfers to an unnecessary account, wasting compute units or causing transaction failures? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ca9c02c8-ef6b-4f66-b99d-5d18a1aff646?mode=deep",
+    "timestamp": "2026-01-09 12:05:57.304211",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Cancellation premium exploit] At line 90-93, the validation checks if escrow_src_ata.lamports() >= max_cancellation_premium, but escrow_src_ata is initialized at line 476 (init) - can an attacker exploit the timing by front-running to drain lamports before this check, or manipulate rent-exempt minimums? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_15550fcd-756d-4dc4-9897-d32766b71ec2?mode=deep",
+    "timestamp": "2026-01-09 12:06:14.277496",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Native trait confusion] Line 96 checks order.src_asset_is_native == maker_src_ata.is_none(), but this creates a double-negative logic - can an attacker provide contradictory values that pass this check but fail later operations, causing token lock without ability to cancel? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_46f4ce13-fc6d-424c-a674-823f35dcb339?mode=deep",
+    "timestamp": "2026-01-09 12:06:31.335558",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [SOL wrapping attack] In the native transfer branch at lines 101-108, SOL is transferred to escrow_src_ata and sync_native is called - can an attacker exploit the gap between transfer and sync_native to manipulate the wrapped SOL balance through reentrancy or concurrent transactions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3b2f65e0-cd31-4d53-a955-060644dec465?mode=deep",
+    "timestamp": "2026-01-09 12:06:49.703077",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Token program confusion] Lines 103-108 perform native transfer followed by sync_native - if src_token_program is a malicious token program instead of the official SPL Token program, can it manipulate balances during sync_native to inflate escrow holdings? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_93d3685c-f84a-40ab-be82-83713366cc13?mode=deep",
+    "timestamp": "2026-01-09 12:07:07.863521",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [Missing maker_src_ata] At line 122, maker_src_ata.as_ref().ok_or() is used - can an attacker intentionally omit maker_src_ata when src_asset_is_native is false to trigger FusionError::MissingMakerSrcAta after tokens are already transferred, causing order creation to fail but tokens to be locked? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7d1a028f-7c8c-48f6-b70c-ac45c26e9627?mode=deep",
+    "timestamp": "2026-01-09 12:07:27.059500",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [PDA collision] The escrow PDA is derived at lines 446-457 using order_hash which includes order config - can an attacker craft two different orders that hash to the same value by exploiting hashv() collision vulnerabilities, allowing one order to steal another's escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_21555c5d-8f53-4b7e-9a7d-69a984d032c3?mode=deep",
+    "timestamp": "2026-01-09 12:07:45.942550",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: create()] [ATA initialization race] escrow_src_ata is initialized with 'init' at line 470 - can an attacker front-run this transaction and pre-initialize the ATA with a different authority, causing the create() to fail after maker's tokens are already approved/transferred? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0c94b091-be41-4848-a6b0-ed3e7d5da170?mode=deep",
+    "timestamp": "2026-01-09 12:08:05.266980",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Expiration bypass] The expiration check at line 135 uses Clock::get()?.unix_timestamp < order.expiration_time - can an attacker manipulate Clock syscall results through validator collusion or exploit timestamp precision to fill expired orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3052197d-7fea-4e1a-bf44-2eb3dfe34701?mode=deep",
+    "timestamp": "2026-01-09 12:08:25.019183",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Amount validation bypass] Line 140 checks amount <= escrow_src_ata.amount, but doesn't validate amount against order.src_amount - can a resolver fill more than the original order amount by exploiting partial fills from multiple resolvers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5989be8a-1b14-4a54-9080-67eddafdb256?mode=deep",
+    "timestamp": "2026-01-09 12:08:45.077545",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Zero amount DoS] Line 144 checks amount != 0, but what if amount = 1 wei? Can a malicious resolver repeatedly fill orders with amount=1 to grief makers by fragmenting orders and wasting transaction fees? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_08f5a501-8e54-4d18-a36d-3db12d74b075?mode=deep",
+    "timestamp": "2026-01-09 12:09:05.705629",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Order hash collision] Lines 156-163 compute order_hash from order config and accounts - can an attacker provide modified order parameters that hash to an existing order's hash, allowing unauthorized access to someone else's escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_baa4b1e3-4472-4ab9-b771-1556b9faef96?mode=deep",
+    "timestamp": "2026-01-09 12:09:26.779574",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [PDA seed manipulation] The escrow PDA validation at lines 176-179 uses maker.key(), order_hash, and bump - can an attacker provide a malicious 'maker' address that when combined with a crafted order_hash produces the same PDA as a legitimate order, enabling escrow theft? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_65ad500d-0cc2-4d81-9c93-f0b1aa96e203?mode=deep",
+    "timestamp": "2026-01-09 12:09:48.525827",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Transfer authority exploit] Lines 166-184 use transfer_checked with escrow as signer - if the src_token_program is a fake token program, can it bypass the authority check and allow unauthorized transfers from escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c6f40241-dae9-4eef-a958-89201e9d8edc?mode=deep",
+    "timestamp": "2026-01-09 12:10:09.533002",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Arithmetic overflow] At line 186, get_dst_amount() is called with order.src_amount, order.min_dst_amount, amount, and auction data - can an attacker provide extreme values causing mul_div_ceil to overflow, resulting in dst_amount = 0 and free tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7c5117ac-0bd2-475d-be88-575bc23861e1?mode=deep",
+    "timestamp": "2026-01-09 12:10:30.352899",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Fee calculation exploit] Lines 193-199 call get_fee_amounts() with dst_amount and estimated_dst_amount - can a resolver manipulate timing to fill at a point where actual_dst_amount < estimated_dst_amount, avoiding surplus fees and extracting more value? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b9bf4140-9698-492e-b237-f94fab628bd4?mode=deep",
+    "timestamp": "2026-01-09 12:10:50.326235",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Native transfer bypass] Lines 202-208 set up native transfer if dst_asset_is_native is true - can an attacker set dst_asset_is_native = true but provide a dst_mint that isn't native_mint, bypassing token validation and stealing from taker? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9ccbe1b8-d0ba-4489-8d3a-05ae00a1418c?mode=deep",
+    "timestamp": "2026-01-09 12:11:11.088545",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Missing taker_dst_ata] At line 215, taker_dst_ata.as_ref().ok_or() can fail - can this be exploited by a resolver to complete the escrow-to-taker transfer but fail on taker-to-maker transfer, stealing escrowed tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3f6ef922-17e5-46ed-9871-d3d3d5f3bb16?mode=deep",
+    "timestamp": "2026-01-09 12:11:31.690666",
+    "report_generated": false
+  }
+]
