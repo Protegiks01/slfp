@@ -1798,5 +1798,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4e5da8bf-8139-4d44-a3fd-006419adc5e6?mode=deep",
     "timestamp": "2026-01-09 14:11:15.195515",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Maker Receiver Manipulation] Can an attacker set maker_receiver to an arbitrary address they control instead of their own wallet, redirecting all filled order proceeds to the attacker's account? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_02ae8a67-d301-4177-a14f-4da9c1ab22ac?mode=deep",
+    "timestamp": "2026-01-09 14:12:20.190546",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Token Program Substitution] Can an attacker provide a malicious src_token_program that mimics SPL Token but has backdoors, allowing unauthorized token extraction from escrow after order creation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_47f04716-6112-4f99-9ec8-0cb3d732ae94?mode=deep",
+    "timestamp": "2026-01-09 14:12:32.097150",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Destination Asset Confusion] Can an attacker set dst_asset_is_native to true but provide protocol_dst_acc and integrator_dst_acc accounts that don't match SOL's WSOL mint, bypassing fee validations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6368a562-9697-43b3-b389-4e1fb4455685?mode=deep",
+    "timestamp": "2026-01-09 14:12:44.309289",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Native Asset Flag Mismatch] Can an attacker create an order with src_asset_is_native set to true but provide a non-WSOL mint as src_mint, causing inconsistent native asset handling during cancellation or fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d2ba6149-dce4-41e4-a571-bbbb2cebd2f8?mode=deep",
+    "timestamp": "2026-01-09 14:12:57.891529",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Expiration Overflow] Can an attacker set OrderConfig.expiration_time to u32::MAX, creating orders that never expire and lock tokens indefinitely if maker loses access to their account? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4d95672-e2f3-4d77-85e3-216bc2a6eb14?mode=deep",
+    "timestamp": "2026-01-09 14:13:11.140174",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Expiration Time Manipulation] Can an attacker set OrderConfig.expiration_time to 0 or in the past, creating immediately expired orders that lock tokens in escrow without any fill window? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_633a66e0-8096-4684-b65a-6194ec5b8081?mode=deep",
+    "timestamp": "2026-01-09 14:13:24.993416",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Max Cancellation Premium Manipulation] Can an attacker set FeeConfig.max_cancellation_premium to u64::MAX, forcing resolvers to pay exorbitant premiums for cancellation and creating permanent order locks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4427aef1-3c1b-40b6-bc86-f312ff2094b7?mode=deep",
+    "timestamp": "2026-01-09 14:13:39.545810",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Surplus Fee Exploit] Can an attacker set FeeConfig.surplus_percentage > 100 (basis points where BASE_1E2 = 100%), causing the protocol to take more than 100% of surplus during fills, draining resolver profits? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_53fa6455-dccd-4e4d-91bd-c893e32c03c5?mode=deep",
+    "timestamp": "2026-01-09 14:13:55.644470",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Fee Overflow] Can an attacker craft a FeeConfig with protocol_fee + integrator_fee > 100000 basis points (100%), causing fee calculations to overflow and extract more than 100% of order value? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d66745a4-db9f-4802-8556-a404990908fd?mode=deep",
+    "timestamp": "2026-01-09 14:14:11.449617",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Amount Validation Bypass] Can an attacker create an order with min_dst_amount > estimated_dst_amount, causing the InvalidEstimatedTakingAmount error to be bypassable and enabling unfillable orders that lock tokens indefinitely? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4a7882e1-db9d-4e4d-904b-16da2e2d7153?mode=deep",
+    "timestamp": "2026-01-09 14:14:29.326999",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [ATA Creation Exploit] Can an attacker exploit the associated_token_program to create the escrow_src_ata for a different escrow PDA, redirecting token locks to unauthorized accounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e75f4e99-7d93-42ca-b217-9f74006512dc?mode=deep",
+    "timestamp": "2026-01-09 14:14:47.706895",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Escrow Authority Exploit] Can an attacker manipulate the escrow PDA to become the authority for an ATA containing tokens from a different user's order, enabling cross-order token theft? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_984a0f14-3d38-4e1f-bd4a-c774477991d8?mode=deep",
+    "timestamp": "2026-01-09 14:15:05.900084",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [PDA Collision] Can an attacker craft multiple orders with different parameters but the same PDA derivation (escrow seeds: 'escrow', maker, order_hash), causing escrow account collisions that overwrite existing orders and steal locked tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7e33803-f391-4e90-8bf1-d4fa3351b214?mode=deep",
+    "timestamp": "2026-01-09 14:15:25.131486",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: create] [Token Theft] Can an attacker create an order with src_amount set to 0 or u64::MAX, bypassing amount validation to create malicious orders that break protocol invariants or enable token theft during fills? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_806932ae-5154-4334-b383-a5a03a6711e3?mode=deep",
+    "timestamp": "2026-01-09 14:15:44.489292",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [System Program Exploit] Can an attacker replace the system_program account with a malicious program to intercept SOL transfers during premium payments and redirect funds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_410f6dd3-789f-4e78-8bd9-586ae3b20234?mode=deep",
+    "timestamp": "2026-01-09 14:16:04.783203",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Forbidden Cancellation Bypass] Can an attacker bypass the CancelOrderByResolverIsForbidden error check by manipulating the order expiration time or cancellation_auction_duration to cancel orders that should be maker-only cancellable? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1c43ca6a-e4bb-4a53-bde1-59fc417c44ab?mode=deep",
+    "timestamp": "2026-01-09 14:16:24.819766",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [ATA Validation Bypass] Since maker_src_ata is optional, can an attacker cancel native SOL orders without providing the maker's SOL ATA, causing funds to be lost or sent to system program? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7a06e7f7-6b17-4421-a58f-d04c1e3be48f?mode=deep",
+    "timestamp": "2026-01-09 14:16:45.575803",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Time Manipulation] Can an attacker exploit the cancellation_auction_duration field in OrderConfig by setting it to extreme values (0 or u32::MAX) to manipulate premium calculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5aebc893-4d36-40a6-a06a-c093a9170975?mode=deep",
+    "timestamp": "2026-01-09 14:17:07.221835",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [OrderConfig Manipulation] Can an attacker provide a modified OrderConfig struct with altered fee parameters that differ from the original order, causing incorrect fee calculations during cancellation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a97c3b0c-6874-41d5-be5d-b5711496d53e?mode=deep",
+    "timestamp": "2026-01-09 14:17:28.435453",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Resolver Signature Bypass] Can an attacker bypass the resolver signer requirement by exploiting account delegation or proxy patterns to cancel orders without proper resolver authorization? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_67c22000-ed37-42db-8a03-50ef366664ab?mode=deep",
+    "timestamp": "2026-01-09 14:17:49.923796",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Escrow Balance Exploit] Can an attacker cancel an order with escrow_src_ata containing more tokens than the original src_amount, extracting the excess tokens during cancellation without proper accounting? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dc91b9bd-3661-4e85-a044-fd2756e6069d?mode=deep",
+    "timestamp": "2026-01-09 14:18:12.744883",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Native Asset Confusion] Can an attacker provide inconsistent src_mint and dst_mint with the order's src_asset_is_native and dst_asset_is_native flags in OrderConfig to exploit SOL wrapping/unwrapping logic? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_faa6182d-e15f-455f-82aa-a4cb7418f429?mode=deep",
+    "timestamp": "2026-01-09 14:18:37.322220",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Integrator Fee Bypass] Can an attacker craft an OrderConfig with integrator_fee > 0 but omit integrator_dst_acc, bypassing the InconsistentIntegratorFeeConfig error check to steal integrator fees? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_36ede1a6-638f-4926-a1b5-ac25b204f8d7?mode=deep",
+    "timestamp": "2026-01-09 14:18:59.011650",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Fee Config Inconsistency] Can an attacker craft an OrderConfig with protocol_fee > 0 but omit protocol_dst_acc, bypassing the InconsistentProtocolFeeConfig error check to avoid paying protocol fees? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_91763984-79aa-4234-b1ee-7bbf846f20c4?mode=deep",
+    "timestamp": "2026-01-09 14:19:19.397593",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Optional Fee Account Exploit] Can an attacker exploit the optional protocol_dst_acc and integrator_dst_acc accounts by omitting them when they should be present (based on FeeConfig), avoiding fee payments and stealing protocol revenue? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_492743f5-8025-4070-94c6-7280ee69c636?mode=deep",
+    "timestamp": "2026-01-09 14:19:40.340714",
+    "report_generated": false
   }
 ]
