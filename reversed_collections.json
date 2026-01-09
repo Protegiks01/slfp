@@ -2698,5 +2698,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d3dbb14f-1af1-4cec-b622-1b56b540c709?mode=deep",
     "timestamp": "2026-01-09 15:02:53.585099",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [86400 Second Constant] Can the hardcoded 1-day expiration (86400 seconds) be exploited in combination with auction timing to create orders that expire mid-auction, potentially causing failed fills or locked funds? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_96284361-4e13-4c6c-807f-cc8255edda61?mode=deep",
+    "timestamp": "2026-01-09 15:03:56.217750",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Timezone Manipulation] Does the function account for timezone differences, or can an attacker exploit UTC vs local time confusion to manipulate order expiration timing? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7d13300-5a62-4aad-8831-9c1d2362558c?mode=deep",
+    "timestamp": "2026-01-09 15:04:08.050626",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Clock Skew] Can an attacker exploit differences between client timestamp (Date.getTime()) and on-chain clock to create orders with expiration times that differ from expected, enabling timing attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d350c0ce-44a2-4286-8886-2d61cc65d88a?mode=deep",
+    "timestamp": "2026-01-09 15:04:20.413501",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Timestamp Precision] Does the bitwise NOT operator (~~) on line 136 correctly truncate to integer seconds, or can floating-point precision errors cause incorrect expiration times that enable premature or delayed order expiration exploits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_62858534-3148-490b-bf45-723d2af084f5?mode=deep",
+    "timestamp": "2026-01-09 15:04:33.293332",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Zero Initial Rate Bump] Does the zero initialRateBump (line 57) allow orders to start at minimum exchange rate, potentially enabling front-running or auction manipulation attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0f1e5451-b041-4f86-9b0c-039ac6c786ce?mode=deep",
+    "timestamp": "2026-01-09 15:04:46.621073",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Empty Curve] Can orders with empty pointsAndTimeDeltas array use a default rate formula that is exploitable for price manipulation or unfair auction execution? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9fcb0942-0068-49ac-bbc8-8660efd599ce?mode=deep",
+    "timestamp": "2026-01-09 15:05:00.381525",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Duration Exploitation] Can the 32000 second duration combined with far-future start time cause arithmetic overflow in auction end time calculations, potentially breaking auction mechanics? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d0310139-872b-4a33-b83e-34578c347310?mode=deep",
+    "timestamp": "2026-01-09 15:05:15.378312",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Timestamp Overflow] Can the startTime value (0xffffffff - 32000) cause integer overflow when compared against current timestamps in the on-chain program, potentially enabling orders to be filled before auction start? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a83a47cf-dc83-42be-aaab-2ce0ff78c6d5?mode=deep",
+    "timestamp": "2026-01-09 15:05:30.774516",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Far Future Start Time] Can the far-future startTime (0xffffffff - 32000, line 55) be exploited to create orders that never enter the auction phase, potentially locking funds indefinitely in escrow? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7c260065-7b6b-43f7-bca0-a82a32766622?mode=deep",
+    "timestamp": "2026-01-09 15:05:47.098709",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Constant: defaultFeeConfig] [Fee Bypass] If orders use defaultFeeConfig, can they bypass fee validation checks in the on-chain program, allowing zero-fee orders where fees should be mandatory? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2cf0464d-35bf-4db0-b5df-403f3ff057c2?mode=deep",
+    "timestamp": "2026-01-09 15:06:03.914747",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Constant: defaultFeeConfig] [Zero Fee Exploitation] Can an attacker exploit the zero-fee default configuration (lines 47-52) to create orders without paying protocol fees, potentially draining protocol revenue or enabling economic attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f394da06-6155-464e-bd6c-9ec0a35f6c21?mode=deep",
+    "timestamp": "2026-01-09 15:06:21.209477",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Empty Array] Can an attacker provide an empty pointsAndTimeDeltas array that serializes differently than expected, potentially causing hash collisions with orders using default auction curves? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4d004cac-97cd-4b1c-87fa-8a49d197ebdf?mode=deep",
+    "timestamp": "2026-01-09 15:06:39.436764",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Boolean Serialization] Do the boolean flags (srcAssetIsNative, dstAssetIsNative) serialize consistently as single bytes, or can true/false vs 1/0 differences be exploited for hash manipulation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_050d5e58-4943-408d-a162-5b79a19d287a?mode=deep",
+    "timestamp": "2026-01-09 15:06:58.079871",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Struct Nesting] Can the nested struct serialization (fee, dutchAuctionData) be exploited through padding or alignment issues that cause inconsistent byte layouts and hash collisions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_753b455e-88d3-47b8-875a-8145e2ee431e?mode=deep",
+    "timestamp": "2026-01-09 15:07:16.981906",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Array Length Prefix] Does borsh automatically prepend array lengths for pointsAndTimeDeltas, or can an attacker exploit length prefix manipulation to create collisions between arrays of different sizes? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0010a08a-28ca-4457-91b6-96d212db02ab?mode=deep",
+    "timestamp": "2026-01-09 15:07:36.651591",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [BN Serialization] Does the maxCancellationPremium BN value (line 160) serialize correctly through borsh without precision loss or overflow, or can large values cause hash calculation errors? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fe0ba3ec-8fa2-4c17-8a8e-993bf2aaf5ea?mode=deep",
+    "timestamp": "2026-01-09 15:07:57.196802",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Optional Field Handling] Does the schema correctly handle optional fields (protocolDstAcc, integratorDstAcc) using the { option: ... } wrapper (lines 223-224), or can null vs Some(value) serialization differences be exploited for hash manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f7d9a9ff-552c-450c-9248-c03d83ecebb6?mode=deep",
+    "timestamp": "2026-01-09 15:08:18.015570",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Field Order] Does the borsh serialization maintain strict field ordering as defined in the schema, or can field reordering in the values object (lines 148-181) cause different hashes for logically identical orders? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_166bd77a-a91a-4256-b29f-30b6bb71b4c8?mode=deep",
+    "timestamp": "2026-01-09 15:08:39.723088",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Type Coercion] Do the type conversions in the values object (lines 148-181) properly handle edge cases like negative numbers, NaN, or Infinity, or can these cause unexpected serialization behavior leading to hash manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_16afca69-4c51-4e76-a256-243a27c1bafb?mode=deep",
+    "timestamp": "2026-01-09 15:09:00.893684",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Array Serialization] Can the pointsAndTimeDeltas array serialization (lines 166-171, 208-217) be exploited by providing arrays that serialize inconsistently, potentially creating hash collisions for orders with different auction curves? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cdd24a94-6818-4896-9ec3-43639bafda93?mode=deep",
+    "timestamp": "2026-01-09 15:09:22.103586",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Schema Mismatch] Does the orderConfigSchema (lines 186-229) exactly match the on-chain program's order serialization schema, or can schema mismatches cause different hashes to be computed client-side vs on-chain, leading to escrow access failures or manipulation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a7f35178-825c-40e3-a974-3fa8e8fd698c?mode=deep",
+    "timestamp": "2026-01-09 15:09:41.660559",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Buffer Conversion] Can the toBuffer() calls on PublicKeys (lines 176-180) fail or produce unexpected results for invalid addresses, potentially causing hash calculation errors that lead to incorrect escrow derivation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b5f53fc8-2b23-43f4-9341-28e5e89cbf1c?mode=deep",
+    "timestamp": "2026-01-09 15:10:02.113632",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Null Account Handling] Does the hashing logic properly handle null protocolDstAcc and integratorDstAcc (lines 176-177), or can an attacker exploit null vs undefined vs PublicKey.default differences to create hash collisions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7513a1e1-6623-4edf-bdee-76047b57d530?mode=deep",
+    "timestamp": "2026-01-09 15:10:23.513635",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Second Pre-image Attack] Can an attacker find a second OrderConfig that hashes to the same value as a legitimate order, enabling them to hijack the escrow account and steal funds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4baa0988-578e-4721-a21f-d6f1bfc73af5?mode=deep",
+    "timestamp": "2026-01-09 15:10:44.581785",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Pre-image Attack] Is the SHA256 hash function resistant to pre-image attacks where an attacker could find an OrderConfig that hashes to a specific target value, potentially allowing order impersonation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bd995417-f913-48c7-8a0e-c51cdaca9c20?mode=deep",
+    "timestamp": "2026-01-09 15:11:05.631558",
+    "report_generated": false
   }
 ]
