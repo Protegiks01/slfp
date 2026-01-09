@@ -5991,1506 +5991,1506 @@
     "question": "[File: scripts/utils.ts] [Error: Silent Failures] Can errors in PDA derivation, hash calculation, or serialization fail silently without throwing, causing incorrect values to be used in transactions? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a5d094c-8aae-40b1-acca-b99c1f25b5c3?mode=deep",
     "timestamp": "2026-01-09 14:37:10.466466",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Dependency: fs/path/os] Can vulnerabilities in Node.js built-in modules affect keypair file loading or path resolution, enabling path traversal attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b0c73179-ec9c-448c-8ff0-e4c10ad4fc26?mode=deep",
     "timestamp": "2026-01-09 14:38:33.257488",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Dependency: borsh] Can the borsh serialization library have bugs that cause inconsistent serialization between client and on-chain program? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_aee89a74-d4cd-40b3-94b5-4f6768e9e5ef?mode=deep",
     "timestamp": "2026-01-09 14:38:45.523742",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Dependency: @noble/hashes] Can the @noble/hashes library produce incorrect SHA256 hashes due to bugs, causing order hash mismatches with on-chain calculations? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f488d897-caba-4671-b723-f91e09d06935?mode=deep",
     "timestamp": "2026-01-09 14:38:57.831523",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Dependency: @solana/spl-token] Can vulnerabilities in the SPL token library affect mint account fetching or decimal parsing, causing incorrect amount calculations? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0e35f02d-ad80-4fe9-af38-4ba19f560a1b?mode=deep",
     "timestamp": "2026-01-09 14:39:10.569494",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Dependency: @coral-xyz/anchor] Can the Anchor framework's utility functions (anchor.utils.bytes.utf8.encode) have bugs that affect seed generation for PDAs? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_31e3cb8a-1ad8-427e-9ef3-637ceae66847?mode=deep",
     "timestamp": "2026-01-09 14:39:24.353664",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Dependency: @solana/web3.js] Can vulnerabilities in the Solana web3.js library affect PDA derivation or PublicKey operations, enabling attacks on escrow addresses? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_27ba5db1-39fa-49ab-a240-3bfe30b214e0?mode=deep",
     "timestamp": "2026-01-09 14:39:38.137163",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Time Delta Sequence] Can pointsAndTimeDeltas have non-monotonic or negative timeDelta values that break auction curve calculations? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c0e25220-3e3f-497a-b2c2-88a4022ee358?mode=deep",
     "timestamp": "2026-01-09 14:39:54.356033",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Rate Bump Overflow] Can initialRateBump and rateBump values in pointsAndTimeDeltas cause rate calculations to overflow during auction execution? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0f012b5b-0dd6-4b1c-b5b1-da125478a5ad?mode=deep",
     "timestamp": "2026-01-09 14:40:10.019860",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Duration Bounds] Can auction duration be zero or extremely large, and does this break auction pricing calculations on-chain? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0bd4b4be-ccd0-42c2-a7b4-bb9f58931ea9?mode=deep",
     "timestamp": "2026-01-09 14:40:26.599776",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Fee Percentage] Can fee percentages (protocolFee, integratorFee, surplusPercentage) sum to >100%, causing incorrect fee distribution that drains orders? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_910f669b-f258-40d9-b321-c62d7650f6bd?mode=deep",
     "timestamp": "2026-01-09 14:40:43.934486",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Time Ordering] Can auction startTime be after expirationTime, and does this create orders that can never be validly filled? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b1101b67-a033-48ba-b639-46dc44481bf7?mode=deep",
     "timestamp": "2026-01-09 14:41:02.079003",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Field Consistency] Can inconsistent fields (e.g., minDstAmount > estimatedDstAmount) pass through hash calculation and create economically irrational orders exploitable by resolvers? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_11f6beec-d629-401a-b420-541c7661872b?mode=deep",
     "timestamp": "2026-01-09 14:41:20.738534",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Max Values] Can maximum u64/u32/u16 values cause overflow in subsequent on-chain calculations even if they serialize correctly in the hash? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01452481-1283-4d09-accd-00e900150bf4?mode=deep",
     "timestamp": "2026-01-09 14:41:40.616301",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Zero Values] Can zero values for critical fields (srcAmount, minDstAmount) pass through calculateOrderHash and create invalid orders that can't be filled? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_78397d29-1c85-4e8b-b0c8-8ad1782362ce?mode=deep",
     "timestamp": "2026-01-09 14:42:00.480347",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: Negative Values] Can negative values be passed for amounts, fees, or time parameters, and do they get serialized as large unsigned integers due to two's complement representation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dd038e6f-afcb-467b-9b8e-e885f876dd99?mode=deep",
     "timestamp": "2026-01-09 14:42:20.940823",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Validation: PublicKey Format] Do functions accepting PublicKey parameters validate they are well-formed base58 addresses, or can malformed addresses cause unexpected PDA derivation? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_075cf810-89f0-4a3e-9383-f190128f02eb?mode=deep",
     "timestamp": "2026-01-09 14:42:42.156460",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Race: Configuration Changes] Can order configuration be modified between hash calculation and on-chain submission, causing the submitted order to have a different hash than expected? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e885b30-0b9c-4739-9725-3e6069843ca7?mode=deep",
     "timestamp": "2026-01-09 14:43:03.209686",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Race: Parallel Hash Calculation] If multiple clients calculate the same order hash simultaneously, can race conditions in escrow creation cause only one to succeed while others fail with DoS? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0d27df4b-3ba9-413a-a15d-c4eaafea2ffd?mode=deep",
     "timestamp": "2026-01-09 14:43:25.316213",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Replay: PDA Reuse] After an escrow account is closed, can the same PDA be derived again for a new order, potentially accessing leftover lamports or account data? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ded6ad93-0067-4086-b9fb-0c6b221eba10?mode=deep",
     "timestamp": "2026-01-09 14:43:48.286801",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Replay: Order Hash] Can an attacker replay an order hash from a previous order after it's been filled or cancelled to re-access the same escrow PDA and steal residual funds? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_40440893-8553-4b88-a892-624af3f69b66?mode=deep",
     "timestamp": "2026-01-09 14:44:10.946735",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Memory: File Size] Does loadKeypairFromFile limit the file size being read, or can an attacker cause DoS by pointing to extremely large files? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_373f0f4d-7398-41f4-8e48-dfaf4f7d48fd?mode=deep",
     "timestamp": "2026-01-09 14:44:33.917693",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Memory: String Manipulation] Can the regex matching and array operations (lines 96-99) be exploited with very long hex strings to cause performance degradation or DoS? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_30e316fc-4ab7-4b6c-839a-838832ade17b?mode=deep",
     "timestamp": "2026-01-09 14:44:57.355769",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Memory: Buffer Allocation] Does the Buffer.from conversion (line 99) for orderHash validate buffer size, or can enormous strings cause out-of-memory errors? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_93c3a193-b78d-4e60-9df3-a05511912ef5?mode=deep",
     "timestamp": "2026-01-09 14:45:20.588759",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Memory: Large Arrays] Can an attacker create orders with extremely large pointsAndTimeDeltas arrays that cause memory exhaustion during serialization and hash calculation? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_36f99cc9-be03-4331-83a5-25fb8c425693?mode=deep",
     "timestamp": "2026-01-09 14:45:44.731554",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Crypto: Side Channel] Can timing differences in the SHA256 computation leak information about order configurations that enables targeted collision attacks? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7cfa2445-0f45-492e-b97b-2118ec82e3cf?mode=deep",
     "timestamp": "2026-01-09 14:46:07.995592",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Crypto: Weak Randomness] Do any parts of the order configuration use weak randomness sources that could make hash values predictable or allow collision attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed39de22-3f55-4ede-aba4-1e3063b253d2?mode=deep",
     "timestamp": "2026-01-09 14:47:18.137078",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Crypto: Hash Malleability] Can the order configuration be modified in ways that don't change semantic meaning but produce different hashes, enabling replay or substitution attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_42b76dd7-1bc2-429a-a7e9-c3624df05677?mode=deep",
     "timestamp": "2026-01-09 14:47:30.463332",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Crypto: Precomputed Hashes] Can an attacker precompute order hashes for specific target PDAs to create escrow collisions by finding orders that hash to controlled values? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_80e79195-6d9f-426c-853f-a5bc9eec508b?mode=deep",
     "timestamp": "2026-01-09 14:47:43.254047",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Crypto: Hash Length] Does the SHA256 output always produce 32 bytes, and is this validated before using it in PDA derivation to prevent truncated hash exploits? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_75cf50b2-d2cc-4b45-8b03-fdf5b5fdaafd?mode=deep",
     "timestamp": "2026-01-09 14:47:56.196653",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Crypto: sha256] Does the SHA256 implementation from @noble/hashes (line 7, 183) match the on-chain SHA256, or can implementation differences cause hash mismatches? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e18cecc5-a62d-42e6-b081-b2fc4b7143da?mode=deep",
     "timestamp": "2026-01-09 14:48:09.593420",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: Recursive Types] If the schema contains recursive or circular type references, can this cause infinite serialization loops or stack overflow? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c8da0f14-7585-4796-903e-b2f7421392b8?mode=deep",
     "timestamp": "2026-01-09 14:48:23.679928",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: Vec<T>] Does the array serialization prepend the correct length prefix in little-endian u32 format, and can length prefix manipulation cause deserialization attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9250000a-067f-4c4e-8342-73066605aa04?mode=deep",
     "timestamp": "2026-01-09 14:48:38.508648",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: Option<T>] Does the option type wrapper correctly encode null as None and non-null as Some(value), or can encoding differences be exploited for hash manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_264e4508-ed01-49a8-8360-70b10aa2603b?mode=deep",
     "timestamp": "2026-01-09 14:48:54.423735",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: Padding] Does borsh add padding bytes for struct alignment, and can an attacker exploit padding differences to create hash collisions? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_461e21c5-23ae-4505-8c1f-80fd51887a6e?mode=deep",
     "timestamp": "2026-01-09 14:49:11.756449",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: String Encoding] Are all string fields (like 'escrow', 'resolver_access') consistently UTF-8 encoded, or can encoding differences cause PDA derivation mismatches? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e900864b-92a6-46f7-8612-e3a6a408940c?mode=deep",
     "timestamp": "2026-01-09 14:49:29.228209",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: Enum Handling] If the schema includes enums (not visible in current types), can enum discriminant differences cause serialization mismatches? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_da0f7c17-9567-43f7-8df8-2a9caf9a34a7?mode=deep",
     "timestamp": "2026-01-09 14:49:46.736553",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: Version Compatibility] Does the borsh library version match the on-chain program's borsh version, or can version mismatches cause serialization differences and hash collisions? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_df389dfe-3920-4c4a-a199-c02982209dbc?mode=deep",
     "timestamp": "2026-01-09 14:50:05.918900",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Borsh: borsh.serialize] Can the borsh.serialize call (line 183) throw exceptions for malformed data that aren't caught, causing DoS when creating orders? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7249727-2416-42cc-bf77-cefa486c8f17?mode=deep",
     "timestamp": "2026-01-09 14:50:25.889355",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Integration: loadKeypairFromFile + findResolverAccessAddress] Can a compromised keypair file be used to derive resolver access PDAs that grant unauthorized filling privileges? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6597147d-b73b-4d9a-a9ae-855736ceebaa?mode=deep",
     "timestamp": "2026-01-09 14:50:45.897935",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Integration: defaultAuctionData + calculateOrderHash] Can the default auction parameters in combination with hash calculation create orders with auction configurations that are exploitable for price manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_35f497e1-377a-40a5-9e51-383220a9f8e5?mode=deep",
     "timestamp": "2026-01-09 14:51:06.646937",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Integration: defaultExpirationTime + calculateOrderHash] Can timestamp discrepancies between client and on-chain clocks cause orders to have expiration times in the hash that don't match on-chain validation, enabling expiration bypass? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_975e35ef-4432-47da-99e6-5622dfebe1e9?mode=deep",
     "timestamp": "2026-01-09 14:51:27.758018",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Integration: getTokenDecimals + calculateOrderHash] Can incorrect token decimals cause amount fields in the order hash to be calculated incorrectly, leading to orders that can't be filled or have wrong exchange rates? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cfe59019-d576-40b1-ad7e-a2c076cd4729?mode=deep",
     "timestamp": "2026-01-09 14:51:48.656131",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Integration: calculateOrderHash + findEscrowAddress] Can an attacker exploit inconsistencies between the order hash calculation and escrow PDA derivation to create orders where the hash doesn't match the escrow account, enabling fund theft? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ad4d3237-51e6-4222-a653-52f681d8a877?mode=deep",
     "timestamp": "2026-01-09 14:52:10.857586",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Schema: orderConfigSchema] [Nested Struct Alignment] Can the nested struct definitions (fee, dutchAuctionData) cause byte alignment issues that lead to different serialization between client and on-chain program? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c2552e5c-a468-4875-99ad-8b900252b238?mode=deep",
     "timestamp": "2026-01-09 14:52:32.445953",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Schema: orderConfigSchema] [Fixed-Length Arrays] Do the fixed-length u8 arrays for public keys (len: 32, lines 223-227) properly validate input length, or can shorter/longer inputs cause serialization errors? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4a7a0855-2845-48b0-9e95-fa9d7f3ea336?mode=deep",
     "timestamp": "2026-01-09 14:52:54.631090",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Schema: orderConfigSchema] [Array Type Safety] Does the array type definition for pointsAndTimeDeltas (lines 208-217) enforce maximum array length, or can unbounded arrays cause excessive gas costs or memory issues? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_00944229-9c50-4837-abb4-001a790b691f?mode=deep",
     "timestamp": "2026-01-09 14:53:17.716107",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Schema: orderConfigSchema] [u8 Range] Can the u8 surplusPercentage field (line 199) be set to values that cause percentage calculations to overflow or produce incorrect fee distributions? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_033fe65e-5919-4f7a-bd63-4bef4945f62e?mode=deep",
     "timestamp": "2026-01-09 14:53:40.750673",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Schema: orderConfigSchema] [u16 Limits] Can u16 fields (protocolFee, integratorFee, initialRateBump, rateBump, timeDelta) be exploited with max values (65535) to cause fee calculation overflows or auction manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eaa680a3-f9ac-4d8d-88ca-a4c00cb9c5f5?mode=deep",
     "timestamp": "2026-01-09 14:54:03.731816",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Schema: orderConfigSchema] [u32 Range] Can u32 fields (id, expirationTime, startTime, duration, cancellationAuctionDuration) overflow if provided with values > 2^32-1, causing wraparound in hash calculation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7226c2d7-13cf-47ed-92f6-99205d48ecba?mode=deep",
     "timestamp": "2026-01-09 14:54:26.457815",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Schema: orderConfigSchema] [u64 Overflow] Can the u64 type definitions for srcAmount, minDstAmount, estimatedDstAmount (lines 189-191) overflow when converting from BN, causing incorrect serialization? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_157c4c04-c938-4d86-ab8e-9679ccd9ba98?mode=deep",
     "timestamp": "2026-01-09 14:54:48.598685",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Type: AuctionData] [Type Safety] Does the AuctionData type (lines 42-45) enforce constraints on startTime, duration, and pointsAndTimeDeltas, or can type-unsafe values cause auction manipulation? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0fdf73a1-cff9-48c7-8bdf-2b8d40338927?mode=deep",
     "timestamp": "2026-01-09 14:55:52.123622",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Type: Escrow] [Type Extraction] If the Escrow type extracted from IDL (lines 39-40) doesn't match the actual on-chain account structure, can this cause deserialization errors that enable account manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5bb7e607-c916-428b-bdf3-a9a97494047f?mode=deep",
     "timestamp": "2026-01-09 14:56:04.095504",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Type: ReducedFeeConfig] [Type Inference] Can the type inference from IDL (lines 18-21) produce different types than expected, causing serialization mismatches between client and on-chain program? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a5ebf9ab-c8ca-424d-976e-49099d42f72e?mode=deep",
     "timestamp": "2026-01-09 14:56:16.414080",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Type: ReducedOrderConfig] [IDL Mismatch] If the IDL changes but the type extraction (lines 12-16) isn't updated, can this cause type mismatches that lead to incorrect order hash calculation or serialization errors? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fdf70648-9350-4278-a468-106c2e1e7187?mode=deep",
     "timestamp": "2026-01-09 14:56:29.152819",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Type: FeeConfig] [Null vs Undefined] Does the type system distinguish between null and undefined for protocolDstAcc/integratorDstAcc, and can this distinction be exploited to bypass fee distribution or create hash collisions? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7ef5ffc3-7d1a-4aa4-b787-49736ceaadfc?mode=deep",
     "timestamp": "2026-01-09 14:56:42.335972",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Type: OrderConfig] [Field Addition] Can an attacker add extra fields to OrderConfig beyond those in the type definition, and do these extra fields affect the order hash calculation or on-chain validation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1ac34fb9-db16-45d7-83b4-cc1084d3f74d?mode=deep",
     "timestamp": "2026-01-09 14:56:56.264521",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Decimal Range] Does the function validate that decimals are within the valid SPL token range (0-255), or can out-of-range values cause arithmetic errors in amount calculations? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_94e4688e-0ee9-4775-bc0d-d24bd275be76?mode=deep",
     "timestamp": "2026-01-09 14:57:12.286670",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Cache Poisoning] If decimal values are cached, can an attacker poison the cache with incorrect values, affecting multiple orders? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cf9aeebf-7203-4e36-be5b-9f71f2763f8d?mode=deep",
     "timestamp": "2026-01-09 14:57:28.378817",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Race Condition] Can the mint decimals be modified on-chain between fetching and using them, causing calculation inconsistencies in order creation or filling? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_095f5084-21c7-4137-a136-2ff0ac6e3076?mode=deep",
     "timestamp": "2026-01-09 14:57:44.861164",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Mint Validation] Does the function verify that the mint address corresponds to a valid SPL token program mint, or can an attacker pass arbitrary account addresses that return unexpected decimal values? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f8a781c8-1d40-439c-b9d5-e49ad01651e3?mode=deep",
     "timestamp": "2026-01-09 14:58:02.544701",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [RPC Manipulation] Can an attacker exploit a compromised or malicious RPC endpoint to return fake decimal values, causing incorrect amount calculations and potential fund loss? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3895f738-9e9e-4eec-90ea-737e3e166c6e?mode=deep",
     "timestamp": "2026-01-09 14:58:19.692630",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Invalid Secret Key] Does Keypair.fromSecretKey validate that the secret key is cryptographically valid, or can malformed keys cause unexpected behavior or security vulnerabilities? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a27aa145-710c-4f1f-90a5-b365093537df?mode=deep",
     "timestamp": "2026-01-09 14:58:38.066275",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Buffer Overflow] Can the Uint8Array.from conversion (line 81) overflow if the JSON array contains values outside 0-255 range, potentially causing memory corruption? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_70b4bbd1-82fc-4598-9acf-1118dd9229a5?mode=deep",
     "timestamp": "2026-01-09 14:58:57.926853",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Error Information Leak] Does the error message on lines 84-86 leak sensitive information about file paths or system structure that could aid reconnaissance for further attacks? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5cef25a4-1430-4f97-ba02-347494ccc588?mode=deep",
     "timestamp": "2026-01-09 14:59:18.517272",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Array Length] Does the function validate the length of the secret key array after JSON parsing, or can truncated or oversized arrays cause keypair generation failures or security issues? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5c35f1f1-7b01-494f-8f16-497942dc5cff?mode=deep",
     "timestamp": "2026-01-09 14:59:38.311709",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [JSON Injection] Can maliciously crafted JSON in the keypair file exploit the JSON.parse call (line 79) to cause prototype pollution or code execution? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed086124-e585-462b-93db-a1acea40d274?mode=deep",
     "timestamp": "2026-01-09 14:59:58.424187",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Race Condition] Can an attacker replace the keypair file between the readFileSync call (line 78) and its use, enabling private key substitution attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7f4a478-748b-4f3c-ae96-4f2950127721?mode=deep",
     "timestamp": "2026-01-09 15:00:19.461047",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Homedir Expansion] Can the tilde expansion (lines 73-75) be exploited to access other users' home directories on multi-user systems, potentially stealing keypairs? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_17dd42ac-e922-4c5e-8ad9-1303f91231bb?mode=deep",
     "timestamp": "2026-01-09 15:00:39.824753",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Symlink Attack] Can an attacker use symbolic links to make filePath point to a different file than intended, allowing unauthorized keypair access or replacement? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9c68aa32-644b-40e1-ba21-3f550f3d0309?mode=deep",
     "timestamp": "2026-01-09 15:01:00.888229",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Path Traversal] Can an attacker exploit the path resolution logic (lines 73-75) to read keypair files from arbitrary filesystem locations using ../ sequences, potentially stealing private keys? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0eab9996-54d9-41a9-b00e-d33a4d346266?mode=deep",
     "timestamp": "2026-01-09 15:01:22.104369",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getClusterUrlEnv()] [Empty String] Can an empty but defined CLUSTER_URL environment variable bypass the null check (line 141) and cause connection failures or unexpected behavior? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9d5f9f24-6251-4a61-aa20-331e06e0eb84?mode=deep",
     "timestamp": "2026-01-09 15:01:42.034295",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getClusterUrlEnv()] [Missing Validation] Does the function validate that the cluster URL is a valid and trusted endpoint, or can arbitrary URLs be used to redirect transactions to attacker-controlled nodes? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b6befd91-f8aa-469a-b273-6f000ebd15e4?mode=deep",
     "timestamp": "2026-01-09 15:02:01.313476",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: getClusterUrlEnv()] [Injection Attack] Can an attacker manipulate the CLUSTER_URL environment variable to point to a malicious RPC endpoint, enabling man-in-the-middle attacks or fake transaction confirmations? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d553afeb-29b4-449c-b94b-058ee171a609?mode=deep",
     "timestamp": "2026-01-09 15:02:19.901160",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Past Expiration] Does the function prevent accidentally creating orders with past expiration times if system clock is incorrect, or can this cause immediate order expiration and DoS? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_30aabb55-b30e-4bed-a746-631ff1952f10?mode=deep",
     "timestamp": "2026-01-09 15:02:37.484616",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Overflow] Can the addition (~~(new Date().getTime() / 1000) + 86400) overflow u32 for timestamps far in the future, causing expiration wraparound and allowing orders to be valid indefinitely? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d3dbb14f-1af1-4cec-b622-1b56b540c709?mode=deep",
     "timestamp": "2026-01-09 15:02:53.585099",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [86400 Second Constant] Can the hardcoded 1-day expiration (86400 seconds) be exploited in combination with auction timing to create orders that expire mid-auction, potentially causing failed fills or locked funds? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_96284361-4e13-4c6c-807f-cc8255edda61?mode=deep",
     "timestamp": "2026-01-09 15:03:56.217750",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Timezone Manipulation] Does the function account for timezone differences, or can an attacker exploit UTC vs local time confusion to manipulate order expiration timing? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7d13300-5a62-4aad-8831-9c1d2362558c?mode=deep",
     "timestamp": "2026-01-09 15:04:08.050626",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Clock Skew] Can an attacker exploit differences between client timestamp (Date.getTime()) and on-chain clock to create orders with expiration times that differ from expected, enabling timing attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d350c0ce-44a2-4286-8886-2d61cc65d88a?mode=deep",
     "timestamp": "2026-01-09 15:04:20.413501",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Timestamp Precision] Does the bitwise NOT operator (~~) on line 136 correctly truncate to integer seconds, or can floating-point precision errors cause incorrect expiration times that enable premature or delayed order expiration exploits? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_62858534-3148-490b-bf45-723d2af084f5?mode=deep",
     "timestamp": "2026-01-09 15:04:33.293332",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Zero Initial Rate Bump] Does the zero initialRateBump (line 57) allow orders to start at minimum exchange rate, potentially enabling front-running or auction manipulation attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0f1e5451-b041-4f86-9b0c-039ac6c786ce?mode=deep",
     "timestamp": "2026-01-09 15:04:46.621073",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Empty Curve] Can orders with empty pointsAndTimeDeltas array use a default rate formula that is exploitable for price manipulation or unfair auction execution? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9fcb0942-0068-49ac-bbc8-8660efd599ce?mode=deep",
     "timestamp": "2026-01-09 15:05:00.381525",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Duration Exploitation] Can the 32000 second duration combined with far-future start time cause arithmetic overflow in auction end time calculations, potentially breaking auction mechanics? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d0310139-872b-4a33-b83e-34578c347310?mode=deep",
     "timestamp": "2026-01-09 15:05:15.378312",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Timestamp Overflow] Can the startTime value (0xffffffff - 32000) cause integer overflow when compared against current timestamps in the on-chain program, potentially enabling orders to be filled before auction start? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a83a47cf-dc83-42be-aaab-2ce0ff78c6d5?mode=deep",
     "timestamp": "2026-01-09 15:05:30.774516",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Constant: defaultAuctionData] [Far Future Start Time] Can the far-future startTime (0xffffffff - 32000, line 55) be exploited to create orders that never enter the auction phase, potentially locking funds indefinitely in escrow? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7c260065-7b6b-43f7-bca0-a82a32766622?mode=deep",
     "timestamp": "2026-01-09 15:05:47.098709",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Constant: defaultFeeConfig] [Fee Bypass] If orders use defaultFeeConfig, can they bypass fee validation checks in the on-chain program, allowing zero-fee orders where fees should be mandatory? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2cf0464d-35bf-4db0-b5df-403f3ff057c2?mode=deep",
     "timestamp": "2026-01-09 15:06:03.914747",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Constant: defaultFeeConfig] [Zero Fee Exploitation] Can an attacker exploit the zero-fee default configuration (lines 47-52) to create orders without paying protocol fees, potentially draining protocol revenue or enabling economic attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f394da06-6155-464e-bd6c-9ec0a35f6c21?mode=deep",
     "timestamp": "2026-01-09 15:06:21.209477",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Empty Array] Can an attacker provide an empty pointsAndTimeDeltas array that serializes differently than expected, potentially causing hash collisions with orders using default auction curves? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4d004cac-97cd-4b1c-87fa-8a49d197ebdf?mode=deep",
     "timestamp": "2026-01-09 15:06:39.436764",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Boolean Serialization] Do the boolean flags (srcAssetIsNative, dstAssetIsNative) serialize consistently as single bytes, or can true/false vs 1/0 differences be exploited for hash manipulation? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_050d5e58-4943-408d-a162-5b79a19d287a?mode=deep",
     "timestamp": "2026-01-09 15:06:58.079871",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Struct Nesting] Can the nested struct serialization (fee, dutchAuctionData) be exploited through padding or alignment issues that cause inconsistent byte layouts and hash collisions? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_753b455e-88d3-47b8-875a-8145e2ee431e?mode=deep",
     "timestamp": "2026-01-09 15:07:16.981906",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Array Length Prefix] Does borsh automatically prepend array lengths for pointsAndTimeDeltas, or can an attacker exploit length prefix manipulation to create collisions between arrays of different sizes? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0010a08a-28ca-4457-91b6-96d212db02ab?mode=deep",
     "timestamp": "2026-01-09 15:07:36.651591",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [BN Serialization] Does the maxCancellationPremium BN value (line 160) serialize correctly through borsh without precision loss or overflow, or can large values cause hash calculation errors? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fe0ba3ec-8fa2-4c17-8a8e-993bf2aaf5ea?mode=deep",
     "timestamp": "2026-01-09 15:07:57.196802",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Optional Field Handling] Does the schema correctly handle optional fields (protocolDstAcc, integratorDstAcc) using the { option: ... } wrapper (lines 223-224), or can null vs Some(value) serialization differences be exploited for hash manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f7d9a9ff-552c-450c-9248-c03d83ecebb6?mode=deep",
     "timestamp": "2026-01-09 15:08:18.015570",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Field Order] Does the borsh serialization maintain strict field ordering as defined in the schema, or can field reordering in the values object (lines 148-181) cause different hashes for logically identical orders? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_166bd77a-a91a-4256-b29f-30b6bb71b4c8?mode=deep",
     "timestamp": "2026-01-09 15:08:39.723088",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Type Coercion] Do the type conversions in the values object (lines 148-181) properly handle edge cases like negative numbers, NaN, or Infinity, or can these cause unexpected serialization behavior leading to hash manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_16afca69-4c51-4e76-a256-243a27c1bafb?mode=deep",
     "timestamp": "2026-01-09 15:09:00.893684",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Array Serialization] Can the pointsAndTimeDeltas array serialization (lines 166-171, 208-217) be exploited by providing arrays that serialize inconsistently, potentially creating hash collisions for orders with different auction curves? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cdd24a94-6818-4896-9ec3-43639bafda93?mode=deep",
     "timestamp": "2026-01-09 15:09:22.103586",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Schema Mismatch] Does the orderConfigSchema (lines 186-229) exactly match the on-chain program's order serialization schema, or can schema mismatches cause different hashes to be computed client-side vs on-chain, leading to escrow access failures or manipulation? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a7f35178-825c-40e3-a974-3fa8e8fd698c?mode=deep",
     "timestamp": "2026-01-09 15:09:41.660559",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Buffer Conversion] Can the toBuffer() calls on PublicKeys (lines 176-180) fail or produce unexpected results for invalid addresses, potentially causing hash calculation errors that lead to incorrect escrow derivation? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b5f53fc8-2b23-43f4-9341-28e5e89cbf1c?mode=deep",
     "timestamp": "2026-01-09 15:10:02.113632",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Null Account Handling] Does the hashing logic properly handle null protocolDstAcc and integratorDstAcc (lines 176-177), or can an attacker exploit null vs undefined vs PublicKey.default differences to create hash collisions? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7513a1e1-6623-4edf-bdee-76047b57d530?mode=deep",
     "timestamp": "2026-01-09 15:10:23.513635",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Second Pre-image Attack] Can an attacker find a second OrderConfig that hashes to the same value as a legitimate order, enabling them to hijack the escrow account and steal funds? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4baa0988-578e-4721-a21f-d6f1bfc73af5?mode=deep",
     "timestamp": "2026-01-09 15:10:44.581785",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Pre-image Attack] Is the SHA256 hash function resistant to pre-image attacks where an attacker could find an OrderConfig that hashes to a specific target value, potentially allowing order impersonation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bd995417-f913-48c7-8a0e-c51cdaca9c20?mode=deep",
     "timestamp": "2026-01-09 15:11:05.631558",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Hash Collision] Can an attacker craft two different OrderConfig objects that serialize to the same bytes due to the borsh serialization schema, producing identical order hashes and enabling escrow collision attacks? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d1a4c554-3f44-47a5-ba31-f4e9874ec2b4?mode=deep",
     "timestamp": "2026-01-09 15:12:18.356979",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Precision Loss] Do the toNumber() conversions lose precision for amounts exceeding JavaScript's MAX_SAFE_INTEGER (2^53-1), allowing an attacker to create orders with amounts like 9007199254740992 and 9007199254740993 that hash to the same value? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_92f6ffd5-8d27-42b9-b7ab-cae16146ca29?mode=deep",
     "timestamp": "2026-01-09 15:12:30.196259",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: calculateOrderHash()] [Integer Overflow] Can the BN.toNumber() conversions on lines 150-152 overflow for large token amounts (srcAmount, minDstAmount, estimatedDstAmount), causing truncated values to be hashed and creating hash collisions for different orders? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5d767bff-f572-4b77-8949-7c3403eb3533?mode=deep",
     "timestamp": "2026-01-09 15:12:42.517706",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findWhitelistStateAddress()] [Cross-Program PDA Reuse] Can the whitelist state PDA collide with PDAs from other protocols using the same seed string, potentially allowing cross-protocol attacks or state confusion? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f727ad8c-d60a-4aa6-bbd6-a48a3914c1a3?mode=deep",
     "timestamp": "2026-01-09 15:12:56.053330",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findWhitelistStateAddress()] [Program ID Validation] Does the function validate that programId is the correct whitelist program, or can an attacker pass a malicious program ID to derive a fake whitelist state PDA and bypass access controls? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ef7a0237-d22f-4331-a634-9795e6b16599?mode=deep",
     "timestamp": "2026-01-09 15:13:09.301108",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findWhitelistStateAddress()] [Single Seed Vulnerability] Does deriving the whitelist state PDA from only the 'whitelist_state' string (line 128) without additional entropy create a deterministic single PDA that could be pre-computed and exploited if the program ID is known? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_781b2e5c-55c6-48c8-a464-770faba2fb76?mode=deep",
     "timestamp": "2026-01-09 15:13:23.052548",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [Seed String Format] Can an attacker exploit the UTF-8 encoding of 'resolver_access' to inject null bytes or special characters that alter PDA derivation, potentially bypassing resolver access controls? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f26abbfc-09db-4b7e-9e76-d4d275346935?mode=deep",
     "timestamp": "2026-01-09 15:13:37.814357",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [User Validation] Does the function validate that the user PublicKey is a valid Solana public key and not a system account or program ID, or can an attacker pass malicious addresses that derive to exploitable PDAs? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ccfa1f8e-ee62-478b-a806-c9b4a7584996?mode=deep",
     "timestamp": "2026-01-09 15:13:53.634538",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [Cross-Program Collision] Can an attacker exploit the resolver access PDA seeds to collide with PDAs from other programs or other PDA derivations within the fusion protocol, potentially gaining unauthorized resolver privileges? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_321a9093-2816-4f57-a20d-90e148050b89?mode=deep",
     "timestamp": "2026-01-09 15:14:10.319629",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findResolverAccessAddress()] [Seed Uniqueness] Does the PDA derivation using only 'resolver_access' prefix and user pubkey (lines 119-120) ensure sufficient uniqueness, or can the same PDA be derived for multiple logical resolver access grants, enabling unauthorized access control bypass? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_565ec8a1-5338-4793-bd86-1f69ec18cb54?mode=deep",
     "timestamp": "2026-01-09 15:14:27.193711",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Odd-Length Hex] Can an attacker provide an odd-length hexadecimal string that causes the regex matching on line 96 to produce unexpected results, potentially truncating or padding the hash and leading to PDA manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a6e7eda-9cf8-444a-832b-da7d8cb59c22?mode=deep",
     "timestamp": "2026-01-09 15:14:44.711373",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Case Sensitivity] If orderHash is provided as a hex string, can an attacker exploit case sensitivity differences (uppercase vs lowercase hex) to generate different buffers for the same logical hash, creating PDA collisions? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e0fd8271-2b84-4c99-97dc-6ca1f6ba05ff?mode=deep",
     "timestamp": "2026-01-09 15:15:03.032712",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Null/Undefined] Does the function handle null or undefined orderHash inputs, or can passing these values cause unexpected behavior that leads to default PDA derivation and potential escrow access control bypass? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89bae5ac-5c60-4263-addc-2b8fd37f0d57?mode=deep",
     "timestamp": "2026-01-09 15:15:21.839576",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Empty Hash] Can an attacker pass an empty string for orderHash that results in an empty buffer, causing the PDA to be derived from only the 'escrow' seed and maker pubkey, potentially allowing collision with other orders from the same maker? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_43f8f5c9-ddef-4a1f-8e29-03bffbb9f0e3?mode=deep",
     "timestamp": "2026-01-09 15:15:41.843672",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Seed Order] Does the PDA seed construction (lines 104-106) maintain consistent ordering of [escrow, maker, orderHash] across all protocol calls, or can seed order manipulation in other parts of the codebase lead to different PDAs being derived for the same logical escrow? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cc0c982e-5de6-48bf-bfb4-9b2ce570e98c?mode=deep",
     "timestamp": "2026-01-09 15:16:03.246070",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Regex Vulnerability] Can the regex pattern (/../g) on line 96 be exploited with specially crafted strings that cause unexpected matching behavior, leading to incorrect buffer construction and PDA collision attacks? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e005c1a1-8e3b-45db-ac74-56b84e121428?mode=deep",
     "timestamp": "2026-01-09 15:16:25.081431",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Buffer Length] Does the function validate the length of the orderHash buffer after conversion, or can an attacker provide a truncated or oversized hash that still passes through but derives an incorrect PDA, enabling escrow manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a287b876-e503-4e8f-a7d5-0fa218e9cf4f?mode=deep",
     "timestamp": "2026-01-09 15:16:47.644008",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Type Confusion] Can an attacker exploit the dual type acceptance (Buffer | string) for orderHash to cause inconsistent PDA derivation between different invocations, potentially creating multiple escrow accounts for the same order or accessing wrong escrow accounts? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9691ebf5-eff9-46dd-b55a-928dc4afb5d0?mode=deep",
     "timestamp": "2026-01-09 15:17:10.244411",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [Input Validation] Does the hex string parsing logic (lines 96-99) properly validate that orderHash contains only valid hexadecimal characters, or can an attacker inject non-hex characters that get silently converted to unexpected bytes, leading to PDA derivation manipulation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_be6e8bcb-7bee-4760-8adb-a19998b4aabf?mode=deep",
     "timestamp": "2026-01-09 15:17:33.039739",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/utils.ts] [Function: findEscrowAddress()] [PDA Collision] Can an attacker manipulate the orderHash parameter by providing a maliciously crafted string that, when converted to Buffer via the hex parsing logic (lines 96-99), produces the same PDA as another legitimate order, allowing escrow account collision and potential fund theft? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1bf1e007-421d-4987-8c0f-c3c4547e0959?mode=deep",
     "timestamp": "2026-01-09 15:17:56.039112",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Program state validation] The script doesn't check if the fusion-swap program is paused or in maintenance mode - can cancellations be submitted when the program is not accepting transactions, wasting gas fees? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7da138dd-45d7-465a-abcb-e245e67275ba?mode=deep",
     "timestamp": "2026-01-09 15:18:19.478623",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account discriminator] Does the on-chain program validate account discriminators to ensure escrow is the expected account type, or can attackers pass arbitrary accounts that satisfy PDA derivation but have wrong data layouts? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4609c4fb-8dd3-488e-a813-f6fe40b60c7b?mode=deep",
     "timestamp": "2026-01-09 15:18:40.440647",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Cross-account validation] Does the on-chain cancel instruction validate that maker, escrow, and escrowSrcAta all belong to the same order, or can an attacker mix accounts from different orders to manipulate cancellation logic? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_db0b43c9-285d-4780-ac4f-2aa154f1df3b?mode=deep",
     "timestamp": "2026-01-09 15:19:00.311891",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Program upgrade] If the fusion-swap program is upgraded between escrow existence check at line 91 and cancellation at line 100, can instruction format changes cause the cancel to fail with cryptic errors? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3119da43-d235-4051-9629-864d0b4a2540?mode=deep",
     "timestamp": "2026-01-09 15:19:20.691799",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Whitelist bypass] The cancel function doesn't check whitelist status - if the on-chain program allows only whitelisted resolvers to cancel after expiration, can makers cancel before expiration to avoid paying cancellation premiums they should owe? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_049525d8-98b8-4655-b3da-e025f07c693f?mode=deep",
     "timestamp": "2026-01-09 15:19:40.405031",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Recent blockhash] The transaction at line 57 doesn't explicitly set a recent blockhash - can stale blockhashes cause the transaction to be rejected after the maker has committed to cancellation? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89f0aa81-c4f8-4989-aee5-11e053526d88?mode=deep",
     "timestamp": "2026-01-09 15:20:53.193965",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Keypair format validation] At line 76, loadKeypairFromFile expects a specific JSON format - can malformed keypair files cause parsing errors that expose sensitive key material in error messages? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ea02da06-f82c-4dd4-bd46-1c578c818bc7?mode=deep",
     "timestamp": "2026-01-09 15:21:05.114304",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Signer deduplication] At line 60, makerKeypair is added as signer - if the same keypair is referenced multiple times in the transaction, can this cause signature verification failures or wasted compute units? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_03b6749f-a65e-48b8-a53a-4b3ceb18921c?mode=deep",
     "timestamp": "2026-01-09 15:21:17.622434",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Connection timeout] At line 73, no timeout is specified for the connection - can hanging RPC requests cause the script to block indefinitely, preventing cancellations during network issues? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f60d1407-557b-40e2-8b81-054bb07e5085?mode=deep",
     "timestamp": "2026-01-09 15:21:30.222806",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Associated token program version] At line 42, getAssociatedTokenAddress uses allowOwnerOffCurve parameter - can mismatches between expected and actual PDA derivation cause the on-chain program to reject the provided ATA address? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5f71182f-2925-4413-aa18-b0d23be73697?mode=deep",
     "timestamp": "2026-01-09 15:21:43.640835",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Unicode handling] If prompt inputs at lines 67-71 contain Unicode characters, can encoding issues cause public key parsing to fail or orderHash conversion to produce incorrect byte arrays? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bb15cd1b-fdb2-4032-b07f-ad0462b32aac?mode=deep",
     "timestamp": "2026-01-09 15:21:57.450083",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account reallocation] If the on-chain program reallocates account data during cancellation, can this cause the transaction to fail due to insufficient compute units or unexpected account size changes? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_392ac56a-632a-46cd-8a2d-323e52bcfc36?mode=deep",
     "timestamp": "2026-01-09 15:22:11.971159",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [File system race] At line 76, loadKeypairFromFile performs file I/O - can concurrent modifications to the keypair file cause partial reads that produce invalid keypairs, leading to signature verification failures? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a47e665a-a137-4bc3-96d3-1c05f2f90a0b?mode=deep",
     "timestamp": "2026-01-09 15:22:27.677118",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Instruction data size] Can extremely long order hashes or account lists cause the instruction data to exceed Solana's transaction size limits, resulting in failed transaction submission? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ea9d6c98-0086-4911-81ca-e2562556fc01?mode=deep",
     "timestamp": "2026-01-09 15:22:44.465729",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Concurrent cancellation] If multiple instances of this script run concurrently with the same maker keypair, can they attempt to cancel the same order multiple times, causing nonce conflicts and transaction failures? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e781b7c-a55c-4a0b-b94b-777806cfb429?mode=deep",
     "timestamp": "2026-01-09 15:23:01.619331",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Compute unit exhaustion] The script doesn't specify compute unit limits - can complex cancel instructions with many CPI calls exceed default limits and fail after consuming fees? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2f4a07d1-df35-4725-b9d3-0ab02d552311?mode=deep",
     "timestamp": "2026-01-09 15:23:19.098339",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Fee payer validation] At line 59, the maker keypair pays transaction fees - if the maker's SOL balance is insufficient, can this cause cancellation failures that still deduct partial fees, draining the maker's account? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8b160163-7980-4058-be61-4b436cab15dc?mode=deep",
     "timestamp": "2026-01-09 15:23:37.099733",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Priority fee exploitation] The script doesn't set priority fees - during network congestion, can attackers prevent cancellations by forcing makers to compete with excessively high priority fees, making cancellations economically infeasible? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2707be18-09de-4589-8ec6-4ec8253429c2?mode=deep",
     "timestamp": "2026-01-09 15:23:55.143217",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Rent economics] At line 91, the script checks escrow existence but doesn't validate rent exemption status - can orders with insufficient rent be canceled, leaving the maker unable to recover rent exemption amounts? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_76518e54-af2d-4125-b1d8-ea8bf17b82f0?mode=deep",
     "timestamp": "2026-01-09 15:24:14.661728",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Gas griefing] Can an attacker repeatedly trigger failed cancellations by manipulating account states, causing the maker to waste SOL on transaction fees without successfully canceling the order? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e91022d7-eab4-4049-a205-86ace9710270?mode=deep",
     "timestamp": "2026-01-09 15:24:34.565888",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Close authority] When the escrow ATA is closed during cancellation, does the on-chain program validate that the escrow PDA is the close authority, preventing unauthorized account closures? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_36b061da-2be5-415c-8f29-164303e0d2b3?mode=deep",
     "timestamp": "2026-01-09 15:24:53.961334",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Delegate validation] If escrowSrcAta has a delegate set, can the on-chain cancel instruction properly revoke the delegation before closing the account, or can delegates retain control over tokens? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3fc1610d-eb5d-499d-a938-554788d7680c?mode=deep",
     "timestamp": "2026-01-09 15:25:14.096089",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Token program validation] At line 52, TOKEN_PROGRAM_ID is used - but does the script verify this matches the token program that owns escrowSrcAta, or can mismatched programs cause CPI failures? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f2615cba-ebed-46f6-bb9b-f7e0103d8c5a?mode=deep",
     "timestamp": "2026-01-09 15:25:33.241853",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Mint authority] Does the script validate that srcMint has proper mint authority and isn't a fake token, or can an attacker create a malicious token mint that allows arbitrary minting during cancellation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e66a5dd-3b95-48d5-bc8d-ffec572ef160?mode=deep",
     "timestamp": "2026-01-09 15:25:54.019592",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [ATA owner validation] At line 39-42, getAssociatedTokenAddress derives escrowSrcAta but doesn't verify the owner - can an attacker create a fake ATA at that address owned by themselves, causing token transfers to go to the wrong account? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8402f171-d8a6-4e58-95b4-9a61294ef28c?mode=deep",
     "timestamp": "2026-01-09 15:26:14.425142",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Seed concatenation] When deriving escrow PDA at line 33-36, are the seeds properly concatenated with correct separators, or can missing boundaries cause seed ambiguity where different (maker, orderHash) pairs produce the same PDA? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_71628f69-ffc7-4f34-8a6d-142344f382b2?mode=deep",
     "timestamp": "2026-01-09 15:26:34.496711",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Hash validation] The script doesn't validate that orderHash at line 68 is a valid 32-byte hex string before attempting conversion - can shorter/longer hashes cause buffer overflow or underflow in PDA derivation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7807429f-6228-4111-8814-00b10f1c1f1b?mode=deep",
     "timestamp": "2026-01-09 15:26:54.329925",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Byte order] At line 29-31, the orderHash is converted from hex string to byte array - can incorrect byte ordering (big-endian vs little-endian) cause the PDA derivation to use reversed hash values, targeting wrong escrows? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5c383a73-214f-43b9-9119-add3be845125?mode=deep",
     "timestamp": "2026-01-09 15:27:14.882835",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Hash collision] If two different orders produce the same orderHash due to hash collisions, can an attacker cancel one order by providing the hash of another, causing cross-order cancellation attacks? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_320a03f0-baec-4c6f-a032-a8169d3adbbb?mode=deep",
     "timestamp": "2026-01-09 15:27:35.556346",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Order hash integrity] The orderHash passed at line 27 should match the hash computed by the on-chain program - can an attacker provide a valid-looking but incorrect hash that passes PDA derivation but targets a different order's escrow? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9a16560c-3d24-445a-8897-002ac3017f91?mode=deep",
     "timestamp": "2026-01-09 15:27:56.005491",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Utility function trust] At line 14, findEscrowAddress is imported from utils - if this function has bugs in PDA derivation logic, can all cancellations target wrong escrows, causing widespread order manipulation? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c8aadef9-28b0-4ee3-a11d-6711503270c2?mode=deep",
     "timestamp": "2026-01-09 15:29:09.115436",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Anchor version mismatch] The script uses @coral-xyz/anchor imports - if the Anchor version doesn't match the version used to build the on-chain program, can this cause instruction deserialization errors on-chain? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e807d25e-9058-41c5-ac0e-afca069bd907?mode=deep",
     "timestamp": "2026-01-09 15:29:21.263483",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Prompt injection] At lines 67-71, all inputs are read via prompt() - can an attacker inject control sequences or escape characters that break terminal state and cause subsequent operations to fail silently? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_35365519-2381-441a-ab1e-8aee98e253d6?mode=deep",
     "timestamp": "2026-01-09 15:29:33.520882",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [RPC endpoint trust] The connection at line 73 trusts the provided cluster URL - can a compromised RPC endpoint return manipulated account states that cause the script to build incorrect cancel instructions? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5ac03eb0-c54e-4e99-a3b6-44aef18576b9?mode=deep",
     "timestamp": "2026-01-09 15:29:46.954003",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Environment variable injection] At line 66, getClusterUrlEnv reads CLUSTER_URL from environment - can an attacker manipulate this to point to a malicious RPC endpoint that returns fake account data, tricking users into failed cancellations? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_61e90ba2-51db-4db0-8ae1-46c4b5d2b348?mode=deep",
     "timestamp": "2026-01-09 15:30:00.513321",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Timestamp manipulation] The script doesn't validate current blockchain time against order expiration - can clock skew between client and chain cause cancellations to be submitted after expiration, missing the free cancellation window? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1124c61d-e99d-4c4c-ae20-fdbb0ef9e6e7?mode=deep",
     "timestamp": "2026-01-09 15:30:15.659657",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Slot dependency] At line 73, using 'confirmed' commitment without checking slot numbers - can transactions appear confirmed in one slot but get replaced in another, causing double-cancellation attempts or state inconsistencies? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cd7c3a96-fcfd-46ae-8c74-69ad305e24a5?mode=deep",
     "timestamp": "2026-01-09 15:30:30.308035",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [MEV exploitation] Can MEV bots monitor mempool for cancel transactions and front-run to fill orders at the last possible moment, forcing makers to pay gas for failed cancellations repeatedly? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_969f22fe-0605-481a-86f6-2370b32c93dd?mode=deep",
     "timestamp": "2026-01-09 15:30:45.835973",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Front-running] Between escrow existence check in main() at line 91 and cancel execution at line 100, can a malicious resolver front-run to fill the entire order, causing the cancel to fail and waste the maker's gas fees? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_42c82f4f-d3b9-4513-b073-86092072d153?mode=deep",
     "timestamp": "2026-01-09 15:31:02.640399",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Order expiration] The script doesn't check if the order has expired before attempting cancellation - can an attacker front-run with cancel_by_resolver after expiration to capture cancellation premium before the maker can cancel for free? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ce4eef8c-f439-4d8e-8204-79cb38c14fa6?mode=deep",
     "timestamp": "2026-01-09 15:31:19.979016",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [CPI depth] If the on-chain cancel instruction performs CPIs to the token program for token transfers and account closures, can deep CPI stacks cause the transaction to exceed the CPI depth limit and fail? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_046d4466-80b4-4d59-a454-576532695854?mode=deep",
     "timestamp": "2026-01-09 15:31:37.281838",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account meta flags] When building the instruction at line 45, does accountsPartial properly set writable/signer flags for all accounts, or can incorrect flags cause the on-chain program to reject valid cancellations? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_effd1810-5379-4964-9206-e08b417ac1ce?mode=deep",
     "timestamp": "2026-01-09 15:31:54.544000",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [IDL mismatch] At line 74, FUSION_IDL is loaded from a JSON file - if this IDL doesn't match the deployed program version, can instruction serialization errors cause malformed cancel instructions that fail on-chain? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bc267388-b1ee-4860-9edc-dba65848e77c?mode=deep",
     "timestamp": "2026-01-09 15:32:12.314169",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Token program validation] At line 52, TOKEN_PROGRAM_ID is hardcoded to the standard SPL token program - can an attacker exploit Token-2022 or other token program variants that require different instruction formats, causing cancellation failures? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e6bbc2ad-3475-4eb2-a30a-de7387dfe760?mode=deep",
     "timestamp": "2026-01-09 15:32:31.101304",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Program ID validation] At line 34, program.programId is used for PDA derivation - if an attacker deploys a malicious program with similar interface and tricks users into connecting to it, can they steal tokens during fake cancellations? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e640ef9b-5355-4eb4-9062-939d4953f010?mode=deep",
     "timestamp": "2026-01-09 15:32:49.648894",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Signature verification] After sendAndConfirmTransaction returns at line 59, does the script verify that the transaction was actually successful on-chain, or can a failed transaction still return a signature, misleading the user about cancellation status? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9d22bd98-0223-4a2f-9dc2-3c31897acd54?mode=deep",
     "timestamp": "2026-01-09 15:33:09.363922",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Confirmation depth] At line 73, connection uses 'confirmed' commitment level - can this cause race conditions where the cancel appears successful but gets reorganized out during finalization, leaving the order in an unexpected state? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6768c6e1-916f-4ffa-9ccd-4f3ce157c7ac?mode=deep",
     "timestamp": "2026-01-09 15:33:29.565133",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Validation error messages] At line 94-96, if the escrow doesn't exist, the error message logs both orderHash and maker pubkey - can information leakage in these logs expose sensitive order details that attackers can use for targeted manipulation? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_084c729c-5bc2-4207-951c-46fe6bcb3df7?mode=deep",
     "timestamp": "2026-01-09 15:33:49.339026",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Transaction failure] If sendAndConfirmTransaction at line 59 fails due to slippage or network issues, does the script properly handle the error and inform the user, or can silent failures leave orders in limbo without clear status? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6e58d5b6-3077-44a8-b241-f3da1ae92485?mode=deep",
     "timestamp": "2026-01-09 15:34:09.642614",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Error handling] If getAccount throws at line 91, the catch block at line 93 logs but then returns early at line 97 - can this leave the order in an inconsistent state where the escrow exists but client believes it doesn't, causing future operation failures? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ca7c7c99-e942-4578-8ddf-37797c869496?mode=deep",
     "timestamp": "2026-01-09 15:34:31.101562",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Zero balance cancellation] If getAccount at line 91 succeeds but the escrow ATA has zero token balance (already filled), can the cancellation still execute and waste transaction fees trying to transfer zero tokens? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9116befb-21eb-41d9-9d67-6d183ab69fc1?mode=deep",
     "timestamp": "2026-01-09 15:34:52.612982",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Escrow authority] Does the on-chain cancel validate that the escrow PDA is the authority of escrow_src_ata before attempting token transfers, or can an attacker manipulate account ownership to redirect refunded tokens to their own account? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_39e7a997-f604-4551-b0cd-a538d1b9767c?mode=deep",
     "timestamp": "2026-01-09 15:35:11.818538",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account closure] After cancellation, does the on-chain program properly close the escrow_src_ata and return rent exemption lamports to the maker, or can attackers repeatedly cancel and recreate orders to drain the maker's SOL balance through rent costs? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b8cd538f-bb5f-4bec-8c20-e8b0d54bbc5d?mode=deep",
     "timestamp": "2026-01-09 15:35:32.096580",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Token recovery] When the on-chain cancel instruction executes, does it properly transfer all remaining tokens from escrow_src_ata back to maker_src_ata, or can rounding errors or improper amount calculations leave dust amounts locked in the escrow? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_556c0e26-61e9-4658-ab36-32b12ba50c0f?mode=deep",
     "timestamp": "2026-01-09 15:35:53.924186",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Partial fill handling] If the order has been partially filled before cancellation, does the cancel instruction properly return only the remaining tokens to the maker, or can an attacker exploit assumptions about full escrow balance to cause arithmetic errors? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89b140dd-9979-461b-807a-6556f66afd64?mode=deep",
     "timestamp": "2026-01-09 15:36:13.857777",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [wSOL rent exemption] For native SOL cancellations, does the script account for the rent exemption minimum balance that must remain in the wSOL ATA, or can attempts to cancel native orders fail due to insufficient lamports for rent? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d13fb599-783a-41a8-ae19-63f542d2ba22?mode=deep",
     "timestamp": "2026-01-09 15:37:23.897197",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Native mint validation] If srcMint at line 69 is the native mint (So11111...1112) but srcAssetIsNative at line 71 is false, can this inconsistency cause the cancel to fail validation on-chain, wasting gas fees? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f552b605-a874-41d7-9b20-8dedc37a66c0?mode=deep",
     "timestamp": "2026-01-09 15:37:35.774726",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [SOL unwrap validation] When srcAssetIsNative is true, does the on-chain cancel instruction properly validate that the escrow_src_ata is a valid wSOL account before attempting to close it, or can an attacker trigger cancellation on non-wSOL accounts causing unexpected behavior? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_99763b3e-e47e-4104-8a4b-73ad17b94bcb?mode=deep",
     "timestamp": "2026-01-09 15:37:47.907561",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Native/non-native mismatch] At line 71, srcAssetIsNative is determined by user input - if an attacker provides incorrect boolean value for a native SOL order (claiming false when true), can this cause the on-chain program to skip SOL unwrapping, leaving funds locked in the wrapped SOL ATA? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1804eff0-5067-4c70-93e7-9d46cef46449?mode=deep",
     "timestamp": "2026-01-09 15:38:01.145716",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Native asset flag] At line 46, srcAssetIsNative is passed to the cancel instruction - if this flag doesn't match the on-chain order state, can an attacker cause the cancellation to attempt native SOL operations on wrapped SOL accounts, leading to failed unwrapping and locked funds? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_25acb09e-5750-4b6a-aaf9-42b4981ddee1?mode=deep",
     "timestamp": "2026-01-09 15:38:14.804029",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Partial account provision] Using accountsPartial at line 47 instead of accounts() - can this cause the Anchor framework to omit critical account validations, allowing malformed cancel instructions to pass client checks but fail unpredictably on-chain? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4cbc395d-eacd-4b7a-bdda-637a9c51b019?mode=deep",
     "timestamp": "2026-01-09 15:38:28.641862",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account list validation] Does the accountsPartial at line 47 properly validate that all required accounts are provided, or can missing accounts cause the instruction to pass client-side checks but fail on-chain with cryptic errors? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4e29b068-31c1-4800-9c86-67ce834af949?mode=deep",
     "timestamp": "2026-01-09 15:38:43.122527",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Fee manipulation] At line 59, sendAndConfirmTransaction uses default fee settings - can an attacker exploit fee markets to make cancellations economically unprofitable, effectively DoS-ing order cancellations during high network congestion? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e5a5be9-9dd6-467d-9e2a-4aba05dd6a26?mode=deep",
     "timestamp": "2026-01-09 15:38:58.714448",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Compute budget] Does the transaction construction set appropriate compute unit limits, or can an attacker cause the cancel instruction to exceed compute limits and fail on-chain while still charging priority fees? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_836fa509-e179-431a-89de-2b18239158ef?mode=deep",
     "timestamp": "2026-01-09 15:39:15.133639",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Transaction malleability] Between instruction creation at line 45 and transaction submission at line 59, can an attacker modify the transaction object to inject additional instructions that drain the maker's account or manipulate the cancellation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7d35386-06e1-430a-a5c2-07ce23f1d6c8?mode=deep",
     "timestamp": "2026-01-09 15:39:32.207196",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Instruction ordering] At line 57, the cancel instruction is added to a new transaction - can an attacker front-run this with a fill transaction that completes the order, causing the cancel to fail but still consume the maker's SOL for transaction fees? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a1a884ae-c441-4948-9044-ad6f2131730e?mode=deep",
     "timestamp": "2026-01-09 15:39:50.251414",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Keypair path traversal] At line 67, makerKeypairPath is prompted from user input - can an attacker inject path traversal sequences (../../sensitive) to load keypairs from arbitrary file system locations, enabling unauthorized cancellations? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_be6e6ac3-1df0-4d3a-bb9c-88c18c810538?mode=deep",
     "timestamp": "2026-01-09 15:40:08.763921",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Authority bypass] Can an attacker submit the cancel transaction with a different maker keypair than the one used for PDA derivation at line 35, causing the on-chain program to accept the cancellation from an unauthorized party? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_869320df-c9c5-4959-8178-40e1ac7ddc9f?mode=deep",
     "timestamp": "2026-01-09 15:40:27.384889",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Signature validation] At line 54, the maker is added as a signer - but does the script validate that the signer matches the maker public key derived in the escrow PDA seeds at line 35, preventing signature substitution attacks? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2a1e65c3-0925-4a79-a4bb-a34b1c6774aa?mode=deep",
     "timestamp": "2026-01-09 15:40:46.661396",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Keypair security] At line 76, loadKeypairFromFile loads the maker's private key - if an attacker gains access to the file system, can they extract keypairs and cancel all orders from that maker, causing complete order book manipulation? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_09a56282-ebad-4bcc-95a2-640cff7fe210?mode=deep",
     "timestamp": "2026-01-09 15:41:06.390875",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Maker validation] Does the on-chain cancel instruction properly verify that makerKeypair at line 48 is the original order creator, or can an attacker who obtains any keypair matching the PDA derivation seeds cancel arbitrary orders? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f0fcbcf5-907a-4dec-953b-97efb73d19d8?mode=deep",
     "timestamp": "2026-01-09 15:41:27.491027",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Account data verification] At line 91, getAccount retrieves the ATA but doesn't verify its amount, authority, or mint - can an attacker front-run and drain the escrow after existence check but before cancellation, causing the cancel to fail with unclear error messages? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4d426170-47ce-4a7c-a4f5-10ee0ae73eb8?mode=deep",
     "timestamp": "2026-01-09 15:41:48.649072",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Token mint validation] Does the script validate that srcMint at line 49 matches the actual token mint stored in the escrow account, or can an attacker provide a wrong mint address that passes client checks but causes on-chain validation failure? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3ef1c986-76ff-4266-b7f6-2d25080390a2?mode=deep",
     "timestamp": "2026-01-09 15:42:10.239493",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Existence validation bypass] If getAccount throws at line 91 but the catch block at line 93 logs an error without halting, could execution continue to call cancel on a non-existent order, wasting gas and potentially causing unexpected on-chain behavior? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_08f6ddb6-759f-4585-8209-83170f731b1e?mode=deep",
     "timestamp": "2026-01-09 15:42:32.072023",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [ATA derivation] At line 39, getAssociatedTokenAddress derives the escrow's source ATA - can an attacker exploit the allowOwnerOffCurve=true parameter to create ATAs with manipulated seeds that pass client validation but don't match on-chain expectations? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bf0e9599-43dc-4018-8b87-3d3775852997?mode=deep",
     "timestamp": "2026-01-09 15:42:53.382122",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Account ownership] Does getAccount at line 91 validate that escrowSrcAtaAddr is actually owned by the Token Program and associated with the correct escrow PDA, or can an attacker create a fake account at that address that passes existence check but fails cancellation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d32a0e41-bba1-407f-95cb-96f2c9e18aa1?mode=deep",
     "timestamp": "2026-01-09 15:43:15.270146",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [TOCTOU race] Between checking escrow existence via getAccount at line 91 and calling cancel at line 100, can another transaction fill or cancel the order, causing the cancellation to fail but still consuming maker's transaction fees? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_87d9e7e2-c5cd-4a1e-ae90-0960b743e5fa?mode=deep",
     "timestamp": "2026-01-09 15:43:35.619266",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Program ID mismatch] If program.programId at line 34 doesn't match the actual deployed fusion-swap program ID, can this cause derivation of incorrect escrow PDAs that pass client-side validation but fail on-chain, wasting transaction fees? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_705a6016-3f30-44db-9a67-df9edd85d577?mode=deep",
     "timestamp": "2026-01-09 15:43:54.818960",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Bump seed missing] The escrow PDA is derived at line 33 without explicitly handling bump seeds - can this cause non-deterministic PDA derivation if findEscrowAddress doesn't use the same bump as the on-chain program, leading to transaction failures and gas wastage? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_186581f7-cc53-480b-9d04-582cfc04ffe5?mode=deep",
     "timestamp": "2026-01-09 15:44:14.794796",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [PDA validation] At line 79, when deriving escrowAddr for validation, if an attacker provides a different orderHash format than expected by the on-chain program, can this cause the client to check existence of one PDA while canceling a different PDA? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e6715e19-961d-41b0-8a87-b6391bca1384?mode=deep",
     "timestamp": "2026-01-09 15:44:34.440427",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Seed manipulation] Can an attacker manipulate the orderHash parameter passed to findEscrowAddress at line 33 to include additional seed bytes that cause the PDA derivation to match an escrow belonging to a different maker, enabling cross-account cancellation attacks? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e76cf0b5-aa17-45eb-8317-051423f31b29?mode=deep",
     "timestamp": "2026-01-09 15:45:49.024236",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [PDA security] Does findEscrowAddress at line 33 properly validate that the derived escrow PDA is unique per maker+orderHash combination, or can an attacker craft collision inputs that derive PDAs for other users' escrows? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_701c8b95-a6c9-4069-8a24-ae5e153d4c8d?mode=deep",
     "timestamp": "2026-01-09 15:46:00.952272",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Order hash format] Can an attacker provide orderHash without the '/../g' regex match pattern (e.g., single character, no pairs) causing the Array.from() at line 29 to produce an incorrect byte array length that passes validation but targets wrong escrow? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c77a26c0-6a91-46e0-a5cb-e46862dfd57a?mode=deep",
     "timestamp": "2026-01-09 15:46:13.182986",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Array mutation] After converting orderHash to bytes at line 29-31, if the orderHashBytes array is mutated before being used in findEscrowAddress at line 33, could this cause PDA derivation mismatch and cancellation failures? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1b42dbad-8c1e-4f28-a50c-4965bfbb7ed9?mode=deep",
     "timestamp": "2026-01-09 15:46:25.828525",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Boolean parsing] At line 71, the srcAssetIsNative boolean is parsed via string comparison with 'true' - can an attacker provide 'True', '1', or other truthy values that evaluate incorrectly, causing native/non-native mismatch and failed cancellations with lost gas fees? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5549c863-ad56-4f3e-8924-6a4faff72f68?mode=deep",
     "timestamp": "2026-01-09 15:46:38.978490",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Type confusion] At line 69, if srcMint prompt receives an invalid public key string, can this cause PublicKey constructor to throw or create an invalid key that passes client-side checks but fails on-chain, leading to locked funds? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2202bcf0-2a2a-4c35-8125-abb49ca90452?mode=deep",
     "timestamp": "2026-01-09 15:46:53.764255",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Input injection] Can an attacker inject malicious input through prompt() at line 68 (order hash) containing control characters or escape sequences that manipulate downstream PDA derivation or transaction construction? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_324a8caf-9ab1-4b2a-abeb-d4aa1ee058ac?mode=deep",
     "timestamp": "2026-01-09 15:47:08.520391",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Integer overflow] When converting hex string to bytes via parseInt(h, 16) at line 30, can an attacker provide hex values exceeding 0xFF that get truncated, causing order hash mismatch and cancellation of unintended escrows? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f2fa976e-ea6b-47f8-8ec5-3202eb6ea219?mode=deep",
     "timestamp": "2026-01-09 15:47:23.927711",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [PDA collision] If the orderHash regex match at line 29 returns null or an empty array, can an attacker exploit the empty Array.from() result to derive a zero-byte order hash, potentially colliding with PDAs of legitimate orders and enabling unauthorized cancellations? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e7bb98ac-fa2b-4bb9-ac6a-6bd567b39b5d?mode=deep",
     "timestamp": "2026-01-09 15:47:40.593328",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Input validation] Can an attacker provide a malformed orderHash string (e.g., odd-length hex, invalid characters, or non-hex values) at line 29 that causes parseInt() to return NaN values, resulting in incorrect PDA derivation and potential cancellation of a different user's order? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1145a64e-3c7c-44f6-a49c-cd42f24425cf?mode=deep",
     "timestamp": "2026-01-09 15:47:57.763949",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Reentrance vulnerability] Can the fill operation be exploited through reentrance if any of the accounts involved have malicious programs as owners? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8f807ac4-58a3-4ae8-8081-1f63879e1f64?mode=deep",
     "timestamp": "2026-01-09 15:48:15.898597",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Concurrent execution] Can multiple instances of this script running concurrently cause race conditions or state inconsistencies? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bbd5484a-4442-45f5-a57a-e2d6a48b636f?mode=deep",
     "timestamp": "2026-01-09 15:48:34.851607",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Transaction size limits] Can the fill instruction with all accounts at lines 69-83 exceed transaction size limits for certain order configurations? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bb9e1f44-4a17-422f-9cfb-12c4e373a320?mode=deep",
     "timestamp": "2026-01-09 15:48:55.043837",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Memory exhaustion] Can loading extremely large order configuration files at line 100 cause the script to exhaust memory and crash? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_abb496e8-d826-473f-9ea4-8edfa3c723dc?mode=deep",
     "timestamp": "2026-01-09 15:49:14.374241",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Compute unit exhaustion] Can complex orderConfig with many dutchAuctionData points cause on-chain compute exhaustion, enabling DoS against specific orders? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2fe36470-9a53-41a1-bc57-eef3e344d524?mode=deep",
     "timestamp": "2026-01-09 15:49:36.322257",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Account size limits] Can extremely large orderConfig structures cause the transaction to exceed account size limits, causing failures or exploitable error states? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e46ec16d-780d-4a5c-baca-35b7f7b394b9?mode=deep",
     "timestamp": "2026-01-09 15:49:57.991890",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Config file path traversal] Can the orderFilePath input at line 97 use '../' or absolute paths to read sensitive configuration files from the system? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_80e54d5e-fdde-4a7b-af74-b6a94f2caf5b?mode=deep",
     "timestamp": "2026-01-09 15:50:18.278003",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Environment variable injection] Can the getClusterUrlEnv() call at line 96 be exploited by injecting malicious environment variables to redirect RPC calls? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_da82bee0-4192-4d65-890c-f44fe8029f6a?mode=deep",
     "timestamp": "2026-01-09 15:50:38.484041",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fee optimization exploit] Can a resolver structure their fill to minimize fees paid while still satisfying the order, effectively stealing from protocol fee revenue? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_190184f4-da0c-4d07-9f23-e9c62fb6c095?mode=deep",
     "timestamp": "2026-01-09 15:50:58.746285",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Gas price manipulation] Can a resolver manipulate gas prices to ensure their fills execute before competing resolvers, gaining unfair advantages in the auction? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5e4e16ed-b7d8-4c39-b2c1-41b8f2a22fbe?mode=deep",
     "timestamp": "2026-01-09 15:51:20.546920",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [MEV extraction] Can a malicious resolver or validator reorder, front-run, or sandwich the fill transaction to extract MEV at the expense of makers or other resolvers? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b90c7f55-f819-4e9b-860d-18d6a4d5b890?mode=deep",
     "timestamp": "2026-01-09 15:51:42.932605",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Instruction layout change] Can changes to the fill instruction's expected account layout cause the accountsPartial at lines 69-83 to map accounts incorrectly? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e4d31cfe-a4d9-4d08-b142-a735fbd663ff?mode=deep",
     "timestamp": "2026-01-09 15:52:03.750750",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Program upgrade exploitation] If the fusion_swap program is upgraded between when the IDL is loaded (line 12) and when the transaction executes, can this cause instruction data mismatches? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b8157a05-9f06-4c26-9d1e-b6ae725f30da?mode=deep",
     "timestamp": "2026-01-09 15:52:24.244990",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Order state validation] Does the script verify that the order is in a fillable state (not cancelled, not fully filled), or can stale orders be processed? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_58220481-6836-4e80-a6d8-249ebe1ef4b4?mode=deep",
     "timestamp": "2026-01-09 15:52:44.140978",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [State race condition] Between the time escrow PDAs are derived (lines 41-45) and the transaction executes (line 89), can state changes cause the transaction to execute with stale data? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4b93916-4ba6-4cb7-ae70-e04af60ee4f4?mode=deep",
     "timestamp": "2026-01-09 15:53:01.810031",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Signer substitution] Can the signers array at line 84 be manipulated to include different signers than intended, bypassing authorization? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fd9041cf-45ff-40a0-a484-3b894e958ab9?mode=deep",
     "timestamp": "2026-01-09 15:54:14.541695",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Keypair theft risk] Does the loadKeypairFromFile() call at line 119 expose the private key in memory in ways that could enable theft by other processes? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_29a16950-064b-4159-ab21-8d052298f6b3?mode=deep",
     "timestamp": "2026-01-09 15:54:26.532022",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Unauthorized fill] Can someone other than an authorized resolver execute this script with a valid keypair to fill orders they shouldn't be able to fill? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_559b199b-2312-4c64-aeb0-71c430ed7991?mode=deep",
     "timestamp": "2026-01-09 15:54:39.282112",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Buffer overflow in hash] Can the Buffer.from(orderHash) conversion at line 132 overflow or produce incorrect buffers if orderHash contains invalid data? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed44f92a-838a-45c3-9062-d19ca1257cac?mode=deep",
     "timestamp": "2026-01-09 15:54:52.034567",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Hex encoding manipulation] Can the hex encoding used in BN conversions at lines 104-106, 113-115 be manipulated to cause incorrect value parsing? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d60faa47-3732-4cc2-bfba-94d2ecfb86c0?mode=deep",
     "timestamp": "2026-01-09 15:55:05.500888",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [JSON parsing exploit] Can the JSON.parse() call at line 100 be exploited with maliciously crafted JSON to cause prototype pollution or code execution? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7d31f36-9688-4f33-81e1-22619ae734a7?mode=deep",
     "timestamp": "2026-01-09 15:55:21.349166",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Timestamp manipulation] Can clock drift or timestamp manipulation cause expired orders to be fillable, or valid orders to be rejected? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_98ae4a59-bd8d-42fd-afbb-38277346ab32?mode=deep",
     "timestamp": "2026-01-09 15:55:36.408204",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Expired order fill] Does the script check orderConfig.expirationTime before attempting to fill, or does it rely solely on on-chain validation that could be bypassed? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0fe9208d-b789-4d47-a35f-6ef6f603baa0?mode=deep",
     "timestamp": "2026-01-09 15:55:53.260934",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Token 2022 incompatibility] If tokens use Token-2022 program extensions, can incompatibilities cause the fill to fail or enable exploits through extension manipulation? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eae42236-b7c8-4001-a3e9-160f3b0e30d1?mode=deep",
     "timestamp": "2026-01-09 15:56:10.080954",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Token program version] Does the script validate that TOKEN_PROGRAM_ID at lines 81-82 is the correct SPL Token program version, preventing exploits from using outdated program versions? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d1f9f25c-d353-4005-a073-b878663118d3?mode=deep",
     "timestamp": "2026-01-09 15:56:27.590728",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Mint decimals manipulation] Can a malicious token mint report incorrect decimals at line 62-65, causing the fill amount to be calculated incorrectly? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b3438706-b67b-4704-a9c1-2dcc6c703ad8?mode=deep",
     "timestamp": "2026-01-09 15:56:46.022177",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Freeze authority abuse] If the token mint has freeze authority, can it be used to freeze taker accounts mid-fill, causing transaction failures that benefit the attacker? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7338a256-89d9-49c7-81fd-4a174f7c9162?mode=deep",
     "timestamp": "2026-01-09 15:57:04.994010",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Mint authority exploit] Can an attacker who controls mint authority for srcMint or dstMint manipulate token supply during the fill to cause imbalanced exchanges? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f3abd439-6393-4110-a027-7ef148f02261?mode=deep",
     "timestamp": "2026-01-09 15:57:24.704903",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Cross-order state manipulation] Can filling one order affect the state of other orders in ways that enable cross-order exploits or fund theft? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b3480906-143d-4015-9221-177c1c4763c5?mode=deep",
     "timestamp": "2026-01-09 15:57:44.495559",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Order batch exploitation] Can an attacker create a script to fill multiple orders in a single transaction, exploiting atomic execution to sandwich or front-run other resolvers? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f6996194-3600-4c1d-b051-58254c33ad83?mode=deep",
     "timestamp": "2026-01-09 15:58:03.546159",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Signature verification] Does the script verify the transaction signature is valid and matches the expected signer, preventing transaction substitution attacks? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_75cb2793-bf86-45ea-bde6-28686afa1b08?mode=deep",
     "timestamp": "2026-01-09 15:58:23.106177",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Transaction failure handling] If the fill transaction fails on-chain but the script doesn't detect it, can this lead to incorrect state assumptions in subsequent operations? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ef5d9509-d87a-4c10-b074-01b4ce951895?mode=deep",
     "timestamp": "2026-01-09 15:58:42.108133",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Confirmation bypass] Does sendAndConfirmTransaction at lines 89-91 properly wait for confirmation, or can an attacker exploit premature success reporting to execute double-fills? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_498fb0ae-d41d-41bf-8907-f309fa0c8944?mode=deep",
     "timestamp": "2026-01-09 15:59:01.446699",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Receiver account type] Does the script validate that makerReceiver is the correct account type (ATA vs native account)? Can type confusion cause fund loss? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2203e0e1-aaa5-4eda-9eaa-2244d1858c89?mode=deep",
     "timestamp": "2026-01-09 15:59:21.792151",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Receiver validation bypass] Can the makerReceiver account at line 73 be an arbitrary address different from the intended maker, enabling token theft by redirecting fills? (Critical)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_50941971-874e-4d38-a014-4cf927fee1e0?mode=deep",
     "timestamp": "2026-01-09 15:59:42.122703",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Remainder exploitation] After a partial fill, can the remaining escrow balance be exploited due to rounding errors or state inconsistencies? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7dc71976-2e08-4e78-b0cf-eb4afdac5847?mode=deep",
     "timestamp": "2026-01-09 16:00:03.191291",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fill race condition] Can multiple resolvers race to fill the same order, causing some transactions to fail and wasting gas, or enabling partial exploitation? (Low)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_44872021-52aa-45ee-aef8-744ba7c5d8bd?mode=deep",
     "timestamp": "2026-01-09 16:00:24.164403",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Partial fill griefing] Can a malicious resolver repeatedly fill orders with tiny amounts to fragment escrows and make them economically unviable to fully fill? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_164e2002-2939-4bee-af33-5fec07cb4556?mode=deep",
     "timestamp": "2026-01-09 16:00:45.436179",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Import validation] [Whitelist IDL substitution] Can an attacker replace WHITELIST_IDL at line 13 with a malicious IDL that causes incorrect resolver access validation? (High)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_deb87821-b04c-4ebb-af1d-c6df49fb8c3b?mode=deep",
     "timestamp": "2026-01-09 16:01:07.243338",
-    "report_generated": false
+    "report_generated": true
   },
   {
     "question": "[File: scripts/fusion-swap/fill.ts] [Import validation] [IDL version mismatch] If the IDL at line 12 is outdated compared to the deployed program, can this cause instruction data serialization errors that enable exploits? (Medium)",
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3f9402f4-fcce-4734-90a1-562e6a74e046?mode=deep",
     "timestamp": "2026-01-09 16:01:29.578915",
-    "report_generated": false
+    "report_generated": true
   }
 ]
