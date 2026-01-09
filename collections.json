@@ -3598,5 +3598,149 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01876fcc-3c92-4fd2-814d-91369aa517b2?mode=deep",
     "timestamp": "2026-01-09 15:53:55.440013",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Import validation] [Whitelist IDL substitution] Can an attacker replace WHITELIST_IDL at line 13 with a malicious IDL that causes incorrect resolver access validation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_81e16697-313c-4d90-b7b5-adc28fc81e76?mode=deep",
+    "timestamp": "2026-01-09 15:55:12.455226",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Partial fill griefing] Can a malicious resolver repeatedly fill orders with tiny amounts to fragment escrows and make them economically unviable to fully fill? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a294650f-5801-4643-aca5-f387b02c97bb?mode=deep",
+    "timestamp": "2026-01-09 15:55:24.531377",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Fill race condition] Can multiple resolvers race to fill the same order, causing some transactions to fail and wasting gas, or enabling partial exploitation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9da4e1d5-f470-4277-afa9-dc2f5fcb1b19?mode=deep",
+    "timestamp": "2026-01-09 15:55:36.990933",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Remainder exploitation] After a partial fill, can the remaining escrow balance be exploited due to rounding errors or state inconsistencies? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bc9c6a21-ce0d-4f02-a2f6-a44253cca62f?mode=deep",
+    "timestamp": "2026-01-09 15:55:49.756632",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Receiver validation bypass] Can the makerReceiver account at line 73 be an arbitrary address different from the intended maker, enabling token theft by redirecting fills? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f45a9ee2-d7d3-43d7-af0d-cf3a03a783e9?mode=deep",
+    "timestamp": "2026-01-09 15:56:03.220524",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Receiver account type] Does the script validate that makerReceiver is the correct account type (ATA vs native account)? Can type confusion cause fund loss? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1cea798e-88ce-497e-ac8e-cd27b2da033e?mode=deep",
+    "timestamp": "2026-01-09 15:56:17.222929",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Confirmation bypass] Does sendAndConfirmTransaction at lines 89-91 properly wait for confirmation, or can an attacker exploit premature success reporting to execute double-fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5b3b2bc8-0418-4644-9cdb-07f6b83781d0?mode=deep",
+    "timestamp": "2026-01-09 15:56:31.904372",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Transaction failure handling] If the fill transaction fails on-chain but the script doesn't detect it, can this lead to incorrect state assumptions in subsequent operations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b7f9b71b-9e65-4666-b50c-4454177bf236?mode=deep",
+    "timestamp": "2026-01-09 15:56:47.962556",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Signature verification] Does the script verify the transaction signature is valid and matches the expected signer, preventing transaction substitution attacks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6ef1cca3-3bb5-4b99-b51b-5d0d365bb5ed?mode=deep",
+    "timestamp": "2026-01-09 15:57:05.185018",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Order batch exploitation] Can an attacker create a script to fill multiple orders in a single transaction, exploiting atomic execution to sandwich or front-run other resolvers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d1a6aaf5-da96-4270-9ad7-385c3a736a64?mode=deep",
+    "timestamp": "2026-01-09 15:57:23.027749",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Cross-order state manipulation] Can filling one order affect the state of other orders in ways that enable cross-order exploits or fund theft? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bab201a9-bf38-4664-9087-51af0ea1e0cb?mode=deep",
+    "timestamp": "2026-01-09 15:57:41.271437",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Mint authority exploit] Can an attacker who controls mint authority for srcMint or dstMint manipulate token supply during the fill to cause imbalanced exchanges? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_448a180e-747e-4edf-b765-41392bb780aa?mode=deep",
+    "timestamp": "2026-01-09 15:58:00.608989",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Freeze authority abuse] If the token mint has freeze authority, can it be used to freeze taker accounts mid-fill, causing transaction failures that benefit the attacker? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_90a9b3e0-33e4-46d3-89ef-39904c5bc163?mode=deep",
+    "timestamp": "2026-01-09 15:58:20.190655",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Mint decimals manipulation] Can a malicious token mint report incorrect decimals at line 62-65, causing the fill amount to be calculated incorrectly? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9f4db237-0163-4439-b148-dd03f5d34cb4?mode=deep",
+    "timestamp": "2026-01-09 15:58:40.134376",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Token program version] Does the script validate that TOKEN_PROGRAM_ID at lines 81-82 is the correct SPL Token program version, preventing exploits from using outdated program versions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ae4ef98d-6a53-4137-a135-03c390becaa9?mode=deep",
+    "timestamp": "2026-01-09 15:59:00.153051",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Token 2022 incompatibility] If tokens use Token-2022 program extensions, can incompatibilities cause the fill to fail or enable exploits through extension manipulation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_40b25ac9-6f1e-40de-9922-1d840a9022d1?mode=deep",
+    "timestamp": "2026-01-09 15:59:20.462814",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Expired order fill] Does the script check orderConfig.expirationTime before attempting to fill, or does it rely solely on on-chain validation that could be bypassed? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_613f28f5-5689-4193-83e7-9fb7e0f11e19?mode=deep",
+    "timestamp": "2026-01-09 15:59:40.541960",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Timestamp manipulation] Can clock drift or timestamp manipulation cause expired orders to be fillable, or valid orders to be rejected? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c41df1b8-80a0-4ad0-9269-d5241b65a759?mode=deep",
+    "timestamp": "2026-01-09 16:00:01.789652",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [JSON parsing exploit] Can the JSON.parse() call at line 100 be exploited with maliciously crafted JSON to cause prototype pollution or code execution? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f8dfb1a7-7e5a-4166-a0e0-5b4542aeafd2?mode=deep",
+    "timestamp": "2026-01-09 16:00:21.443486",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Hex encoding manipulation] Can the hex encoding used in BN conversions at lines 104-106, 113-115 be manipulated to cause incorrect value parsing? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_40a94ef0-983b-4053-928c-120c0470059c?mode=deep",
+    "timestamp": "2026-01-09 16:00:41.208995",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Buffer overflow in hash] Can the Buffer.from(orderHash) conversion at line 132 overflow or produce incorrect buffers if orderHash contains invalid data? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5d1019b6-2b68-4b2b-8b33-2d708a3bc23c?mode=deep",
+    "timestamp": "2026-01-09 16:01:01.600849",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Unauthorized fill] Can someone other than an authorized resolver execute this script with a valid keypair to fill orders they shouldn't be able to fill? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fe51058b-1816-4177-ae1c-48601d9a3a83?mode=deep",
+    "timestamp": "2026-01-09 16:01:23.127526",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: main()] [Keypair theft risk] Does the loadKeypairFromFile() call at line 119 expose the private key in memory in ways that could enable theft by other processes? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_db070b97-3b01-44eb-ac2f-7135fae91211?mode=deep",
+    "timestamp": "2026-01-09 16:01:44.628095",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/fill.ts] [Function: fill()] [Signer substitution] Can the signers array at line 84 be manipulated to include different signers than intended, bypassing authorization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_af1a259d-a0ba-40d8-b0e3-6d19bba0cbe5?mode=deep",
+    "timestamp": "2026-01-09 16:02:05.405327",
+    "report_generated": false
   }
 ]
