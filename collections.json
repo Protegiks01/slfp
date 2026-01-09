@@ -1648,5 +1648,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f5e63e1b-2105-4268-8f37-5cf08a969677?mode=deep",
     "timestamp": "2026-01-09 14:04:07.102503",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: deregister()] [Incomplete deregistration] After closing the resolver_access account, can stale data or references in other programs continue to treat the address as a valid resolver, bypassing access control? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a3b13ed2-2775-4644-acfb-9c6316062bb5?mode=deep",
+    "timestamp": "2026-01-09 14:05:18.298019",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Authority takeover] Can an attacker exploit set_authority() to change the authority to their own address, gaining complete control over resolver registration/deregistration and breaking protocol security? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dcbfcd65-00f3-481a-a9a4-29ef9bece02b?mode=deep",
+    "timestamp": "2026-01-09 14:05:30.169118",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Authority constraint bypass] Can the authority constraint at line 120 be bypassed through account substitution, signature replay, or PDA manipulation, allowing unauthorized authority changes? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_afaf2cd4-7b99-4107-8319-516f1ddabf23?mode=deep",
+    "timestamp": "2026-01-09 14:05:42.844638",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Zero address authority] Can set_authority() be called with a zero address or system program as new_authority, permanently bricking the whitelist by setting an unusable authority? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_63f9deae-9eba-4b9e-a8a3-7e9307516461?mode=deep",
+    "timestamp": "2026-01-09 14:05:56.499453",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Front-running attack] Can an attacker monitor mempool for set_authority() transactions and front-run them to set their own authority before the legitimate change occurs? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_773d4cf7-ac17-44ae-a188-6cec8b29e4e0?mode=deep",
+    "timestamp": "2026-01-09 14:06:09.989442",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Compromised key rotation] If the current authority private key is compromised, can an attacker use set_authority() to lock out the legitimate authority before they can rotate to a safe key? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f1a0b783-8fdf-423c-99c5-4a9efef76232?mode=deep",
+    "timestamp": "2026-01-09 14:06:24.057540",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Multi-sig bypass] Does set_authority() support multi-signature requirements for authority changes, or can a single compromised key transfer complete control of the whitelist? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_42c32429-5444-47b3-854f-3c1881757ecb?mode=deep",
+    "timestamp": "2026-01-09 14:06:40.230917",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Timelock absence] Can set_authority() be called immediately to change authority without timelock delays, enabling rapid takeover attacks before response is possible? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4339b7af-1e98-4d71-abfe-a438fedb419a?mode=deep",
+    "timestamp": "2026-01-09 14:06:56.377947",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Event emission] Does set_authority() emit proper events for authority changes, or can attackers silently change authority without detection or audit trail? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_73984298-c44f-4191-aa84-fa3e368bffd0?mode=deep",
+    "timestamp": "2026-01-09 14:07:12.569251",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Authority validation] Does set_authority() validate that new_authority is a valid signer-capable account (not a PDA or program), preventing lockout scenarios? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_caaa1b99-a722-498d-bfd4-701099322dc2?mode=deep",
+    "timestamp": "2026-01-09 14:07:30.720850",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Function: set_authority()] [Circular authority] Can set_authority() be exploited to create circular authority references or invalid state where authority changes cannot be reverted? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4eea91fc-01e6-409c-8c0a-fb37821a70c5?mode=deep",
+    "timestamp": "2026-01-09 14:07:47.830993",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Constants: WHITELIST_STATE_SEED] [PDA collision] Can an attacker predict the whitelist_state PDA from WHITELIST_STATE_SEED (b'whitelist_state') and create a colliding account on a different program to interfere with whitelist operations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a1b9e59c-d492-4c04-ae4d-e9f8308acc6f?mode=deep",
+    "timestamp": "2026-01-09 14:08:05.732496",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Constants: RESOLVER_ACCESS_SEED] [PDA collision] Can an attacker exploit RESOLVER_ACCESS_SEED (b'resolver_access') combined with user pubkeys to create PDA collisions that allow impersonating legitimate resolvers? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_58ae66fb-9313-406f-9e7a-8a12045b0659?mode=deep",
+    "timestamp": "2026-01-09 14:08:24.775754",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Constants: WHITELIST_STATE_SEED] [Cross-program collision] Can different programs using the same seed 'whitelist_state' create conflicting PDAs that break access control assumptions in the fusion-swap program? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f8ba7c64-0683-4f15-9b99-ed98bf3ab08c?mode=deep",
+    "timestamp": "2026-01-09 14:08:44.630752",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Constants: RESOLVER_ACCESS_SEED] [Seed grinding] Can an attacker grind for user pubkeys that produce resolver_access PDAs with favorable properties (specific bumps, addresses) to exploit validation logic? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a34f603f-4945-4ff8-a7ec-cf23a38da278?mode=deep",
+    "timestamp": "2026-01-09 14:09:04.508228",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Constants: Both seeds] [Program ID dependency] If the program ID changes during upgrade, do the PDA seeds produce different addresses that break existing resolver registrations and access control? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e324db26-a496-46c2-a3b7-ff86ef6116a4?mode=deep",
+    "timestamp": "2026-01-09 14:09:24.356837",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: WhitelistState] [Authority field manipulation] Can the WhitelistState.authority field be directly modified through memory corruption, account reallocation, or other exploits, bypassing set_authority()? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_206b54fe-e53d-480f-a8e5-3af00fb8fe69?mode=deep",
+    "timestamp": "2026-01-09 14:09:43.282555",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: WhitelistState] [Account reallocation] Can an attacker reallocate the whitelist_state account to a larger size and inject malicious data that corrupts the authority field? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0908a3eb-2845-4048-ae5d-fdba81aaff47?mode=deep",
+    "timestamp": "2026-01-09 14:10:04.926829",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: WhitelistState] [Discriminator bypass] Can an attacker create fake WhitelistState accounts with valid discriminators but malicious authority values, bypassing PDA validation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_47ad0039-505a-4235-8a34-83b632a4169d?mode=deep",
+    "timestamp": "2026-01-09 14:10:23.921158",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: WhitelistState] [Space calculation] If WhitelistState::INIT_SPACE is incorrectly calculated, can this lead to account truncation or buffer overflow that corrupts the authority field? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_364b874b-e807-4432-bbb8-234ba22cb2dd?mode=deep",
+    "timestamp": "2026-01-09 14:10:43.158135",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: WhitelistState] [Deserialization exploit] Can malformed data in the whitelist_state account cause deserialization errors that bypass authority checks or lead to exploitable behavior? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cf329288-0c04-4aea-aed8-5f20552067f5?mode=deep",
+    "timestamp": "2026-01-09 14:11:02.042993",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: ResolverAccess] [Bump manipulation] Can an attacker manipulate the ResolverAccess.bump field to create resolver_access accounts that pass PDA validation with incorrect seeds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_79ac2672-1a0e-4b5b-b44f-30c55d459b70?mode=deep",
+    "timestamp": "2026-01-09 14:11:21.505279",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: ResolverAccess] [Bump zero value] If ResolverAccess.bump is set to 0 or an invalid value during registration, can this break PDA validation in the fusion-swap program and allow unauthorized access? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f4c1e290-9201-480c-ab80-a31fc64e878f?mode=deep",
+    "timestamp": "2026-01-09 14:11:41.873930",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: ResolverAccess] [Bump overflow] Can the bump value overflow or underflow in scenarios where it's used in calculations, leading to incorrect PDA derivation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_10b88c4d-11b5-4b16-a218-11ba0ce258f7?mode=deep",
+    "timestamp": "2026-01-09 14:12:02.315522",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Struct: ResolverAccess] [Account data injection] Can an attacker inject additional data beyond the bump field into ResolverAccess accounts, potentially exploiting deserialization vulnerabilities? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c858f3ab-2606-4766-89ca-915b16844b85?mode=deep",
+    "timestamp": "2026-01-09 14:12:23.190521",
+    "report_generated": false
   }
 ]
