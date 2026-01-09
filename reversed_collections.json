@@ -148,5 +148,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4164d27-b46d-4445-9569-14f819ac0ca1?mode=deep",
     "timestamp": "2026-01-09 12:11:34.939359",
     "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: deploy commands] [No verification] Do the deployment scripts lack post-deployment verification, potentially deploying corrupted programs without detecting issues until user funds are at risk? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4a813bca-458c-4a9b-a9cf-c3b512ffa34f?mode=deep",
+    "timestamp": "2026-01-09 12:40:44.030980",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: deploy commands] [Key exposure] Do the deployment scripts require private keys to be passed as environment variables or command-line arguments, potentially exposing them in shell history or process listings? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_149b40cf-2a58-4c42-acf2-0a491fadd7bb?mode=deep",
+    "timestamp": "2026-01-09 12:40:56.341555",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: deploy:whitelist] [Deployment order] If whitelist is deployed after fusion_swap, could there be a window where fusion_swap operates without access controls, allowing unauthorized order fills? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7f8ae350-2502-4cee-8786-c7ef29db127e?mode=deep",
+    "timestamp": "2026-01-09 12:41:09.050505",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: deploy:fusion_swap] [Incomplete cluster specification] Does the incomplete '--provider.cluster ' flag mean the deployment script accepts cluster input at runtime, potentially allowing accidental mainnet deployments during testing? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_41839d9a-3a86-4391-b6b9-26f9c1eb61eb?mode=deep",
+    "timestamp": "2026-01-09 12:41:21.760582",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies] [Missing lock file verification] Are dependency lock files (yarn.lock/package-lock.json) properly verified and committed, or could CI/CD fetch different versions than intended during deployment builds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_74144cc4-4613-4284-a443-83f0a0268556?mode=deep",
+    "timestamp": "2026-01-09 12:41:35.004309",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: typescript@^5.7.3] [Type safety bypass] Could TypeScript compiler updates change type checking behavior, allowing previously caught type errors to pass, potentially leading to runtime bugs in critical operations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f203630b-744c-4883-b3f5-e092b6546698?mode=deep",
+    "timestamp": "2026-01-09 12:41:49.102528",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: @coral-xyz/anchor@^0.31.1] [Breaking changes] Could automatic updates from 0.31.1 to 0.31.x introduce breaking changes in program instruction handling, causing transaction failures or fund locks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_be52afad-bb51-4823-9683-cb6d96fa87ba?mode=deep",
+    "timestamp": "2026-01-09 12:42:04.206704",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: Caret versioning (^)] [Uncontrolled updates] Do all dependencies use caret versioning, allowing automatic minor/patch updates that could introduce breaking changes or security vulnerabilities without explicit approval? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_940f86f3-fbb9-4771-8629-17cd0c50334c?mode=deep",
+    "timestamp": "2026-01-09 12:42:20.239622",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [All scripts] [Yarn exploit] Could vulnerabilities in the yarn package manager itself be exploited to hijack script execution, redirecting to malicious commands during any script invocation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8d2f9e2c-f8f4-489b-9ec3-9eeb9725a5a7?mode=deep",
+    "timestamp": "2026-01-09 12:42:37.121470",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: lint:fix] [Chained exploit] Could running 'yarn lint:fix' execute both TypeScript and Rust fixes in sequence, amplifying injection risks across both codebases? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4a292aad-8608-4197-bed3-dc132d596430?mode=deep",
+    "timestamp": "2026-01-09 12:42:55.170557",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: lint:ts:fix] [Prettier manipulation] Could the prettier configuration be exploited to inject malicious code during auto-formatting of TypeScript files, particularly in script files that handle token transfers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_425dcbb1-38da-413a-bd71-a2014ca04b63?mode=deep",
+    "timestamp": "2026-01-09 12:43:13.877702",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: lint:rust:fix] [Auto-fix manipulation] Could 'cargo clippy --fix --allow-dirty --allow-staged' automatically introduce malicious code changes disguised as lint fixes, modifying critical security checks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6b793d0a-928a-49cb-b91f-78b93cd939e0?mode=deep",
+    "timestamp": "2026-01-09 12:43:32.976473",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: debug] [Information leakage] Could the 'DEBUG=1' environment variable expose sensitive program internals, private keys, or transaction details in log output during debugging? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_345fdaef-0819-461c-8518-832cae07d520?mode=deep",
+    "timestamp": "2026-01-09 12:43:53.098531",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: test] [Incomplete validation] Does running 'anchor test' without the full test:all suite skip important cargo tests that could catch critical security bugs in Rust logic? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_97e60e6b-9f00-4409-af3d-e824c854f98b?mode=deep",
+    "timestamp": "2026-01-09 12:44:13.279160",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: test:all] [Test bypass] Could the 'RUST_LOG=error' environment variable suppress critical security warnings during testing, hiding vulnerabilities before production deployment? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c925d673-fe73-4d63-b30c-627852d2b4e8?mode=deep",
+    "timestamp": "2026-01-09 12:44:32.466271",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: sync] [Key manipulation] Could the 'anchor keys sync' command be exploited to sync incorrect program IDs, causing client scripts to interact with malicious program deployments? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d963dde1-8243-4059-849e-7d8c1786e675?mode=deep",
+    "timestamp": "2026-01-09 12:44:52.463546",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: clean] [State deletion] Could malicious execution of 'anchor clean' during active operations corrupt program state or delete critical build artifacts needed for security verification? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_91e54f1f-1fcf-4192-8a4b-12329ccee39f?mode=deep",
+    "timestamp": "2026-01-09 12:45:13.696251",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: deploy:whitelist] [Access control bypass] Could the deploy script be manipulated to deploy a compromised whitelist program that grants unauthorized resolver access, bypassing protocol access controls? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8a380813-3ad7-4eec-a4ce-2029c19e06b3?mode=deep",
+    "timestamp": "2026-01-09 12:45:33.778892",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: deploy:fusion_swap] [Deployment hijacking] Does the incomplete deploy command ('--provider.cluster ') allow command injection or cluster redirection, potentially deploying programs to attacker-controlled endpoints? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d8e98218-fe99-4210-a028-bdd63fcb3164?mode=deep",
+    "timestamp": "2026-01-09 12:45:53.367539",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: build] [Program substitution] Could an attacker with access to the build environment replace the anchor build output with a malicious program binary that steals tokens during deployment? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5b53b8a7-be48-4f90-b6cd-862a654389a6?mode=deep",
+    "timestamp": "2026-01-09 12:46:11.349046",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: build:all] [Build injection] Could the 'cargo build-sbf && anchor build -p fusion-swap && anchor build -p whitelist' command sequence be exploited via environment variable injection to inject malicious code into compiled programs? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_70bb2502-12f7-41aa-a18b-4e5e79183b06?mode=deep",
+    "timestamp": "2026-01-09 12:46:30.418145",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [DevDependencies: keccak@^3.0.4] [Hash manipulation] Could a compromised keccak library weaken hash operations used in PDA seed generation, enabling PDA collision attacks? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_86e02b82-d5b5-44a7-8478-3dc571d56ec2?mode=deep",
+    "timestamp": "2026-01-09 12:46:49.649972",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [DevDependencies: bs58@^6.0.0] [Encoding manipulation] Could a backdoored bs58 library manipulate base58 encoding/decoding during key or address handling, redirecting funds to attacker-controlled addresses? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1c9b736f-5299-440e-826f-9f25ffe9d457?mode=deep",
+    "timestamp": "2026-01-09 12:47:09.217951",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [DevDependencies: @solana-developers/helpers@^2.7.0] [Development backdoor] Could compromised developer helper utilities inject malicious code during development that gets included in production builds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_85971cd1-7803-4986-8799-2c495be91297?mode=deep",
+    "timestamp": "2026-01-09 12:47:29.823538",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: prompt-sync@^4.2.0] [Input injection] Could the prompt-sync library be vulnerable to input injection attacks during interactive script execution, potentially leaking private keys or sensitive configuration? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b524ef9c-2148-4de4-9112-bc337ae2f80c?mode=deep",
+    "timestamp": "2026-01-09 12:47:50.381952",
+    "report_generated": false
   }
 ]
