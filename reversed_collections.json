@@ -1,1 +1,152 @@
-[]
+[
+  {
+    "question": "[File: package.json] [Dependencies: All transitive dependencies] [Dependency depth attacks] Could deeply nested transitive dependencies contain malicious code that evades direct inspection, compromising the build or runtime? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bc7e4293-d514-42e4-87ac-6853de011b9e?mode=deep",
+    "timestamp": "2026-01-09 12:04:27.828795",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [DevDependencies: prettier@^2.6.2] [Old version risks] Is prettier version 2.6.2 (from 2022) outdated and potentially containing known vulnerabilities that could be exploited during code formatting? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2857bca6-cd51-4f04-8621-c4f0b6cb0842?mode=deep",
+    "timestamp": "2026-01-09 12:04:39.779945",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: prompt-sync@^4.2.0] [Interactive script risks] Could interactive prompts in deployment scripts be exploited to trick operators into authorizing malicious deployments or signing malicious transactions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6494285f-7afe-43c7-a0c4-e486c45b4e6f?mode=deep",
+    "timestamp": "2026-01-09 12:04:52.088494",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: @solana/spl-token@^0.4.9] [Token program interaction] Could a backdoored spl-token library manipulate token transfer instructions to redirect funds to attacker addresses during program execution? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e28ee90b-4899-4111-8524-4a389b0e7bf5?mode=deep",
+    "timestamp": "2026-01-09 12:05:04.936152",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: @coral-xyz/anchor@^0.31.1] [IDL manipulation] Could a compromised Anchor version generate malicious IDL files that cause client scripts to construct invalid or exploitative transactions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f1a2c8d4-db22-4320-86e0-17cdca8994a7?mode=deep",
+    "timestamp": "2026-01-09 12:05:18.218175",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: build:all with cargo build-sbf] [SBF compilation manipulation] Could the sBF (Solana Berkeley Packet Filter) compilation process be manipulated to inject malicious bytecode into the final program binary? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0919ef53-947f-4fa3-ae38-214d4d1a7bd4?mode=deep",
+    "timestamp": "2026-01-09 12:05:32.409679",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Entire file] [No integrity checking] Is there any mechanism to verify package.json integrity before script execution, or could local file modification go undetected? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_063bf270-e211-481a-9900-f772ac965e5e?mode=deep",
+    "timestamp": "2026-01-09 12:05:47.386477",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Entire file] [File replacement] Could an attacker with repository access replace package.json with a malicious version that adds backdoored dependencies, compromising all developers who run 'yarn install'? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2bc6b88e-935e-4acf-a4fa-fd2f89529409?mode=deep",
+    "timestamp": "2026-01-09 12:06:03.026160",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Scripts: clean + build] [State reset exploit] Could running 'clean' before 'build' in certain states cause the build to use cached malicious artifacts instead of clean sources? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c67d28aa-4352-4354-8044-384de287e866?mode=deep",
+    "timestamp": "2026-01-09 12:06:19.511466",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Scripts: lint:fix + build + deploy] [Attack chain] Could an attacker chain exploits across lint:fix (code injection), build (malicious compilation), and deploy (unauthorized deployment) to achieve full protocol compromise? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_16e01e8e-437a-423c-a510-14ba94dbb3a5?mode=deep",
+    "timestamp": "2026-01-09 12:06:36.298620",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: new] [Project template risks] Could 'anchor new' pull malicious project templates from compromised repositories, seeding new projects with backdoored code? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_03831a54-860e-459a-b14d-dfa16c6e1a9b?mode=deep",
+    "timestamp": "2026-01-09 12:06:53.826156",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: Outdated versions] [Known vulnerabilities] Do any dependencies have known CVEs that could be exploited? Is there a process to monitor and update vulnerable dependencies? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_873ddcc8-e9ca-4ff6-b9c0-2c77c2f2bac9?mode=deep",
+    "timestamp": "2026-01-09 12:07:12.114315",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Scripts: deploy commands] [Automated deployment risks] If deployment scripts run in automated CI/CD, could a compromised CI environment deploy malicious programs to production without human verification? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b8d969fd-0a35-4f37-9ec5-927729167910?mode=deep",
+    "timestamp": "2026-01-09 12:07:31.498093",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Scripts: build/deploy] [Artifact tampering] Are build artifacts cryptographically signed and verified before deployment, or could an attacker replace compiled programs between build and deploy steps? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e552c426-2aff-4bb0-b0cb-fe19f88f524c?mode=deep",
+    "timestamp": "2026-01-09 12:07:50.893129",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Scripts: All] [CI environment injection] Could environment variables in CI/CD pipelines be manipulated to inject malicious commands during script execution, compromising build artifacts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed622d46-d50a-4fed-9624-dffa86b0aed0?mode=deep",
+    "timestamp": "2026-01-09 12:08:11.372114",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [DevDependencies: @types/*] [Type definition manipulation] Could compromised type definition packages provide incorrect types for Solana/Anchor APIs, causing developers to misuse security-critical functions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4921722d-1c0a-4943-9f2a-9451f05d44a4?mode=deep",
+    "timestamp": "2026-01-09 12:08:31.600867",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: typecheck] [Incomplete checking] Does 'tsc --noEmit --skipLibCheck' skip checking of library types, potentially missing type mismatches in critical Anchor or Solana SDK interactions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3689a43c-a3c9-4649-9d9a-5c5ea26516a4?mode=deep",
+    "timestamp": "2026-01-09 12:08:51.707107",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [DevDependencies: ts-mocha@^10.0.0] [TypeScript test bypass] Could the ts-mocha runner fail to properly type-check test files, allowing type-unsafe test code that doesn't catch real program bugs? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b28c9c27-c1a9-405f-b0f7-59357521582b?mode=deep",
+    "timestamp": "2026-01-09 12:09:12.678410",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [DevDependencies: mocha/chai] [Test framework exploits] Could vulnerabilities in the test framework itself be exploited to manipulate test results, hiding security bugs during audits? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ce5cfd83-3123-4af3-9500-778467eebea0?mode=deep",
+    "timestamp": "2026-01-09 12:09:33.513603",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: test:all with RUST_LOG=error] [Warning suppression] Could setting RUST_LOG=error hide important security warnings or panics during test execution, allowing vulnerabilities to pass unnoticed? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dd74f56f-f236-4569-bc39-fd5180cc2493?mode=deep",
+    "timestamp": "2026-01-09 12:09:54.824218",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: test] [Incomplete coverage] Does running only 'anchor test' without cargo tests skip unit tests for critical Rust logic like auction calculations or PDA derivations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_13f3b57a-2da4-46c7-a54e-3def37ee059c?mode=deep",
+    "timestamp": "2026-01-09 12:10:14.855152",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: test:all] [Test ordering] Does running 'anchor test --skip-build && cargo test' in sequence mean that Anchor tests run on stale builds, potentially missing recently introduced bugs? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7666933-33ac-4df2-a546-516f3ecb1b0f?mode=deep",
+    "timestamp": "2026-01-09 12:10:35.266201",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [License: MIT] [Dependency license conflicts] Could transitive dependencies have incompatible licenses (e.g., GPL) that create legal risks or indicate potentially malicious packages? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a2f98018-343e-4b00-abe7-6e25b5ccd60d?mode=deep",
+    "timestamp": "2026-01-09 12:10:55.465552",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: All] [Floating versions] Do caret versions prevent reproducible builds, making it impossible to verify that production deployments match audited code? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_eb299e9e-c765-455f-8f06-3fb3e7a4a48e?mode=deep",
+    "timestamp": "2026-01-09 12:11:15.351929",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Script: build:all] [Non-deterministic builds] Could the build process produce different program binaries on different machines due to non-deterministic compilation, making it impossible to verify deployed program integrity? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4164d27-b46d-4445-9569-14f819ac0ca1?mode=deep",
+    "timestamp": "2026-01-09 12:11:34.939359",
+    "report_generated": false
+  }
+]
