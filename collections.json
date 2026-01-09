@@ -598,5 +598,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6578d0eb-ae51-49ef-92c4-bb8470d6334f?mode=deep",
     "timestamp": "2026-01-09 13:05:11.149602",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Init_if_needed security] maker_dst_ata uses init_if_needed at line 573 - can a malicious taker repeatedly initialize this account to drain maker of rent? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_56c100d7-ee43-4498-9422-951cf8615a3b?mode=deep",
+    "timestamp": "2026-01-09 13:06:56.306796",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Optional taker_dst_ata] taker_dst_ata is Option<> at line 588 - can a resolver exploit this by setting it to None when dst_asset_is_native is true? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_702b840c-e419-4def-bde0-9c2502b8f39d?mode=deep",
+    "timestamp": "2026-01-09 13:07:08.440891",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Multiple token programs] src_token_program and dst_token_program can be different - can this create inconsistencies in validation or transfer mechanics? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_baf021ca-53f7-4f64-92bc-10221410d813?mode=deep",
+    "timestamp": "2026-01-09 13:07:20.816977",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Cancel] [Simplified PDA seeds] Lines 609-613 only use maker and order_hash, not the full order details - can this create ambiguity about which order is being cancelled? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0e211e96-ef28-400c-bb4b-6f5a1fcb2777?mode=deep",
+    "timestamp": "2026-01-09 13:07:33.784727",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Cancel] [No order validation] Cancel struct doesn't include order config - can a maker cancel with wrong parameters but correct order_hash? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4c2f4e4a-73b8-4ddb-9db3-c9bbceeba39a?mode=deep",
+    "timestamp": "2026-01-09 13:07:47.163546",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Cancel] [Optional maker_src_ata] maker_src_ata is Option<> at line 635 - what happens to tokens if this is None for a non-native asset? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_14adf2bb-4357-4102-a7d7-cd4cb4e97c58?mode=deep",
+    "timestamp": "2026-01-09 13:08:01.550158",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: CancelByResolver] [Resolver authentication] Lines 648-652 validate resolver access - can the bump be manipulated to bypass authorization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_91a19438-161a-4947-bd33-400afc53131c?mode=deep",
+    "timestamp": "2026-01-09 13:08:16.941946",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: CancelByResolver] [Unchecked maker] maker is UncheckedAccount at line 657 - can a resolver provide a fake maker to redirect lamports? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2287c76c-b909-48b5-a54b-a30a90cd05f2?mode=deep",
+    "timestamp": "2026-01-09 13:08:33.517754",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: CancelByResolver] [Unchecked maker_receiver] maker_receiver is UncheckedAccount at line 660 - does this affect order_hash verification? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3b6cb544-d7c6-4e5c-b6ec-5f8127970ab4?mode=deep",
+    "timestamp": "2026-01-09 13:08:50.635507",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: FeeConfig] [Protocol fee bounds] protocol_fee is u16 at line 717 - max value is 65535 basis points = 655.35%, can this consume entire dst_amount? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_72c93bb2-0664-4365-9948-cab22457bdf7?mode=deep",
+    "timestamp": "2026-01-09 13:09:08.027923",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: FeeConfig] [Integrator fee bounds] integrator_fee is u16 at line 720 - combined with protocol_fee, can total fees exceed 100%? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_39bfe892-19c5-4be5-a17c-c8b388517c32?mode=deep",
+    "timestamp": "2026-01-09 13:09:25.935939",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: FeeConfig] [Surplus percentage validation] surplus_percentage is u8 at line 724 - max 255 is validated <= 100 in create(), but could be set higher in a direct call? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b7a4cfe7-ce26-4131-aa1e-343835681a9b?mode=deep",
+    "timestamp": "2026-01-09 13:09:44.774944",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: FeeConfig] [Cancellation premium type] max_cancellation_premium is u64 at line 728 - can this exceed the actual lamports in escrow_src_ata? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8963db28-2f1c-430b-ac17-6ba937c00d3d?mode=deep",
+    "timestamp": "2026-01-09 13:10:04.694394",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: OrderConfig] [ID collision] id is u32 at line 733 - can two orders from the same maker have the same ID if order_hash differs? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_993c29ca-4c61-4ca7-b620-4e2bfe532c69?mode=deep",
+    "timestamp": "2026-01-09 13:10:25.106761",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: OrderConfig] [Amount bounds] src_amount and min_dst_amount are u64 at lines 734-735 - are there practical limits to prevent overflow in calculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e13cfc02-452a-4fa9-848b-817c208c53dc?mode=deep",
+    "timestamp": "2026-01-09 13:10:46.383773",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: OrderConfig] [Estimated amount manipulation] estimated_dst_amount at line 736 can be set arbitrarily high - does this enable surplus fee gaming? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_72c17450-2291-4d10-a6de-bfb71c7fc26b?mode=deep",
+    "timestamp": "2026-01-09 13:11:07.461371",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: OrderConfig] [Expiration timestamp] expiration_time is u32 at line 737 - what happens after year 2106 when Unix timestamp exceeds u32? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3dfcf624-f8fb-4841-afe6-a02a00621e0d?mode=deep",
+    "timestamp": "2026-01-09 13:11:29.754774",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: OrderConfig] [Boolean traits] src_asset_is_native and dst_asset_is_native at lines 738-739 - can both be true simultaneously? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bf6c4081-1438-4df5-8f29-a44b0c7642d0?mode=deep",
+    "timestamp": "2026-01-09 13:11:51.401463",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: PointAndTimeDelta] [Input validation] Can an attacker create an AuctionData with PointAndTimeDelta entries where time_delta is zero, causing division by zero in the interpolation logic at line 41 when calculate_rate_bump executes, leading to transaction panic and DoS? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_67d1e332-8146-41b8-a467-3a74871eee19?mode=deep",
+    "timestamp": "2026-01-09 13:12:15.118511",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: PointAndTimeDelta] [Integer overflow] Can an attacker craft PointAndTimeDelta entries with rate_bump values of u16::MAX (65535) that when multiplied by timestamps in line 39-40 cause u64 overflow despite the overflow comments claiming safety, enabling auction rate manipulation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_67d315b0-7938-472b-bd0e-645ec5a09aae?mode=deep",
+    "timestamp": "2026-01-09 13:12:38.194354",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: PointAndTimeDelta] [Cumulative overflow] Can an attacker create a points_and_time_deltas vector where the cumulative sum of all time_delta values overflows u64 when added to start_time at line 32, causing incorrect auction timing and potential rate manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a8a6e5ce-daae-4b4b-8354-0591ed50eda0?mode=deep",
+    "timestamp": "2026-01-09 13:13:01.542056",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: PointAndTimeDelta] [Rate monotonicity] Does the protocol validate that rate_bump values in consecutive PointAndTimeDelta entries are monotonically decreasing for Dutch auction semantics, or can an attacker create non-decreasing rates to manipulate pricing? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6d58055e-bf3d-4f23-bd9d-c122418c9875?mode=deep",
+    "timestamp": "2026-01-09 13:13:24.044871",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: PointAndTimeDelta] [Vector ordering] Can an attacker provide PointAndTimeDelta entries in non-chronological order within points_and_time_deltas, causing the piecewise interpolation logic to calculate incorrect rates and enable economic exploitation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b6d18dc2-8965-40f6-809d-233eaebdab2c?mode=deep",
+    "timestamp": "2026-01-09 13:13:46.318781",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: AuctionData] [Timestamp overflow] Can an attacker set start_time close to u32::MAX such that when duration is added at line 21 (start_time as u64 + duration as u64), it overflows the auction_finish_time calculation, causing auction to never expire? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_09c50e2e-58e2-4d0a-bd41-cddd46aca54b?mode=deep",
+    "timestamp": "2026-01-09 13:14:06.863800",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/auction.rs] [Struct: AuctionData] [Zero duration] Can an attacker create an AuctionData with duration=0, causing division by zero at line 71 in calculate_premium or immediate auction finish at line 22-23, enabling instant order fills at initial rates? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1b0c3639-7432-4974-9f1b-9f28720e6fdf?mode=deep",
+    "timestamp": "2026-01-09 13:14:28.008202",
+    "report_generated": false
   }
 ]
