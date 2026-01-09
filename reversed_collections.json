@@ -1198,5 +1198,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6e5b82cf-b6f6-47b3-9011-d14327a08dbd?mode=deep",
     "timestamp": "2026-01-09 13:37:08.132817",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Discriminator Collision] Can an attacker create an account with the same discriminator [175, 175, 109, 31, 13, 152, 155, 237] to impersonate a legitimately initialized whitelist_state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c1515a17-01de-430a-9030-08773fdfe520?mode=deep",
+    "timestamp": "2026-01-09 13:38:18.664788",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Authority Persistence] After initialization, is the authority field in WhitelistState immutable except through set_authority, or can it be modified through unintended paths? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_10d87930-2276-4309-94f2-853360ac4ff4?mode=deep",
+    "timestamp": "2026-01-09 13:38:30.604286",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [System Program Validation] Is the system_program address (11111111111111111111111111111111) hardcoded correctly, or can an attacker substitute a malicious program during initialization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ae9560b3-f28d-46d7-9f6a-0cf717aa2d7a?mode=deep",
+    "timestamp": "2026-01-09 13:38:42.790580",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Account Size Validation] Can an attacker manipulate the account creation to allocate insufficient space for WhitelistState, causing future operations to fail or corrupt state? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d5728c26-66de-470c-9cc4-82de5fe83399?mode=deep",
+    "timestamp": "2026-01-09 13:38:55.515549",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Missing Rent Exemption Check] Does the initialize instruction ensure the whitelist_state account is rent-exempt, or can an attacker cause the account to be reclaimed by creating it with insufficient lamports? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3427ef7c-b60a-410b-9347-8798e70dc55e?mode=deep",
+    "timestamp": "2026-01-09 13:39:08.782635",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [PDA Collision] Can an attacker exploit the deterministic PDA derivation of whitelist_state (seeds: 'whitelist_state') to predict the account address and pre-fund it with malicious data before initialization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4ca2be3c-0533-4c7c-9c97-668aa78a12cd?mode=deep",
+    "timestamp": "2026-01-09 13:39:22.614293",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Authority Hijacking] Does the initialize instruction properly validate that whitelist_state hasn't been initialized before, or can an attacker front-run the legitimate initialization to set themselves as the authority? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ecc83a42-3f91-40fa-83df-f63c28ff9ecd?mode=deep",
+    "timestamp": "2026-01-09 13:39:37.636946",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Reinitialization Attack] Can an attacker call initialize() multiple times if the whitelist_state PDA already exists, potentially overwriting the authority and taking control of the whitelist system? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4341bf7d-1997-4b77-b799-0ee4643f2c85?mode=deep",
+    "timestamp": "2026-01-09 13:39:53.272205",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Discriminator Collision] Can an attacker create an account with the same discriminator [175, 175, 109, 31, 13, 152, 155, 237] to impersonate a legitimately initialized whitelist_state? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a6ac9326-01a9-4d93-9844-ceed394edc93?mode=deep",
+    "timestamp": "2026-01-09 13:40:09.098637",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Authority Persistence] After initialization, is the authority field in WhitelistState immutable except through set_authority, or can it be modified through unintended paths? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e9f0f9cc-851b-45f2-8121-d41a923ec253?mode=deep",
+    "timestamp": "2026-01-09 13:40:26.054719",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [System Program Validation] Is the system_program address (11111111111111111111111111111111) hardcoded correctly, or can an attacker substitute a malicious program during initialization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_10a8df53-02ff-4659-8be0-79300a2cfa46?mode=deep",
+    "timestamp": "2026-01-09 13:40:43.502406",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Account Size Validation] Can an attacker manipulate the account creation to allocate insufficient space for WhitelistState, causing future operations to fail or corrupt state? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_95025f4a-b5b6-44f9-9966-2f4f425971a9?mode=deep",
+    "timestamp": "2026-01-09 13:41:01.883769",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Missing Rent Exemption Check] Does the initialize instruction ensure the whitelist_state account is rent-exempt, or can an attacker cause the account to be reclaimed by creating it with insufficient lamports? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8c659157-f3a3-429f-9b9c-bb8de1be0982?mode=deep",
+    "timestamp": "2026-01-09 13:41:20.839796",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [PDA Collision] Can an attacker exploit the deterministic PDA derivation of whitelist_state (seeds: 'whitelist_state') to predict the account address and pre-fund it with malicious data before initialization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_efbe50b3-cdc6-4ed9-9d0d-421553c5a75b?mode=deep",
+    "timestamp": "2026-01-09 13:41:40.575777",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Authority Hijacking] Does the initialize instruction properly validate that whitelist_state hasn't been initialized before, or can an attacker front-run the legitimate initialization to set themselves as the authority? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a11db053-1299-43c3-9bdf-6b0bd3ee6e82?mode=deep",
+    "timestamp": "2026-01-09 13:42:01.234107",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Function: initialize] [Reinitialization Attack] Can an attacker call initialize() multiple times if the whitelist_state PDA already exists, potentially overwriting the authority and taking control of the whitelist system? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c27e3fc2-c573-4586-b7fd-1075da884168?mode=deep",
+    "timestamp": "2026-01-09 13:42:21.438137",
+    "report_generated": false
+  },
+  {
+    "question": "[File:\n\n### Citations\n\n**File:** idl/fusion_swap.json (L1-1266)\n```json\n{",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_aa67a015-8cb4-4c79-99ba-c0d8fa33ebb5?mode=deep",
+    "timestamp": "2026-01-09 13:42:42.153840",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Error: OrderExpired] Can an attacker bypass error code 6005 by manipulating the clock sysvar or exploiting missing timestamp validation to fill expired orders? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0b123f5f-d366-40a6-9031-142b23b640af?mode=deep",
+    "timestamp": "2026-01-09 13:43:03.367148",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Error: NotEnoughTokensInEscrow] Can an attacker bypass error code 6004 by exploiting race conditions in partial fills that allow extracting more tokens than available in escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a90b1063-d161-4ddc-8131-fef906fe75f6?mode=deep",
+    "timestamp": "2026-01-09 13:43:25.405725",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Error: MissingMakerDstAta] Can an attacker cause error code 6003 to be incorrectly triggered for native SOL orders, causing legitimate fills to fail and creating DoS? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2e939ee2-c493-4fe5-b11a-abed56fdc931?mode=deep",
+    "timestamp": "2026-01-09 13:43:45.591824",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Error: InvalidAmount] Can an attacker bypass error code 6002 by providing edge case amounts (0, 1, u64::MAX-1) that pass validation but break protocol invariants during transfers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_47e77e51-4cc4-492c-818d-7f04aeeb2304?mode=deep",
+    "timestamp": "2026-01-09 13:44:06.760522",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Error: InconsistentNativeDstTrait] Can an attacker bypass error code 6001 by providing dst_asset_is_native that mismatches the actual dst_mint type, enabling SOL wrapping exploits during fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_16257a9e-e09b-4718-a91e-4ad014402acf?mode=deep",
+    "timestamp": "2026-01-09 13:44:28.199022",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Error: InconsistentNativeSrcTrait] Can an attacker bypass error code 6000 by providing src_asset_is_native that mismatches the actual src_mint type, exploiting missing validation to create malformed orders? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7b12558e-f705-464e-b340-824ff0dc2ee5?mode=deep",
+    "timestamp": "2026-01-09 13:44:49.623363",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: ResolverAccess] [Fake Resolver Account] Can an attacker create a fake ResolverAccess account with discriminator [32, 2, 74, 248, 174, 108, 70, 156] that isn't validated against the whitelist program? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0cc06334-4b38-4fe7-b807-a6cc74b2b9cf?mode=deep",
+    "timestamp": "2026-01-09 13:45:10.433459",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Type: ResolverAccess] [Bump Collision] Can an attacker manipulate the bump value in ResolverAccess to create PDA collisions that allow impersonation of legitimate resolvers? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e40c4c62-68f2-4571-8359-87673ebe1999?mode=deep",
+    "timestamp": "2026-01-09 13:45:30.845936",
+    "report_generated": false
   }
 ]
