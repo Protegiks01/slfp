@@ -298,5 +298,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b524ef9c-2148-4de4-9112-bc337ae2f80c?mode=deep",
     "timestamp": "2026-01-09 12:47:50.381952",
     "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: spl-token-bankrun@^0.2.6] [Mock bypass] Could the token bankrun mock be bypassed or manipulated to create false positive test results that hide real token transfer vulnerabilities? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_54fdce84-5010-434d-b1b1-de5b15ed6bde?mode=deep",
+    "timestamp": "2026-01-09 12:48:56.148401",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: solana-bankrun@^0.4.0] [Sandbox escape] Could vulnerabilities in the bankrun testing environment allow test code to escape the sandbox and access production keys or wallets during development? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c2d5a534-1a14-4f7c-bf37-f6b37ccdfa3e?mode=deep",
+    "timestamp": "2026-01-09 12:49:08.046325",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: anchor-bankrun@^0.5.0] [Test manipulation] Could a compromised test framework hide vulnerabilities during testing by manipulating test results, allowing critical bugs to pass into production deployments? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_844cbdb4-3f8f-49b9-822e-12a53e0c3dde?mode=deep",
+    "timestamp": "2026-01-09 12:49:20.069295",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: @noble/hashes@^1.7.1] [Hash collision] Could a backdoored version of @noble/hashes allow hash collisions in PDA derivation, enabling attackers to generate colliding escrow addresses and steal tokens from multiple orders? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d02b194d-a28a-4060-8938-da2fdc74ed10?mode=deep",
+    "timestamp": "2026-01-09 12:49:33.171100",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: borsh@^2.0.0] [Deserialization attack] Could a compromised borsh serialization library introduce deserialization vulnerabilities that allow attackers to craft malicious account data, corrupting program state during order creation or filling? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_992cb2ed-ae14-4ae3-bcd0-623ce4d6e924?mode=deep",
+    "timestamp": "2026-01-09 12:49:46.391371",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: tweetnacl@^1.0.3] [Cryptographic backdoor] Could a malicious update to the tweetnacl cryptography library (via caret versioning) weaken signature validation or key generation, compromising resolver authentication or transaction signing? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b9249da7-abfb-4902-b562-26e1a0a70c50?mode=deep",
+    "timestamp": "2026-01-09 12:50:00.053779",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: @solana/spl-token@^0.4.9] [Supply chain attack] Does the caret versioning (^0.4.9) for spl-token allow automatic updates to minor/patch versions that could contain compromised token transfer logic, leading to potential token theft during program execution? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_840240a6-f924-4eec-a070-032c97e57f85?mode=deep",
+    "timestamp": "2026-01-09 12:50:14.915792",
+    "report_generated": false
+  },
+  {
+    "question": "[File: package.json] [Dependencies: @coral-xyz/anchor@^0.31.1] [Supply chain attack] Could a compromised version of the Anchor framework (using caret versioning) introduce malicious code that manipulates program deployments or injects backdoors into compiled programs, potentially enabling unauthorized token transfers? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b251de4c-c0fd-48ba-97cb-fc24e96907df?mode=deep",
+    "timestamp": "2026-01-09 12:50:30.195828",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Edge Case] [Account Close Race] Can resolver_access be closed via deregister while fusion-swap is reading it for authorization, causing transaction failures\n\n### Citations\n\n**File:** idl/whitelist.json (L1-371)\n```json\n{",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_29873aed-969d-4044-bf62-28093dd96fa0?mode=deep",
+    "timestamp": "2026-01-09 12:50:46.214749",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Edge Case] [Program Upgrade] If the whitelist program is upgraded, can existing whitelist_state and resolver_access accounts become incompatible, breaking authorization? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5253a2db-4913-4085-9916-ecc6aceebc5b?mode=deep",
+    "timestamp": "2026-01-09 12:51:03.511919",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Edge Case] [Zero Authority] Can set_authority be called with the zero address as new_authority, permanently locking the whitelist? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ea715617-ee17-4fee-9988-a8c0d0089586?mode=deep",
+    "timestamp": "2026-01-09 12:51:21.380420",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Edge Case] [Maximum Resolvers] Is there a limit on the number of resolvers that can be registered, and without limits, can storage exhaustion DoS the protocol? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_02ee30c0-e337-4f4f-a244-c98530b2194f?mode=deep",
+    "timestamp": "2026-01-09 12:51:39.520898",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Edge Case] [Authority Change During Operations] If set_authority is called while resolvers are actively filling orders, can this cause authorization failures mid-transaction? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_92c4f986-f921-4c09-af2c-b8f304a02a36?mode=deep",
+    "timestamp": "2026-01-09 12:51:56.554723",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Edge Case] [Empty Whitelist] Can fusion-swap operate when no resolvers are registered, and does this create a DoS vector if the authority deregisters all resolvers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b74be26a-f43d-416b-bb36-b471d06d6556?mode=deep",
+    "timestamp": "2026-01-09 12:52:15.411685",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Resolver Count] Does WhitelistState track the total number of registered resolvers, and without this, can resolver limits be enforced? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9d74b0e7-e991-4c1a-ac54-ebb499a8aa6f?mode=deep",
+    "timestamp": "2026-01-09 12:52:32.860021",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Event Emission] Does the whitelist emit events for register, deregister, and set_authority operations, and without events, can off-chain systems track state changes? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_73f91048-1a6c-44fa-ba65-53f20d0407b0?mode=deep",
+    "timestamp": "2026-01-09 12:52:51.453007",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Authority Recovery] If the authority private key is lost, is there a recovery mechanism, or does the whitelist become permanently unmanageable? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_63feba18-de4f-4c2b-9ff9-37c74a127656?mode=deep",
+    "timestamp": "2026-01-09 12:53:09.789856",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Multi-Signature Authority] Does the whitelist support multi-sig authority, or is a single authority pubkey a single point of failure? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f774dfb9-d303-40d3-b3cd-cc114065b25d?mode=deep",
+    "timestamp": "2026-01-09 12:53:27.970597",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Temporary Suspension] Does the whitelist support temporarily suspending resolvers without full deregistration, and without this, can misbehaving resolvers continue operations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2d65f8f1-8990-4118-8936-be22ead277c6?mode=deep",
+    "timestamp": "2026-01-09 12:53:46.908750",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Resolver Metadata] Should ResolverAccess include metadata like resolver name, status, or reputation score, and does the absence of this create security gaps? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_674cd91b-74e8-4aed-be95-e6585a9b80c9?mode=deep",
+    "timestamp": "2026-01-09 12:54:06.386388",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Registration Timestamp] Does ResolverAccess store when a resolver was registered, and without this, can historical authorization disputes arise? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a942c3d3-2e7f-44ba-81f3-9f1187d5c295?mode=deep",
+    "timestamp": "2026-01-09 12:54:26.158848",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [Missing Feature] [Resolver Listing] Does the whitelist provide a way to query all registered resolvers, or can unauthorized resolvers claim to be whitelisted without verification? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3423a3f5-7bda-4697-af85-23110936037a?mode=deep",
+    "timestamp": "2026-01-09 12:54:46.476129",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [DoS] [Account Lock] Can an attacker lock critical accounts (whitelist_state, resolver_access) by creating long-running transactions that hold account write locks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_88d3edd7-28ea-4487-a694-5171dcde238d?mode=deep",
+    "timestamp": "2026-01-09 12:55:06.201163",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [DoS] [PDA Derivation DoS] Can an attacker provide user pubkeys that require maximum iterations to find a valid bump, causing compute unit exhaustion during register? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cd2cfb0d-1a1c-480f-96d0-e693d104a9a7?mode=deep",
+    "timestamp": "2026-01-09 12:55:25.408858",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/whitelist.json] [DoS] [Transaction Flooding] Can an attacker flood the network with whitelist transactions to prevent legitimate registrations or authority changes? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8b792641-324d-4b8b-a891-229c2a624182?mode=deep",
+    "timestamp": "2026-01-09 12:55:46.268310",
+    "report_generated": false
   }
 ]
