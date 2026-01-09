@@ -2248,5 +2248,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f37c15aa-0be3-4306-be8e-f26427d0f783?mode=deep",
     "timestamp": "2026-01-09 14:37:41.365080",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Edge case: Program as resolver] Can a program account be registered as a resolver, enabling automated exploit scripts? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_809e2ed6-1d8b-423d-8039-4767acf20966?mode=deep",
+    "timestamp": "2026-01-09 14:38:50.377004",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Edge case: Duplicate authority] Can set_authority() be called with the same authority as current, wasting gas or causing state issues? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bd16d96a-b1b1-488c-b792-8c8964691b4a?mode=deep",
+    "timestamp": "2026-01-09 14:39:02.268905",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Advanced: Flash loan attack] Can an attacker use flash loans to temporarily control the authority and register malicious resolvers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5a09b3ed-44fa-4da5-af0b-4b8c79528717?mode=deep",
+    "timestamp": "2026-01-09 14:39:14.526741",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Advanced: MEV exploitation] Can MEV bots exploit register/deregister transactions to manipulate resolver competition in the fusion-swap program? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_19b480ae-eefa-4740-9f93-b67a0b1dab62?mode=deep",
+    "timestamp": "2026-01-09 14:39:28.253504",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Advanced: Governance attack] If authority is controlled by governance, can governance attacks change authority or register malicious resolvers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6b73d3e5-4d93-4100-8ef3-4b99625d99c5?mode=deep",
+    "timestamp": "2026-01-09 14:39:41.355344",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Advanced: Composability exploit] Can other protocols composing with whitelist create vulnerabilities through unexpected interactions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5fe2c6a3-30f5-4bd1-8256-c0a174ec63a4?mode=deep",
+    "timestamp": "2026-01-09 14:39:55.542081",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/whitelist/src/lib.rs] [Advanced: Account resurrection] After deregistration, can resolver_access accounts be resurrected with different data, bypassing checks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed1dc2dd-53a4-4984-9d0e-a0856bf88e97?mode=deep",
+    "timestamp": "2026-01-09 14:40:09.825673",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [PDA collision] In the calculateOrderHash() call at line 78, can an attacker craft two different orders with different parameters (srcAmount, minDstAmount, fees) that produce the same order hash, causing PDA collision and allowing the second order to overwrite or steal funds from the first order's escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cb44879c-a37d-4ef8-8589-1151e00e3905?mode=deep",
+    "timestamp": "2026-01-09 14:40:25.238056",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Hash manipulation] Does the order hash calculation at line 78 via calculateOrderHash() properly include all order parameters in a collision-resistant manner, or can an attacker manipulate non-included fields to create orders with identical hashes but different execution behavior? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ebeeddf0-c38b-4cda-9bad-2cbeb6febb8a?mode=deep",
+    "timestamp": "2026-01-09 14:40:41.928063",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [PDA seed manipulation] In the findEscrowAddress() call at lines 89-93, can an attacker manipulate the maker address or order hash buffer to derive an existing escrow PDA controlled by another user, allowing unauthorized access to that escrow's funds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0b46c456-9d13-434c-8a89-da52852aff63?mode=deep",
+    "timestamp": "2026-01-09 14:40:57.338718",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Buffer encoding attack] At lines 89-93, the order hash is passed as Buffer.from(orderHash) to findEscrowAddress() - can an attacker exploit buffer encoding inconsistencies between the hash calculation and PDA derivation to create PDA collisions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f4ac29e2-f6ba-403b-881b-36e87afe406a?mode=deep",
+    "timestamp": "2026-01-09 14:41:13.825636",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Order hash serialization] The orderHash is calculated at line 78 and logged as hex at line 79, but is there validation that the serialization format matches what the on-chain program expects, potentially causing escrow derivation mismatches? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_364e6979-0d44-4e16-93d3-2221ac56ecc3?mode=deep",
+    "timestamp": "2026-01-09 14:41:30.789721",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Amount validation] At lines 36-37, srcAmount and minDstAmount are accepted as BN types without validation - can an attacker pass zero or negative amounts to create invalid orders that could be exploited during fill operations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1644549b-81ef-4c17-8bad-17d44a04f709?mode=deep",
+    "timestamp": "2026-01-09 14:41:48.661742",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Integer overflow] At lines 165-166, the amount conversion uses Math.pow(10, decimals) and multiplication - can this overflow with large decimal values (e.g., 255 decimals) causing incorrect srcAmount/minDstAmount calculation and potential fund loss? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_62e85129-11ce-4220-af7c-9f340eba38de?mode=deep",
+    "timestamp": "2026-01-09 14:42:07.197627",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Decimal manipulation] At lines 158-159, token decimals are fetched from on-chain, but at lines 165-166, can an attacker provide manipulated decimal values to the Math.pow() calculation to create orders with incorrect amounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ca5369a2-95fd-4769-ba9c-eb4f7e1138fd?mode=deep",
+    "timestamp": "2026-01-09 14:42:26.476639",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [BN conversion loss] When srcAmount and minDstAmount are passed as BN at lines 36-37 and used in reducedOrderConfig at lines 55-56, is there precision loss or overflow that could allow creating orders with amounts different from user intent? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_627a7282-1501-4b26-a015-2c0239404c7a?mode=deep",
+    "timestamp": "2026-01-09 14:42:46.477691",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [estimatedDstAmount manipulation] At line 48, estimatedDstAmount defaults to minDstAmount - can a malicious maker set estimatedDstAmount far below minDstAmount to manipulate auction calculations or fee distributions? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d4903a31-9e02-41f2-b513-f03abe94f069?mode=deep",
+    "timestamp": "2026-01-09 14:43:07.357629",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [SOL wrapping race condition] At lines 102-117, when srcMint == NATIVE_MINT, SOL is wrapped by transferring to ATA then syncing - can an attacker front-run this transaction to manipulate the wrapped amount or steal the SOL during the wrap? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6a5d0da7-5165-495d-8ddd-f0752fc08496?mode=deep",
+    "timestamp": "2026-01-09 14:43:27.410681",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [SOL amount mismatch] At line 112, srcAmount.toNumber() is used for lamports transfer - can this lose precision for amounts > 2^53, causing the maker to transfer more SOL than intended to the wrapping ATA? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_33417ab6-f654-417c-ac84-7fcd87979c5c?mode=deep",
+    "timestamp": "2026-01-09 14:43:47.635132",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Unwrapped SOL handling] At lines 109-114, the SystemProgram.transfer() sends lamports directly to the maker's native ATA without checking if the ATA exists - can this cause transaction failure and loss of funds if the ATA hasn't been initialized? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ca7f6280-6e38-4c82-8e29-41056bd43b9c?mode=deep",
+    "timestamp": "2026-01-09 14:44:07.716491",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Native mint validation] At line 102, the condition checks srcMint == splToken.NATIVE_MINT, but if srcAssetIsNative is true at line 43 while srcMint is not NATIVE_MINT, does this create inconsistency that could be exploited during order fill? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5dc82e46-dee8-4dc2-8721-4969278f0e97?mode=deep",
+    "timestamp": "2026-01-09 14:44:28.644840",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Sync native timing] At line 116, syncNativeInstruction is called after transfer - if the transaction is interrupted between transfer and sync, can the funds be in an inconsistent state allowing theft? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f32ed56b-0249-45a0-8d4f-e85e2a719106?mode=deep",
+    "timestamp": "2026-01-09 14:44:50.192115",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Double wrapping attack] If the maker's native ATA at line 104-107 already has wSOL balance, does the additional transfer at lines 109-114 cause over-wrapping, and could this be exploited to drain more tokens than the order's srcAmount during fill? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_82ee067e-1092-4772-8358-eb7439afee5e?mode=deep",
+    "timestamp": "2026-01-09 14:45:11.089179",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Fee account null validation] At lines 46-47 and 128-129, protocolDstAcc and integratorDstAcc can be null, but in orderConfig at lines 73-74 they're included - can an attacker exploit the mismatch between null accounts and fee percentages to steal fees? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5b1e6f68-a0a7-4145-ba0c-9bfae7ac5f37?mode=deep",
+    "timestamp": "2026-01-09 14:45:32.638704",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Fee percentage overflow] The fee object at line 45 uses defaultFeeConfig which has protocolFee, integratorFee, surplusPercentage - can an attacker manipulate these to sum > 100%, causing the fill operation to fail or distribute incorrect amounts? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1a22358b-9c83-49f3-a50a-c6bb3020c621?mode=deep",
+    "timestamp": "2026-01-09 14:45:55.213749",
+    "report_generated": false
   }
 ]
