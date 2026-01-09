@@ -2548,5 +2548,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_157c4c04-c938-4d86-ab8e-9679ccd9ba98?mode=deep",
     "timestamp": "2026-01-09 14:54:48.598685",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Type: AuctionData] [Type Safety] Does the AuctionData type (lines 42-45) enforce constraints on startTime, duration, and pointsAndTimeDeltas, or can type-unsafe values cause auction manipulation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0fdf73a1-cff9-48c7-8bdf-2b8d40338927?mode=deep",
+    "timestamp": "2026-01-09 14:55:52.123622",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Type: Escrow] [Type Extraction] If the Escrow type extracted from IDL (lines 39-40) doesn't match the actual on-chain account structure, can this cause deserialization errors that enable account manipulation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5bb7e607-c916-428b-bdf3-a9a97494047f?mode=deep",
+    "timestamp": "2026-01-09 14:56:04.095504",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Type: ReducedFeeConfig] [Type Inference] Can the type inference from IDL (lines 18-21) produce different types than expected, causing serialization mismatches between client and on-chain program? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a5ebf9ab-c8ca-424d-976e-49099d42f72e?mode=deep",
+    "timestamp": "2026-01-09 14:56:16.414080",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Type: ReducedOrderConfig] [IDL Mismatch] If the IDL changes but the type extraction (lines 12-16) isn't updated, can this cause type mismatches that lead to incorrect order hash calculation or serialization errors? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fdf70648-9350-4278-a468-106c2e1e7187?mode=deep",
+    "timestamp": "2026-01-09 14:56:29.152819",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Type: FeeConfig] [Null vs Undefined] Does the type system distinguish between null and undefined for protocolDstAcc/integratorDstAcc, and can this distinction be exploited to bypass fee distribution or create hash collisions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7ef5ffc3-7d1a-4aa4-b787-49736ceaadfc?mode=deep",
+    "timestamp": "2026-01-09 14:56:42.335972",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Type: OrderConfig] [Field Addition] Can an attacker add extra fields to OrderConfig beyond those in the type definition, and do these extra fields affect the order hash calculation or on-chain validation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1ac34fb9-db16-45d7-83b4-cc1084d3f74d?mode=deep",
+    "timestamp": "2026-01-09 14:56:56.264521",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Decimal Range] Does the function validate that decimals are within the valid SPL token range (0-255), or can out-of-range values cause arithmetic errors in amount calculations? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_94e4688e-0ee9-4775-bc0d-d24bd275be76?mode=deep",
+    "timestamp": "2026-01-09 14:57:12.286670",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Cache Poisoning] If decimal values are cached, can an attacker poison the cache with incorrect values, affecting multiple orders? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cf9aeebf-7203-4e36-be5b-9f71f2763f8d?mode=deep",
+    "timestamp": "2026-01-09 14:57:28.378817",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Race Condition] Can the mint decimals be modified on-chain between fetching and using them, causing calculation inconsistencies in order creation or filling? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_095f5084-21c7-4137-a136-2ff0ac6e3076?mode=deep",
+    "timestamp": "2026-01-09 14:57:44.861164",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [Mint Validation] Does the function verify that the mint address corresponds to a valid SPL token program mint, or can an attacker pass arbitrary account addresses that return unexpected decimal values? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f8a781c8-1d40-439c-b9d5-e49ad01651e3?mode=deep",
+    "timestamp": "2026-01-09 14:58:02.544701",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getTokenDecimals()] [RPC Manipulation] Can an attacker exploit a compromised or malicious RPC endpoint to return fake decimal values, causing incorrect amount calculations and potential fund loss? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3895f738-9e9e-4eec-90ea-737e3e166c6e?mode=deep",
+    "timestamp": "2026-01-09 14:58:19.692630",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Invalid Secret Key] Does Keypair.fromSecretKey validate that the secret key is cryptographically valid, or can malformed keys cause unexpected behavior or security vulnerabilities? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_a27aa145-710c-4f1f-90a5-b365093537df?mode=deep",
+    "timestamp": "2026-01-09 14:58:38.066275",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Buffer Overflow] Can the Uint8Array.from conversion (line 81) overflow if the JSON array contains values outside 0-255 range, potentially causing memory corruption? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_70b4bbd1-82fc-4598-9acf-1118dd9229a5?mode=deep",
+    "timestamp": "2026-01-09 14:58:57.926853",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Error Information Leak] Does the error message on lines 84-86 leak sensitive information about file paths or system structure that could aid reconnaissance for further attacks? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5cef25a4-1430-4f97-ba02-347494ccc588?mode=deep",
+    "timestamp": "2026-01-09 14:59:18.517272",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Array Length] Does the function validate the length of the secret key array after JSON parsing, or can truncated or oversized arrays cause keypair generation failures or security issues? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5c35f1f1-7b01-494f-8f16-497942dc5cff?mode=deep",
+    "timestamp": "2026-01-09 14:59:38.311709",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [JSON Injection] Can maliciously crafted JSON in the keypair file exploit the JSON.parse call (line 79) to cause prototype pollution or code execution? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ed086124-e585-462b-93db-a1acea40d274?mode=deep",
+    "timestamp": "2026-01-09 14:59:58.424187",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Race Condition] Can an attacker replace the keypair file between the readFileSync call (line 78) and its use, enabling private key substitution attacks? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d7f4a478-748b-4f3c-ae96-4f2950127721?mode=deep",
+    "timestamp": "2026-01-09 15:00:19.461047",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Homedir Expansion] Can the tilde expansion (lines 73-75) be exploited to access other users' home directories on multi-user systems, potentially stealing keypairs? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_17dd42ac-e922-4c5e-8ad9-1303f91231bb?mode=deep",
+    "timestamp": "2026-01-09 15:00:39.824753",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Symlink Attack] Can an attacker use symbolic links to make filePath point to a different file than intended, allowing unauthorized keypair access or replacement? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9c68aa32-644b-40e1-ba21-3f550f3d0309?mode=deep",
+    "timestamp": "2026-01-09 15:01:00.888229",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: loadKeypairFromFile()] [Path Traversal] Can an attacker exploit the path resolution logic (lines 73-75) to read keypair files from arbitrary filesystem locations using ../ sequences, potentially stealing private keys? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0eab9996-54d9-41a9-b00e-d33a4d346266?mode=deep",
+    "timestamp": "2026-01-09 15:01:22.104369",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getClusterUrlEnv()] [Empty String] Can an empty but defined CLUSTER_URL environment variable bypass the null check (line 141) and cause connection failures or unexpected behavior? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9d5f9f24-6251-4a61-aa20-331e06e0eb84?mode=deep",
+    "timestamp": "2026-01-09 15:01:42.034295",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getClusterUrlEnv()] [Missing Validation] Does the function validate that the cluster URL is a valid and trusted endpoint, or can arbitrary URLs be used to redirect transactions to attacker-controlled nodes? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b6befd91-f8aa-469a-b273-6f000ebd15e4?mode=deep",
+    "timestamp": "2026-01-09 15:02:01.313476",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: getClusterUrlEnv()] [Injection Attack] Can an attacker manipulate the CLUSTER_URL environment variable to point to a malicious RPC endpoint, enabling man-in-the-middle attacks or fake transaction confirmations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d553afeb-29b4-449c-b94b-058ee171a609?mode=deep",
+    "timestamp": "2026-01-09 15:02:19.901160",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Past Expiration] Does the function prevent accidentally creating orders with past expiration times if system clock is incorrect, or can this cause immediate order expiration and DoS? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_30aabb55-b30e-4bed-a746-631ff1952f10?mode=deep",
+    "timestamp": "2026-01-09 15:02:37.484616",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/utils.ts] [Function: defaultExpirationTime()] [Overflow] Can the addition (~~(new Date().getTime() / 1000) + 86400) overflow u32 for timestamps far in the future, causing expiration wraparound and allowing orders to be valid indefinitely? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d3dbb14f-1af1-4cec-b622-1b56b540c709?mode=deep",
+    "timestamp": "2026-01-09 15:02:53.585099",
+    "report_generated": false
   }
 ]
