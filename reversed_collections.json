@@ -3148,5 +3148,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9a16560c-3d24-445a-8897-002ac3017f91?mode=deep",
     "timestamp": "2026-01-09 15:27:56.005491",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Utility function trust] At line 14, findEscrowAddress is imported from utils - if this function has bugs in PDA derivation logic, can all cancellations target wrong escrows, causing widespread order manipulation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c8aadef9-28b0-4ee3-a11d-6711503270c2?mode=deep",
+    "timestamp": "2026-01-09 15:29:09.115436",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Anchor version mismatch] The script uses @coral-xyz/anchor imports - if the Anchor version doesn't match the version used to build the on-chain program, can this cause instruction deserialization errors on-chain? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e807d25e-9058-41c5-ac0e-afca069bd907?mode=deep",
+    "timestamp": "2026-01-09 15:29:21.263483",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Prompt injection] At lines 67-71, all inputs are read via prompt() - can an attacker inject control sequences or escape characters that break terminal state and cause subsequent operations to fail silently? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_35365519-2381-441a-ab1e-8aee98e253d6?mode=deep",
+    "timestamp": "2026-01-09 15:29:33.520882",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [RPC endpoint trust] The connection at line 73 trusts the provided cluster URL - can a compromised RPC endpoint return manipulated account states that cause the script to build incorrect cancel instructions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5ac03eb0-c54e-4e99-a3b6-44aef18576b9?mode=deep",
+    "timestamp": "2026-01-09 15:29:46.954003",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Environment variable injection] At line 66, getClusterUrlEnv reads CLUSTER_URL from environment - can an attacker manipulate this to point to a malicious RPC endpoint that returns fake account data, tricking users into failed cancellations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_61e90ba2-51db-4db0-8ae1-46c4b5d2b348?mode=deep",
+    "timestamp": "2026-01-09 15:30:00.513321",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Timestamp manipulation] The script doesn't validate current blockchain time against order expiration - can clock skew between client and chain cause cancellations to be submitted after expiration, missing the free cancellation window? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1124c61d-e99d-4c4c-ae20-fdbb0ef9e6e7?mode=deep",
+    "timestamp": "2026-01-09 15:30:15.659657",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Slot dependency] At line 73, using 'confirmed' commitment without checking slot numbers - can transactions appear confirmed in one slot but get replaced in another, causing double-cancellation attempts or state inconsistencies? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cd7c3a96-fcfd-46ae-8c74-69ad305e24a5?mode=deep",
+    "timestamp": "2026-01-09 15:30:30.308035",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [MEV exploitation] Can MEV bots monitor mempool for cancel transactions and front-run to fill orders at the last possible moment, forcing makers to pay gas for failed cancellations repeatedly? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_969f22fe-0605-481a-86f6-2370b32c93dd?mode=deep",
+    "timestamp": "2026-01-09 15:30:45.835973",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Front-running] Between escrow existence check in main() at line 91 and cancel execution at line 100, can a malicious resolver front-run to fill the entire order, causing the cancel to fail and waste the maker's gas fees? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_42c82f4f-d3b9-4513-b073-86092072d153?mode=deep",
+    "timestamp": "2026-01-09 15:31:02.640399",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Order expiration] The script doesn't check if the order has expired before attempting cancellation - can an attacker front-run with cancel_by_resolver after expiration to capture cancellation premium before the maker can cancel for free? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ce4eef8c-f439-4d8e-8204-79cb38c14fa6?mode=deep",
+    "timestamp": "2026-01-09 15:31:19.979016",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [CPI depth] If the on-chain cancel instruction performs CPIs to the token program for token transfers and account closures, can deep CPI stacks cause the transaction to exceed the CPI depth limit and fail? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_046d4466-80b4-4d59-a454-576532695854?mode=deep",
+    "timestamp": "2026-01-09 15:31:37.281838",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account meta flags] When building the instruction at line 45, does accountsPartial properly set writable/signer flags for all accounts, or can incorrect flags cause the on-chain program to reject valid cancellations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_effd1810-5379-4964-9206-e08b417ac1ce?mode=deep",
+    "timestamp": "2026-01-09 15:31:54.544000",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [IDL mismatch] At line 74, FUSION_IDL is loaded from a JSON file - if this IDL doesn't match the deployed program version, can instruction serialization errors cause malformed cancel instructions that fail on-chain? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bc267388-b1ee-4860-9edc-dba65848e77c?mode=deep",
+    "timestamp": "2026-01-09 15:32:12.314169",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Token program validation] At line 52, TOKEN_PROGRAM_ID is hardcoded to the standard SPL token program - can an attacker exploit Token-2022 or other token program variants that require different instruction formats, causing cancellation failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e6bbc2ad-3475-4eb2-a30a-de7387dfe760?mode=deep",
+    "timestamp": "2026-01-09 15:32:31.101304",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Program ID validation] At line 34, program.programId is used for PDA derivation - if an attacker deploys a malicious program with similar interface and tricks users into connecting to it, can they steal tokens during fake cancellations? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e640ef9b-5355-4eb4-9062-939d4953f010?mode=deep",
+    "timestamp": "2026-01-09 15:32:49.648894",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Signature verification] After sendAndConfirmTransaction returns at line 59, does the script verify that the transaction was actually successful on-chain, or can a failed transaction still return a signature, misleading the user about cancellation status? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9d22bd98-0223-4a2f-9dc2-3c31897acd54?mode=deep",
+    "timestamp": "2026-01-09 15:33:09.363922",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Confirmation depth] At line 73, connection uses 'confirmed' commitment level - can this cause race conditions where the cancel appears successful but gets reorganized out during finalization, leaving the order in an unexpected state? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6768c6e1-916f-4ffa-9ccd-4f3ce157c7ac?mode=deep",
+    "timestamp": "2026-01-09 15:33:29.565133",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Validation error messages] At line 94-96, if the escrow doesn't exist, the error message logs both orderHash and maker pubkey - can information leakage in these logs expose sensitive order details that attackers can use for targeted manipulation? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_084c729c-5bc2-4207-951c-46fe6bcb3df7?mode=deep",
+    "timestamp": "2026-01-09 15:33:49.339026",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Transaction failure] If sendAndConfirmTransaction at line 59 fails due to slippage or network issues, does the script properly handle the error and inform the user, or can silent failures leave orders in limbo without clear status? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6e58d5b6-3077-44a8-b241-f3da1ae92485?mode=deep",
+    "timestamp": "2026-01-09 15:34:09.642614",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Error handling] If getAccount throws at line 91, the catch block at line 93 logs but then returns early at line 97 - can this leave the order in an inconsistent state where the escrow exists but client believes it doesn't, causing future operation failures? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ca7c7c99-e942-4578-8ddf-37797c869496?mode=deep",
+    "timestamp": "2026-01-09 15:34:31.101562",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: main()] [Zero balance cancellation] If getAccount at line 91 succeeds but the escrow ATA has zero token balance (already filled), can the cancellation still execute and waste transaction fees trying to transfer zero tokens? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9116befb-21eb-41d9-9d67-6d183ab69fc1?mode=deep",
+    "timestamp": "2026-01-09 15:34:52.612982",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Escrow authority] Does the on-chain cancel validate that the escrow PDA is the authority of escrow_src_ata before attempting token transfers, or can an attacker manipulate account ownership to redirect refunded tokens to their own account? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_39e7a997-f604-4551-b0cd-a538d1b9767c?mode=deep",
+    "timestamp": "2026-01-09 15:35:11.818538",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Account closure] After cancellation, does the on-chain program properly close the escrow_src_ata and return rent exemption lamports to the maker, or can attackers repeatedly cancel and recreate orders to drain the maker's SOL balance through rent costs? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b8cd538f-bb5f-4bec-8c20-e8b0d54bbc5d?mode=deep",
+    "timestamp": "2026-01-09 15:35:32.096580",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Token recovery] When the on-chain cancel instruction executes, does it properly transfer all remaining tokens from escrow_src_ata back to maker_src_ata, or can rounding errors or improper amount calculations leave dust amounts locked in the escrow? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_556c0e26-61e9-4658-ab36-32b12ba50c0f?mode=deep",
+    "timestamp": "2026-01-09 15:35:53.924186",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/cancel.ts] [Function: cancel()] [Partial fill handling] If the order has been partially filled before cancellation, does the cancel instruction properly return only the remaining tokens to the maker, or can an attacker exploit assumptions about full escrow balance to cause arithmetic errors? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_89b140dd-9979-461b-807a-6556f66afd64?mode=deep",
+    "timestamp": "2026-01-09 15:36:13.857777",
+    "report_generated": false
   }
 ]
