@@ -148,5 +148,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3f6ef922-17e5-46ed-9871-d3d3d5f3bb16?mode=deep",
     "timestamp": "2026-01-09 12:11:31.690666",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Missing maker_dst_ata] Line 222 accesses maker_dst_ata which is init_if_needed at line 573 - can a malicious taker exploit the initialization timing to front-run and set a different authority, redirecting maker's dst tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8deb2fb5-1b0c-4f38-8191-7cd48bf80e57?mode=deep",
+    "timestamp": "2026-01-09 12:40:36.335099",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Uni_transfer reentrancy] Lines 229, 245, 262 call uni_transfer() multiple times - can a malicious token program enable reentrancy during these transfers to re-execute fill() and drain escrow multiple times? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5512f174-ec87-41ae-b845-7700afc8cfe1?mode=deep",
+    "timestamp": "2026-01-09 12:40:48.240474",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Fee distribution manipulation] Lines 232-246 handle protocol fee transfer by mutating the params variable - can a malicious dst_token_program hook into the transfer to manipulate the amount or destination between iterations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_266e753b-7c90-44bf-a865-73bec4d102c5?mode=deep",
+    "timestamp": "2026-01-09 12:41:00.444279",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Inconsistent fee config] Line 241 checks protocol_dst_acc.as_ref().ok_or(InconsistentProtocolFeeConfig) - but what if protocol_fee_amount > 0 but protocol_dst_acc = None due to a race condition? Can this cause tokens to be burned? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8a323555-6eca-4e75-8cdf-4a3768571674?mode=deep",
+    "timestamp": "2026-01-09 12:41:14.292851",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Integrator fee bypass] Lines 249-262 transfer integrator fees - can a malicious resolver collude with an integrator to set integrator_fee = u16::MAX and split the fees, draining maker's dst_amount? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f6c4a849-b788-4f2e-bc58-b5a490593f82?mode=deep",
+    "timestamp": "2026-01-09 12:41:27.547495",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Escrow closure timing] Lines 266-280 close escrow if amount equals escrow_src_ata.amount - can a malicious resolver fill with amount = escrow_src_ata.amount - 1, then quickly fill with amount = 1 in a separate transaction to exploit the closure logic? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1a94126d-5fd4-43b9-afaf-5825694868ab?mode=deep",
+    "timestamp": "2026-01-09 12:41:41.522246",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Lamport leakage] When close_account is called at line 267, lamports go to maker - but what if there are residual lamports from rent or wrapped SOL? Can a resolver front-run the closure to claim these lamports? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_04801bd7-5a88-4541-abee-46ce98c64322?mode=deep",
+    "timestamp": "2026-01-09 12:41:56.964935",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Partial fill exploit] The function allows partial fills (amount < escrow balance) - can a resolver repeatedly fill tiny amounts to generate maximum fees while minimizing the actual swap value provided to maker? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c097f048-e226-4e75-b4a5-6fa8fa35ab44?mode=deep",
+    "timestamp": "2026-01-09 12:42:12.670746",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Dutch auction manipulation] get_dst_amount() at line 186 uses Dutch auction data - can a resolver wait until the last possible moment before expiration to fill at the most favorable rate, griefing makers? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_32582615-e51c-4fcc-ac6c-45f69f6092d8?mode=deep",
+    "timestamp": "2026-01-09 12:42:28.973645",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Access control PDA verification] Lines 511-516 define resolver_access account from whitelist program - is the seeds::program validation sufficient, or can an attacker deploy a fake whitelist program with the same interface to bypass authorization? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_560c8d77-aa55-4d49-8d7b-26a4ab7b3489?mode=deep",
+    "timestamp": "2026-01-09 12:42:46.373842",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Account substitution] The Fill struct at lines 504-595 doesn't explicitly validate that src_mint, dst_mint, maker, maker_receiver match the order hash - can an attacker substitute different accounts to redirect tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e0651fa3-db45-4f66-ad2a-1859bf22139b?mode=deep",
+    "timestamp": "2026-01-09 12:43:04.219134",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Maker receiver validation] maker_receiver is UncheckedAccount at line 523 - can an attacker provide a maker_receiver that differs from the one in order_hash, redirecting dst tokens while still matching the PDA? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_090a6436-87eb-4d75-9101-d48bef72faac?mode=deep",
+    "timestamp": "2026-01-09 12:43:22.784360",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Mint mismatch] taker_src_ata constraint at line 562 only checks taker_src_ata.mint.key() == src_mint.key() - can an attacker provide a fake src_mint that passes equality but isn't the actual order's src_mint? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4808a552-b417-42cd-8c77-42a751525076?mode=deep",
+    "timestamp": "2026-01-09 12:43:42.257894",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Init_if_needed exploit] maker_dst_ata is init_if_needed at line 573 - can an attacker repeatedly trigger initialization to drain taker's lamports through excessive rent payments? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1fbc02e7-ae31-478b-ab01-37276d5a700a?mode=deep",
+    "timestamp": "2026-01-09 12:44:02.344715",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: fill()] [Token program substitution] dst_token_program and src_token_program are separate - can an attacker provide malicious token programs that appear legitimate but manipulate transfer amounts or authorities? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_79102a55-b1d7-4216-9937-a365515b6fdf?mode=deep",
+    "timestamp": "2026-01-09 12:44:23.351209",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_dst_amount()] [Integer overflow] Line 771 performs initial_dst_amount.mul_div_ceil(src_amount, initial_src_amount) - can an attacker provide initial_dst_amount = u64::MAX and src_amount = u64::MAX causing mul_div_ceil to overflow and return 0? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c5160c0f-3b4f-48d0-adfa-14a38d2042ac?mode=deep",
+    "timestamp": "2026-01-09 12:44:44.378845",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_dst_amount()] [Division by zero] If initial_src_amount = 0 in mul_div_ceil at line 771, does the operation panic or return an error? Can an attacker exploit this to DoS order fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_e4119fde-aa4d-4da4-bf8d-d682e6de1a54?mode=deep",
+    "timestamp": "2026-01-09 12:45:06.203895",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_dst_amount()] [Rate bump overflow] Lines 776-779 calculate result.mul_div_ceil(BASE_1E5 + rate_bump, BASE_1E5) - if rate_bump is close to u64::MAX - BASE_1E5, can this overflow and wrap around to a tiny value, giving taker free tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7ebc2012-6fc6-4a6b-badc-bf17235e0f3b?mode=deep",
+    "timestamp": "2026-01-09 12:45:28.018247",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_dst_amount()] [Auction data manipulation] Line 776 calls calculate_rate_bump with Clock timestamp - can an attacker manipulate the auction data points to create a rate_bump that causes overflow in the multiplication? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ede2c0be-0e5e-4295-95e4-fabf7f8c1263?mode=deep",
+    "timestamp": "2026-01-09 12:45:49.918264",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_dst_amount()] [Precision loss] mul_div_ceil rounds up - can an attacker exploit this by repeatedly filling small amounts, each time benefiting from the ceiling rounding to extract more value than intended? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6ef4b371-77ac-47bb-badb-ce9c9e9b5598?mode=deep",
+    "timestamp": "2026-01-09 12:46:12.260540",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_dst_amount()] [None auction data bypass] When opt_data is None (line 775), rate_bump calculation is skipped - can a resolver intentionally call with opt_data = None to avoid Dutch auction pricing and fill at min_dst_amount? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c2799263-b4c3-415b-bb73-a496a19aa1d6?mode=deep",
+    "timestamp": "2026-01-09 12:46:34.349757",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_dst_amount()] [Timestamp manipulation] Clock::get()?.unix_timestamp at line 776 is used for rate_bump calculation - can a validator collude with a resolver to manipulate the timestamp and get favorable pricing? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d4a3e013-fffb-49c2-a18a-79fe53ac6e84?mode=deep",
+    "timestamp": "2026-01-09 12:46:57.084266",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Integrator fee overflow] Line 791 calculates dst_amount.mul_div_floor(integrator_fee as u64, BASE_1E5) - can integrator_fee = u16::MAX cause this to consume the entire dst_amount, leaving nothing for maker? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ecbcc343-e48f-4792-9fa9-21840ddaae2a?mode=deep",
+    "timestamp": "2026-01-09 12:47:19.135283",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Protocol fee overflow] Line 795 calculates protocol_fee_amount with mul_div_floor - can protocol_fee = u16::MAX combined with a large dst_amount overflow the calculation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_308be14e-bd19-4cc3-9a9f-c205545bc6bf?mode=deep",
+    "timestamp": "2026-01-09 12:47:41.890957",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: get_fee_amounts()] [Underflow attack] Line 799 performs (dst_amount - protocol_fee_amount).checked_sub(integrator_fee_amount) - can an attacker set fees such that protocol_fee_amount + integrator_fee_amount > dst_amount, causing an underflow panic? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_2d236e28-7ef7-4df0-8e86-cdb680b19371?mode=deep",
+    "timestamp": "2026-01-09 12:48:03.292266",
+    "report_generated": false
   }
 ]
