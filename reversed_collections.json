@@ -1948,5 +1948,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_492743f5-8025-4070-94c6-7280ee69c636?mode=deep",
     "timestamp": "2026-01-09 14:19:40.340714",
     "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Maker Receiver Manipulation] Can an attacker manipulate the maker_receiver account to redirect refunded tokens to a different address than the maker's intended receiver, stealing order funds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7e748ae8-3bd9-4505-ab31-c433fd7fe5ce?mode=deep",
+    "timestamp": "2026-01-09 14:20:55.200309",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Account Substitution] Can an attacker substitute the maker account with a different address to redirect cancellation premium payments to themselves instead of the legitimate resolver? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_75975891-2ad0-4ff4-9a31-dd72fb4fb64b?mode=deep",
+    "timestamp": "2026-01-09 14:21:07.413726",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Premium Theft] Can an attacker provide a manipulated reward_limit that's higher than the actual cancellation premium calculation, extracting more SOL from the maker account than intended? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4602005f-f85f-439d-84cb-4eec5fdc6ff6?mode=deep",
+    "timestamp": "2026-01-09 14:21:19.811006",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Expiration Bypass] Can a resolver cancel an order before expiration by exploiting missing expiration validation, collecting premiums on orders that should still be fillable by other resolvers? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_7c64ae50-d60e-4dd2-9177-a19b3f244d64?mode=deep",
+    "timestamp": "2026-01-09 14:21:32.666046",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Fee Calculation Overflow] Can an attacker craft an OrderConfig with extreme max_cancellation_premium values that cause integer overflow when calculating the actual premium to pay the resolver, leading to incorrect fee distribution? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_42e9c442-24a7-4df7-85fb-230a312edeb6?mode=deep",
+    "timestamp": "2026-01-09 14:21:46.854488",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Fee Manipulation] Can a malicious resolver exploit the reward_limit parameter in cancel_by_resolver to extract more cancellation premium than max_cancellation_premium specified in the OrderConfig's FeeConfig, draining maker funds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c273b0ae-d7c2-40ee-9f96-88981fc04690?mode=deep",
+    "timestamp": "2026-01-09 14:22:01.372029",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Cross-Program Invocation] Does the resolver_access PDA properly validate that it belongs to the whitelist program (address: 46r3AXfEv6QxHhfFw848oK87bV6axq6YnVJrmvhkXe5d), or can an attacker provide a fake PDA from a malicious program? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_54f30a08-de2b-4a0e-a8ba-e154ed0450c7?mode=deep",
+    "timestamp": "2026-01-09 14:22:16.413262",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [PDA Collision] Can an attacker manipulate the resolver_access PDA seeds to collide with a legitimate resolver's access account, impersonating a whitelisted resolver to cancel orders and collect premiums? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_445faca9-d523-470d-aff6-e3d319eb5b49?mode=deep",
+    "timestamp": "2026-01-09 14:22:33.043630",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Access Control Bypass] Can an attacker create a fake resolver_access PDA with seeds ('resolver_access', attacker_address) that passes validation without proper whitelist program verification, allowing unauthorized order cancellation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0eb7ea2f-8911-445b-8a6a-ae9c461dcbeb?mode=deep",
+    "timestamp": "2026-01-09 14:22:50.166547",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [ATA Creation Exploit] If maker_src_ata doesn't exist and is optional, can an attacker exploit the missing account to cause the instruction to fail repeatedly, creating a permanent DoS on order cancellation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6ff853a2-8bff-45cc-a80f-d985f8916c09?mode=deep",
+    "timestamp": "2026-01-09 14:23:07.200843",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Escrow Closure Bypass] Can an attacker prevent escrow account closure by manipulating the account state, leaving orphaned escrow accounts that lock funds indefinitely? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d2b9012c-6870-4c47-93f7-383dc5890f43?mode=deep",
+    "timestamp": "2026-01-09 14:23:25.527581",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Signature Verification] Can an attacker bypass the maker signer requirement by exploiting the account constraint validation, potentially cancelling orders without proper authorization? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5047a29c-64b6-4751-8086-5d57b4201468?mode=deep",
+    "timestamp": "2026-01-09 14:23:43.783333",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [State Corruption] If cancel is called on a partially filled order, does the instruction properly handle the remaining balance, or can an attacker drain more tokens than their escrow balance by exploiting missing balance checks? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bd5d3ee9-f39a-4a57-8e1e-986314514ebb?mode=deep",
+    "timestamp": "2026-01-09 14:24:02.682384",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Reentrancy] Can an attacker create a malicious token program that calls back into the cancel instruction during the token transfer, allowing double-spending or state corruption before escrow closure? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_10127a5b-fea8-4c01-b108-c7abab3043d6?mode=deep",
+    "timestamp": "2026-01-09 14:24:22.361800",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Optional Account Exploit] Since maker_src_ata is optional, can an attacker call cancel without providing this account when order_src_asset_is_native is false, causing tokens to be locked or sent to an unintended destination? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_88df07d1-b0e1-44fb-be27-e65af8903d47?mode=deep",
+    "timestamp": "2026-01-09 14:24:41.841433",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [ATA PDA Collision] Can an attacker exploit the escrow_src_ata PDA derivation (seeds: escrow, src_token_program, src_mint) by manipulating the token program address to access a different ATA containing more valuable tokens? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_905ba47c-b008-4a54-a1e7-f3f2479efa42?mode=deep",
+    "timestamp": "2026-01-09 14:25:02.497621",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Token Program Manipulation] Can an attacker provide a malicious src_token_program account instead of the legitimate SPL Token program to bypass transfer checks and extract tokens without proper validation? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_20b2b93e-63ed-491a-886a-59e4a794f14a?mode=deep",
+    "timestamp": "2026-01-09 14:25:22.578362",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Account Substitution] Can an attacker substitute the src_mint account with a different token mint that has the same address as the original, causing the escrow_src_ata PDA to resolve to a different account and drain wrong tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9fbb0fd0-187c-4439-b5df-2c3110afe586?mode=deep",
+    "timestamp": "2026-01-09 14:25:43.484535",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [PDA Validation] Does the escrow PDA derivation (seeds: 'escrow', maker, order_hash) properly validate the order_hash length (32 bytes), or can an attacker pass truncated/padded hashes to create PDA collisions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6a65df06-359b-47ee-a2dd-12b485103cad?mode=deep",
+    "timestamp": "2026-01-09 14:26:05.263312",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Native SOL Handling] Can an attacker set order_src_asset_is_native to false when it should be true, preventing proper SOL unwrapping and locking funds permanently in WSOL form in the escrow? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5c36567d-0535-48fd-89a3-9fede5970d79?mode=deep",
+    "timestamp": "2026-01-09 14:26:27.169579",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Native SOL Handling] If order_src_asset_is_native is true, can an attacker exploit the SOL unwrapping logic by providing a false value to extract WSOL tokens instead of native SOL, causing fund loss or accounting errors? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_8d5ce3f7-98cf-42a6-a82d-bf218923f9fb?mode=deep",
+    "timestamp": "2026-01-09 14:26:49.618861",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Token Theft] Can an attacker exploit the optional maker_src_ata account to redirect refunded tokens to a different account by manipulating the PDA derivation seeds, bypassing the intended maker's ATA? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3c52dab6-2daa-48bd-b47c-edfb35423821?mode=deep",
+    "timestamp": "2026-01-09 14:27:12.569360",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [Access Control Bypass] Does the cancel instruction validate that the maker signer actually owns the escrow PDA, or can an attacker pass a valid maker signature with a manipulated order_hash to drain arbitrary escrows? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_15307a6c-6202-4ce2-b744-2d428de00cf1?mode=deep",
+    "timestamp": "2026-01-09 14:27:35.348183",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel] [PDA Collision] Can an attacker craft a malicious order_hash argument that collides with the escrow PDA seeds (escrow + maker + order_hash) to cancel another user's order, leading to unauthorized token extraction from victim's escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_18cdc79a-cda3-4a3a-9d6a-27a28aafeaaf?mode=deep",
+    "timestamp": "2026-01-09 14:27:57.859404",
+    "report_generated": false
+  },
+  {
+    "question": "[File: idl/fusion_swap.json] [Instruction: cancel_by_resolver] [Maker Receiver Manipulation] Can an attacker manipulate the maker_receiver account to redirect refunded tokens to a different address than the maker's intended receiver, stealing order funds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cb5b4f1f-a196-45d5-83d2-ae24603b801f?mode=deep",
+    "timestamp": "2026-01-09 14:28:20.863381",
+    "report_generated": false
   }
 ]
