@@ -448,5 +448,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3b70c4e6-e2ad-46c7-a27d-4776853a6798?mode=deep",
     "timestamp": "2026-01-09 12:56:49.202759",
     "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Race condition] Multiple resolvers could attempt to cancel the same expired order - does the first one win, or can multiple cancellations succeed? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b34aa688-0b31-4e7e-94b2-d39916f866f1?mode=deep",
+    "timestamp": "2026-01-09 12:57:56.034095",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: cancel_by_resolver()] [Native asset handling] For native assets (line 377 check), tokens are returned to maker_src_ata - but lamports are distributed at line 430 - can wrapped SOL tokens be double-claimed? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6fd703b8-8f72-4d18-9725-02b3ba97b22f?mode=deep",
+    "timestamp": "2026-01-09 12:58:07.958824",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: order_hash()] [Hash collision] Lines 753-760 use hashv() to compute order hash - are there known collision attacks against solana_program::hash::hashv that could allow two different orders to have the same hash? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_cbaca13b-cabf-4d69-941f-b1bb8e5d3eab?mode=deep",
+    "timestamp": "2026-01-09 12:58:20.102033",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: order_hash()] [Serialization exploit] Line 754 uses order.try_to_vec()? - can an attacker craft OrderConfig with custom serialization that produces the same bytes as another order? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6c7ce96e-d10e-4054-bfc3-6a92fbfbfc7c?mode=deep",
+    "timestamp": "2026-01-09 12:58:32.878936",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: order_hash()] [Optional parameter manipulation] Lines 755-756 serialize Option<Pubkey> types - can None and Some(Pubkey::default()) serialize to the same bytes, causing collisions? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_058b6677-1f96-4def-9f97-d6f033a1d244?mode=deep",
+    "timestamp": "2026-01-09 12:58:46.100620",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: order_hash()] [Salt missing] The hash doesn't include any random salt or nonce - can an attacker predict future order hashes to front-run order creation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0af6e063-4a6f-42df-a151-ee87447a3d2c?mode=deep",
+    "timestamp": "2026-01-09 12:58:59.784243",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: order_hash()] [Parameter ordering] The hash includes parameters in a specific order - can reordering or additional parameters be added without breaking compatibility? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dafdfa79-1258-4f03-8f87-20b8c3afb18f?mode=deep",
+    "timestamp": "2026-01-09 12:59:15.206102",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: uni_transfer()] [Native transfer validation] Lines 823-831 perform native SOL transfer - is there validation that 'from' has sufficient lamports, or can this cause account balance to go negative? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3c0fa364-b9ad-4fd0-8832-61f5bab18ce5?mode=deep",
+    "timestamp": "2026-01-09 12:59:30.528665",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: uni_transfer()] [Token transfer validation] Lines 840-852 perform token transfer_checked - if mint.decimals is 0 or invalid, can this cause incorrect transfer amounts? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ac5be48a-98dc-42b5-906d-d8a47a17f733?mode=deep",
+    "timestamp": "2026-01-09 12:59:46.696145",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: uni_transfer()] [Amount zero check] Neither branch checks if amount = 0 - can this be exploited to waste compute units or trigger unexpected behavior in token programs? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_261a77bc-fa73-49c2-9b8c-18efec93666b?mode=deep",
+    "timestamp": "2026-01-09 13:00:03.752570",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: uni_transfer()] [From/to same account] If from and to are the same account, does the transfer succeed or fail? Can this be exploited to appear compliant while not actually transferring? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4d8cb474-8c27-4f5b-9761-7bc438289594?mode=deep",
+    "timestamp": "2026-01-09 13:00:20.352947",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Function: uni_transfer()] [Reentrancy guard] The function performs CPI calls - are there reentrancy protections to prevent malicious token programs from re-entering? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_00e3bdbd-4853-4d44-b481-32d824258019?mode=deep",
+    "timestamp": "2026-01-09 13:00:38.241472",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Escrow PDA seeds] Lines 446-457 derive escrow PDA from maker, order_hash - can two different makers with carefully chosen keys produce colliding PDAs? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_856f41ff-0479-45ed-bcb2-1f4d55afa84a?mode=deep",
+    "timestamp": "2026-01-09 13:00:58.193448",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Unchecked escrow] Line 461 marks escrow as UncheckedAccount - can an attacker provide a pre-existing account that isn't actually a PDA, bypassing security checks? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f799370f-f774-48ab-81ba-c93b403900e2?mode=deep",
+    "timestamp": "2026-01-09 13:01:17.557358",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Init constraint timing] escrow_src_ata has init constraint at line 470 - can an attacker front-run to create this account with different parameters, causing DoS? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ce646113-a25e-443d-8572-4d21036b2171?mode=deep",
+    "timestamp": "2026-01-09 13:01:36.762821",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Maker authentication] Maker is marked as signer at line 480, but what prevents a malicious contract from acting as maker and creating invalid orders? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_de713e3a-7463-4adf-8949-212796bbbc95?mode=deep",
+    "timestamp": "2026-01-09 13:01:57.016671",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Optional maker_src_ata] maker_src_ata is Option<> at line 489 - can the presence/absence mismatch between creation and filling cause issues? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_9d3c6e0d-ac52-4d14-ab16-4aca7d724aa1?mode=deep",
+    "timestamp": "2026-01-09 13:02:17.562788",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Unchecked maker_receiver] maker_receiver is UncheckedAccount at line 495 - can an attacker set this to an address they control to redirect funds during fill? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_f1ef523a-a654-413a-9de8-f8ec1fa357dc?mode=deep",
+    "timestamp": "2026-01-09 13:02:39.362808",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Optional protocol_dst_acc] protocol_dst_acc is Option<> at line 499 - can its presence/absence be manipulated between create and fill? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b9c32be0-e292-41b7-a740-b86c1f64835c?mode=deep",
+    "timestamp": "2026-01-09 13:03:00.634711",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Create] [Optional integrator_dst_acc] integrator_dst_acc is Option<> at line 501 - can a malicious integrator frontrun to change this address? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_5e93467d-08fd-4de7-97bc-e451a75b5a11?mode=deep",
+    "timestamp": "2026-01-09 13:03:22.313325",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Resolver access validation] Lines 511-516 validate resolver_access PDA - can the whitelist program be upgraded to a malicious version that always returns valid? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_01c14e39-2c9b-424d-8a86-92c5a0f04348?mode=deep",
+    "timestamp": "2026-01-09 13:03:43.043200",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Cross-program seeds] seeds::program = whitelist::ID at line 514 - if whitelist::ID is hardcoded, can this prevent protocol upgrades? (Low)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0885b1cf-41bb-42f1-9f40-a152fa78a9de?mode=deep",
+    "timestamp": "2026-01-09 13:04:05.151692",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Unchecked maker] maker is UncheckedAccount at line 520 - can a resolver provide a fake maker address that matches the PDA but isn't the real maker? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_479e74f9-7215-410f-8c5e-b00b0563a15c?mode=deep",
+    "timestamp": "2026-01-09 13:04:27.196168",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Mint validation] src_mint and dst_mint are InterfaceAccount at lines 527-529 - can an attacker provide malicious mint implementations that report false decimals or supply? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_b05b4093-ac8d-412e-b6f8-fb71622299bb?mode=deep",
+    "timestamp": "2026-01-09 13:04:49.850492",
+    "report_generated": false
+  },
+  {
+    "question": "[File: programs/fusion-swap/src/lib.rs] [Struct: Fill] [Taker src_ata constraint] Line 562 only checks taker_src_ata.mint == src_mint - should it also validate authority and token_program? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_6578d0eb-ae51-49ef-92c4-bb8470d6334f?mode=deep",
+    "timestamp": "2026-01-09 13:05:11.149602",
+    "report_generated": false
   }
 ]
