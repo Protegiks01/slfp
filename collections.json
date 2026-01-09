@@ -2398,5 +2398,155 @@
     "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_1a22358b-9c83-49f3-a50a-c6bb3020c621?mode=deep",
     "timestamp": "2026-01-09 14:45:55.213749",
     "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [maxCancellationPremium manipulation] The defaultFeeConfig includes maxCancellationPremium - can a maker set this to an extremely high value to drain resolver funds during cancellation operations? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_45786899-082a-45e5-ab59-7902dbb42cf9?mode=deep",
+    "timestamp": "2026-01-09 14:47:04.581422",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Fee account mismatch] At lines 71-75, the fee config spreads the reduced fee but adds protocolDstAcc and integratorDstAcc - if these accounts don't match the actual fee recipients expected by the program, can this cause fund misdirection? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_13049aae-efec-4408-8195-c5ec49fbd1b6?mode=deep",
+    "timestamp": "2026-01-09 14:47:16.759145",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Optional fee accounts] Since protocolDstAcc and integratorDstAcc are optional at lines 46-47, but fees might be non-zero in defaultFeeConfig - can this cause the program to attempt fee transfers to null accounts, leading to transaction failure or stuck funds? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_30b21575-f320-48a6-8bbb-2d16f5ea0cd9?mode=deep",
+    "timestamp": "2026-01-09 14:47:29.235549",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Receiver manipulation] At line 42, the receiver defaults to makerKeypair.publicKey but can be overridden - can a malicious maker set receiver to an attacker-controlled address to redirect filled tokens away from the legitimate maker? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3de9a4b8-0df1-48e4-a641-0ee85e4d31c7?mode=deep",
+    "timestamp": "2026-01-09 14:47:42.138874",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Receiver validation] At line 123, makerReceiver is set to the receiver parameter without validation - can an attacker set receiver to system program or a PDA they control to steal filled order proceeds? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_aa7092f9-74a8-4fcf-8eb4-c9ba0cb60ad4?mode=deep",
+    "timestamp": "2026-01-09 14:47:56.421617",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Receiver account ownership] When receiver is different from maker at line 42, is there validation that the receiver address is a valid account owned by the maker, or can funds be permanently lost to an invalid address? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_ca62b3e2-a785-4b4c-b047-de8c31369860?mode=deep",
+    "timestamp": "2026-01-09 14:48:10.420796",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Order ID collision] At line 40, orderId is accepted without validation - can an attacker reuse an existing orderId to create a hash collision with a previous order, potentially accessing that order's escrow? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_c4750c1c-0f90-4475-835e-6ec0ada29176?mode=deep",
+    "timestamp": "2026-01-09 14:48:25.482861",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: main()] [Order ID overflow] At line 151, orderId is read as Number() without bounds checking - can an attacker provide orderId > u32::MAX causing overflow when the value is used in reducedOrderConfig at line 54? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_149f4fe5-f6c3-42c1-8be1-28c362f44a1e?mode=deep",
+    "timestamp": "2026-01-09 14:48:41.489652",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Order ID uniqueness] The orderId at line 40 is part of the order hash calculation, but is there off-chain tracking to prevent makers from reusing the same orderId with different parameters to confuse tracking systems? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d5735428-849e-49e0-aa68-69ffdcb240f6?mode=deep",
+    "timestamp": "2026-01-09 14:48:58.116201",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Expiration time manipulation] At line 41, expirationTime defaults to defaultExpirationTime() but can be overridden - can an attacker set expirationTime in the past to create already-expired orders that bypass certain validations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_4294e8dc-b6b4-41f7-a5c1-d0738b7a876c?mode=deep",
+    "timestamp": "2026-01-09 14:49:15.693610",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Expiration overflow] The expirationTime is a number type at line 41, but should be u32 based on the schema - can overflow occur if a large timestamp is provided, causing the order to have incorrect expiration validation? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fa78e058-7d8c-4a84-80de-65b7c77ccd5d?mode=deep",
+    "timestamp": "2026-01-09 14:49:35.123805",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Far future expiration] Can a maker set expirationTime to u32::MAX at line 41 to create orders that never expire, potentially locking funds indefinitely in escrow if the order is never filled? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_81579760-b118-4636-a8ab-dcee960dbd55?mode=deep",
+    "timestamp": "2026-01-09 14:49:54.007692",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Dutch auction manipulation] At line 49, dutchAuctionData defaults to defaultAuctionData - can an attacker craft custom auction parameters with startTime in the far future (0xffffffff - 32000 per utils.ts) to manipulate when the order becomes fillable? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_07330ae2-52bf-4dff-9dc9-d4aa62e282a7?mode=deep",
+    "timestamp": "2026-01-09 14:50:14.066732",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Auction duration overflow] At line 50, cancellationAuctionDuration defaults to defaultAuctionData.duration (32000) - can an attacker set this to 0 or u32::MAX to manipulate cancellation premium calculations? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_417cba8a-d953-4d59-9c4b-cc02231029cf?mode=deep",
+    "timestamp": "2026-01-09 14:50:34.707514",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Rate bump manipulation] The dutchAuctionData includes initialRateBump and pointsAndTimeDeltas - can a maker craft these to create auction curves that never reach favorable rates for resolvers, causing orders to remain unfilled? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_bb9eda0c-c517-4630-8501-912bc93ba0c4?mode=deep",
+    "timestamp": "2026-01-09 14:50:55.563595",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Auction start time bypass] If dutchAuctionData.startTime at line 49 is set to 0 or far past, can this cause the auction price calculation to behave incorrectly, allowing unfair fills? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_390bd35f-0837-4dcd-a141-24e1fa66eda0?mode=deep",
+    "timestamp": "2026-01-09 14:51:17.884820",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Token program substitution] At line 51, srcTokenProgram defaults to TOKEN_PROGRAM_ID but can be overridden - can an attacker provide a malicious token program address to bypass token transfer validations during escrow funding? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_0c922936-eace-40de-bf84-f41bcbfb5442?mode=deep",
+    "timestamp": "2026-01-09 14:51:38.115641",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Token program mismatch] At line 127, srcTokenProgram is passed to the create instruction - if this doesn't match the actual program owning the srcMint, can this cause the escrow funding to fail silently or be exploited? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_171ae979-2919-4cc3-962f-1a017a00caf7?mode=deep",
+    "timestamp": "2026-01-09 14:51:59.245715",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [TOKEN_2022 incompatibility] The default srcTokenProgram at line 51 is TOKEN_PROGRAM_ID - if the srcMint is actually a Token-2022 token with extensions, can this cause incorrect escrow accounting or token loss? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_47fcd8da-d785-4500-9be0-0fc7659e5c2c?mode=deep",
+    "timestamp": "2026-01-09 14:52:20.506467",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Native flag mismatch] At lines 43-44, srcAssetIsNative and dstAssetIsNative can be set independently of the actual mint types - can an attacker set srcAssetIsNative=true while srcMint is not NATIVE_MINT to bypass SOL wrapping and steal tokens? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_fb116bb3-78ea-46ed-890a-431a6b6ac12e?mode=deep",
+    "timestamp": "2026-01-09 14:52:40.412229",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Native flag validation] The native flags at lines 43-44 and 59-60 are used in the order config without validation against actual mint addresses - can this cause the fill operation to incorrectly wrap/unwrap tokens? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_049f40e5-b860-4649-8ee6-ce0a3fc9c08d?mode=deep",
+    "timestamp": "2026-01-09 14:53:00.484275",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Double native handling] If both srcAssetIsNative and dstAssetIsNative are true at lines 43-44, does the program correctly handle SOL-to-SOL swaps, or can this cause escrow confusion and fund loss? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_dc49237a-ed77-426f-be27-e56f1c011acf?mode=deep",
+    "timestamp": "2026-01-09 14:53:20.669789",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Transaction ordering] At lines 100-134, instructions are added to the transaction in a specific order - can an attacker manipulate transaction ordering to execute SOL wrap after the create instruction, bypassing escrow funding? (Critical)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_862c07e3-ddaf-45f9-9a3f-c20a61b40585?mode=deep",
+    "timestamp": "2026-01-09 14:53:42.912982",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Partial transaction execution] If the transaction at lines 136-138 fails after the SOL transfer at line 109-114 but before the create instruction, are the transferred lamports stuck in the maker's native ATA? (High)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_3d89ece4-ca48-4a9d-ae76-5949714a8a1a?mode=deep",
+    "timestamp": "2026-01-09 14:54:03.579624",
+    "report_generated": false
+  },
+  {
+    "question": "[File: scripts/fusion-swap/create.ts] [Function: create()] [Instruction batching limits] Can an attacker create scenarios where the transaction at lines 100-138 exceeds compute unit limits, causing consistent failures and DoS of order creation? (Medium)",
+    "url": "https://deepwiki.com/search/-you-are-an-elite-solana-defi_d365251a-ec2e-4f6b-9211-45ec881f6a70?mode=deep",
+    "timestamp": "2026-01-09 14:54:24.411737",
+    "report_generated": false
   }
 ]
