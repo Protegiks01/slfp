@@ -1,273 +1,130 @@
 # Audit Report
 
 ## Title
-Maker Can Frontrun Resolver to Avoid Cancellation Premium Payment
+Race Condition in Resolver Deregistration Allows Unauthorized Order Cancellation
 
 ## Summary
-The `cancel()` function allows makers to cancel their orders at any time without paying the cancellation premium, even after expiration when `cancel_by_resolver()` would charge a premium. This enables makers to frontrun resolvers and avoid their agreed-upon obligation to pay cancellation premiums.
+The `CancelByResolver` instruction validates resolver access by only checking that the `resolver_access` PDA exists, without verifying active authorization status. This creates a Time-of-Check-Time-of-Use (TOCTTOU) race condition between deregistration transaction submission and confirmation, allowing deregistered resolvers to extract cancellation premiums during the race window.
 
 ## Finding Description
 
-The protocol implements two separate cancellation mechanisms:
+The vulnerability stems from the access control model relying solely on account existence rather than an authorization status flag.
 
-1. **`cancel()` function** [1](#0-0)  - Callable by the maker with no time restrictions, returns all tokens and SOL to the maker without any premium deduction.
+**CancelByResolver Validation:** The account validation only verifies PDA derivation and existence, with no check for active authorization status: [1](#0-0) 
 
-2. **`cancel_by_resolver()` function** [2](#0-1)  - Callable only by authorized resolvers after order expiration [3](#0-2) , calculates and deducts a cancellation premium from the maker's funds [4](#0-3) .
+**ResolverAccess Structure:** The account contains only a `bump` field with no status indicator to distinguish between active and deactivating resolvers: [2](#0-1) 
 
-The vulnerability arises because:
+**Deregistration Mechanism:** The deregister function closes the account, but closure only takes effect when the transaction confirms: [3](#0-2) 
 
-- When creating an order, makers explicitly set `max_cancellation_premium` [5](#0-4) , agreeing to pay a premium if a resolver cancels after expiration
-- The `cancel_by_resolver()` function requires this premium to be non-zero [6](#0-5) 
-- However, the `cancel()` function has **no expiration check** and **no premium deduction**
-- After expiration, makers can call `cancel()` to retrieve all funds without paying the premium they agreed to
+**Attack Scenario:**
 
-**Exploitation Path:**
-1. Maker creates order with `max_cancellation_premium = 1 SOL` (agreeing to pay premium)
-2. Order expires at timestamp T
-3. At T+1, resolver monitors for expired orders and attempts to call `cancel_by_resolver()` to claim the 1 SOL premium
-4. Maker frontrunns by submitting `cancel()` transaction with higher priority fee
-5. Due to Solana's account locking, only one transaction succeeds
-6. Maker's `cancel()` executes first, closing the escrow and retrieving all funds
-7. Resolver's `cancel_by_resolver()` fails because escrow is already closed
-8. Maker avoids paying the 1 SOL premium they agreed to
+1. Whitelist authority submits a `deregister` transaction to remove a misbehaving resolver
+2. Transaction enters the mempool but hasn't confirmed yet
+3. The resolver detects the pending deregistration via RPC monitoring
+4. Resolver rapidly submits multiple `cancel_by_resolver` transactions with high priority fees targeting expired orders
+5. If any resolver transactions confirm before the deregister transaction, they pass validation because the `resolver_access` account still exists
+6. Resolver collects cancellation premiums calculated by the auction mechanism: [4](#0-3) 
+7. Once deregister confirms and closes the account, subsequent attempts fail, but premiums have already been extracted
 
-This breaks the **Fee Correctness** invariant - the cancellation premium is a fee that should be properly calculated and distributed to resolvers, but makers can bypass it entirely.
+This breaks the access control invariant that only currently-authorized resolvers can perform privileged operations.
 
 ## Impact Explanation
 
-**Medium Severity** - This vulnerability causes:
+**Severity: HIGH**
 
-- **Economic loss for resolvers**: Resolvers who monitor and attempt to cancel expired orders lose the premium income they should receive
-- **Fee circumvention**: Makers avoid paying fees they explicitly agreed to when creating orders
-- **Protocol economic model undermined**: The cancellation premium mechanism is designed to incentivize resolvers to handle expired orders, but becomes ineffective when makers can avoid payment
-- **Not systemic theft**: No direct token theft from protocol escrow occurs, and impact is limited to individual order premiums rather than total protocol funds
+The vulnerability enables significant unauthorized access with concrete financial impact:
 
-The impact meets Medium severity criteria as it represents "fee calculation errors causing partial losses" and affects the economic incentive structure of the protocol.
+1. **Access Control Bypass:** Resolvers retain the ability to execute privileged operations (order cancellation) after authorization should have been revoked
+2. **Financial Loss:** Malicious resolvers can extract cancellation premiums that should go to legitimate authorized resolvers or remain with makers
+3. **Amplification Potential:** A single attacker can target multiple expired orders simultaneously during the race window
+4. **Protocol Trust Degradation:** The whitelist mechanism designed to maintain resolver reputation becomes effectively bypassable
+
+Severity is HIGH rather than CRITICAL because:
+- Exploit window is time-limited (deregister submission to confirmation)
+- Only affects already-expired orders eligible for resolver cancellation
+- Premium amounts are bounded by the order's `max_cancellation_premium` configuration
+- Requires initial legitimate registration (cannot be exploited by arbitrary actors)
 
 ## Likelihood Explanation
 
-**High Likelihood** - This vulnerability is highly likely to be exploited because:
+**Likelihood: HIGH**
 
-- **Easy to execute**: Makers simply call `cancel()` instead of letting resolvers handle cancellation
-- **Clear economic incentive**: Makers save the full cancellation premium amount (can be significant)
-- **No special requirements**: Any maker can exploit this with basic transaction submission
-- **Frontrunning is straightforward**: Makers can monitor their own order expiration times and submit transactions with higher priority fees
-- **Automation friendly**: This can be easily automated by order creation frontends
+The vulnerability is highly likely to be exploited due to:
 
-Rational economic actors (makers) will naturally prefer to cancel themselves after expiration rather than pay premiums to resolvers.
+1. **Trivial Detection:** Pending deregister transactions are observable through:
+   - Public RPC node subscriptions to account changes
+   - Mempool monitoring via validator connections
+   - On-chain program log monitoring
+
+2. **Low Execution Complexity:** 
+   - No cryptographic exploits required
+   - Standard transaction submission with priority fees
+   - Publicly available on-chain order data
+   - Can be fully automated with simple monitoring bots
+
+3. **Strong Economic Incentive:** 
+   - Resolvers being deregistered are likely to maximize extraction before losing access
+   - Premium values calculated proportionally to time since expiration can be substantial
+   - Zero marginal cost to attempt (only transaction fees)
+
+4. **Favorable Network Conditions:**
+   - Network congestion extends the race window
+   - Priority fee system allows attackers to increase confirmation probability
+   - Multiple block slots between submission and confirmation provide exploitation time
+
+5. **Repeated Opportunities:** Every resolver deregistration event creates a new exploitation window
 
 ## Recommendation
 
-Add an expiration check to the `cancel()` function to prevent makers from canceling after expiration when a cancellation premium is configured. Makers should only be allowed to cancel for free before expiration.
+Implement a two-phase deactivation mechanism:
 
-**Code Fix:**
+**Phase 1 - Deactivate:** Add an `is_active: bool` field to `ResolverAccess` and create a new instruction to set it to `false`. This change takes effect immediately upon confirmation.
 
-Add the following check at the beginning of the `cancel()` function:
+**Phase 2 - Close:** After a safety period (e.g., 100 slots), call the existing deregister function to close the account and reclaim rent.
 
+**Modified ResolverAccess:**
 ```rust
-pub fn cancel(
-    ctx: Context<Cancel>,
-    order_hash: [u8; 32],
-    order_src_asset_is_native: bool,
-    order_expiration_time: u32,  // Add parameter
-    order_max_cancellation_premium: u64,  // Add parameter
-) -> Result<()> {
-    // NEW: Prevent maker from canceling after expiration if premium is configured
-    if order_max_cancellation_premium > 0 {
-        let current_timestamp = Clock::get()?.unix_timestamp;
-        require!(
-            current_timestamp < order_expiration_time as i64,
-            FusionError::OrderExpiredWithPremium
-        );
-    }
-    
-    // ... existing code ...
+#[account]
+#[derive(InitSpace)]
+pub struct ResolverAccess {
+    pub bump: u8,
+    pub is_active: bool,  // Add this field
 }
 ```
 
-This ensures that once an order with a configured cancellation premium expires, only resolvers can cancel it (and claim the premium). Makers can still freely cancel before expiration.
+**Modified Validation in CancelByResolver and Fill:**
+```rust
+#[account(
+    seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+    bump = resolver_access.bump,
+    seeds::program = whitelist::ID,
+    constraint = resolver_access.is_active @ FusionError::ResolverNotActive  // Add this check
+)]
+resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+This ensures access revocation is atomic with transaction confirmation, eliminating the race window.
 
 ## Proof of Concept
 
-**Reproduction Steps:**
+The vulnerability can be demonstrated by:
 
-1. **Setup**: Maker creates an order with:
-   - `src_amount`: 100 USDC
-   - `expiration_time`: current_time + 3600 (1 hour)
-   - `max_cancellation_premium`: 1 SOL
-   - This means maker agrees to pay 1 SOL if a resolver cancels after expiration
+1. Creating an order with `max_cancellation_premium` set to a significant value
+2. Waiting for order expiration
+3. Having the whitelist authority submit a deregister transaction
+4. Before deregister confirms, having the resolver submit `cancel_by_resolver` transactions
+5. Observing that the resolver successfully collects the premium if their transaction confirms first
 
-2. **Wait**: Order expires (1 hour passes, order not filled)
+The test would need to simulate transaction ordering by controlling block confirmation sequencing, demonstrating that both the deregister and cancel_by_resolver transactions can independently succeed depending on confirmation order, with the resolver extracting value when winning the race.
 
-3. **Resolver Action**: Authorized resolver sees expired order and calls `cancel_by_resolver()`:
-   ```
-   Transaction A (Resolver):
-   - Function: cancel_by_resolver()
-   - Expected: Maker gets 100 USDC + (escrow_lamports - 1 SOL)
-   - Expected: Resolver gets 1 SOL premium
-   ```
+**Notes**
 
-4. **Maker Frontrun**: Maker simultaneously calls `cancel()`:
-   ```
-   Transaction B (Maker):
-   - Function: cancel()  
-   - Priority fee: Higher than resolver's
-   - Expected: Maker gets 100 USDC + all escrow_lamports
-   ```
-
-5. **Result**: 
-   - Transaction B processes first (higher priority)
-   - Maker gets: 100 USDC + all escrow SOL lamports (no premium paid)
-   - Transaction A fails (escrow account already closed)
-   - Resolver gets: Nothing (loses gas fees)
-
-**Test Scenario:**
-```rust
-#[tokio::test]
-async fn test_maker_frontrun_cancellation_premium() {
-    // 1. Create order with 1 SOL cancellation premium
-    // 2. Advance time past expiration
-    // 3. Maker calls cancel() before resolver
-    // 4. Verify maker gets all funds back (no premium deducted)
-    // 5. Verify resolver's cancel_by_resolver() fails
-    // 6. Confirm maker avoided 1 SOL premium payment
-}
-```
-
-The vulnerability is confirmed by the absence of any expiration or premium checks in the `cancel()` function [1](#0-0) , combined with the expiration requirement in `cancel_by_resolver()` [3](#0-2) .
-
-## Notes
-
-The vulnerability exists because there are two separate cancellation paths with inconsistent access control:
-- The `cancel()` path has no time restrictions
-- The `cancel_by_resolver()` path is time-gated to post-expiration only
-
-This asymmetry allows makers to avoid the premium by choosing which path to take. The fix should align the access control rules so that premium-bearing orders can only be cancelled by resolvers after expiration.
+The vulnerability exists because Solana's atomic execution guarantees apply within individual transactions, not across competing transactions from different actors. The protocol's access control model conflates account existence with authorization status, creating a TOCTTOU vulnerability during the account closure process. A resolver being deregistered should be treated as an untrusted actor attempting to extract maximum value before access termination, not as a "reputable resolver" (which is precisely why deregistration was initiated).
 
 ### Citations
 
-**File:** programs/fusion-swap/src/lib.rs (L286-343)
+**File:** programs/fusion-swap/src/lib.rs (L403-411)
 ```rust
-    pub fn cancel(
-        ctx: Context<Cancel>,
-        order_hash: [u8; 32],
-        order_src_asset_is_native: bool,
-    ) -> Result<()> {
-        require!(
-            ctx.accounts.src_mint.key() == native_mint::id() || !order_src_asset_is_native,
-            FusionError::InconsistentNativeSrcTrait
-        );
-
-        require!(
-            order_src_asset_is_native == ctx.accounts.maker_src_ata.is_none(),
-            FusionError::InconsistentNativeSrcTrait
-        );
-
-        // Return remaining src tokens back to maker
-        if !order_src_asset_is_native {
-            transfer_checked(
-                CpiContext::new_with_signer(
-                    ctx.accounts.src_token_program.to_account_info(),
-                    TransferChecked {
-                        from: ctx.accounts.escrow_src_ata.to_account_info(),
-                        mint: ctx.accounts.src_mint.to_account_info(),
-                        to: ctx
-                            .accounts
-                            .maker_src_ata
-                            .as_ref()
-                            .ok_or(FusionError::MissingMakerSrcAta)?
-                            .to_account_info(),
-                        authority: ctx.accounts.escrow.to_account_info(),
-                    },
-                    &[&[
-                        "escrow".as_bytes(),
-                        ctx.accounts.maker.key().as_ref(),
-                        &order_hash,
-                        &[ctx.bumps.escrow],
-                    ]],
-                ),
-                ctx.accounts.escrow_src_ata.amount,
-                ctx.accounts.src_mint.decimals,
-            )?;
-        }
-
-        close_account(CpiContext::new_with_signer(
-            ctx.accounts.src_token_program.to_account_info(),
-            CloseAccount {
-                account: ctx.accounts.escrow_src_ata.to_account_info(),
-                destination: ctx.accounts.maker.to_account_info(),
-                authority: ctx.accounts.escrow.to_account_info(),
-            },
-            &[&[
-                "escrow".as_bytes(),
-                ctx.accounts.maker.key().as_ref(),
-                &order_hash,
-                &[ctx.bumps.escrow],
-            ]],
-        ))
-    }
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L345-436)
-```rust
-    pub fn cancel_by_resolver(
-        ctx: Context<CancelByResolver>,
-        order: OrderConfig,
-        reward_limit: u64,
-    ) -> Result<()> {
-        require!(
-            order.fee.max_cancellation_premium > 0,
-            FusionError::CancelOrderByResolverIsForbidden
-        );
-        let current_timestamp = Clock::get()?.unix_timestamp;
-        require!(
-            current_timestamp >= order.expiration_time as i64,
-            FusionError::OrderNotExpired
-        );
-        require!(
-            order.src_asset_is_native == ctx.accounts.maker_src_ata.is_none(),
-            FusionError::InconsistentNativeSrcTrait
-        );
-
-        let order_hash = order_hash(
-            &order,
-            ctx.accounts.protocol_dst_acc.as_ref().map(|acc| acc.key()),
-            ctx.accounts
-                .integrator_dst_acc
-                .as_ref()
-                .map(|acc| acc.key()),
-            ctx.accounts.src_mint.key(),
-            ctx.accounts.dst_mint.key(),
-            ctx.accounts.maker_receiver.key(),
-        )?;
-
-        // Return remaining src tokens back to maker
-        if !order.src_asset_is_native {
-            transfer_checked(
-                CpiContext::new_with_signer(
-                    ctx.accounts.src_token_program.to_account_info(),
-                    TransferChecked {
-                        from: ctx.accounts.escrow_src_ata.to_account_info(),
-                        mint: ctx.accounts.src_mint.to_account_info(),
-                        to: ctx
-                            .accounts
-                            .maker_src_ata
-                            .as_ref()
-                            .ok_or(FusionError::MissingMakerSrcAta)?
-                            .to_account_info(),
-                        authority: ctx.accounts.escrow.to_account_info(),
-                    },
-                    &[&[
-                        "escrow".as_bytes(),
-                        ctx.accounts.maker.key().as_ref(),
-                        &order_hash,
-                        &[ctx.bumps.escrow],
-                    ]],
-                ),
-                ctx.accounts.escrow_src_ata.amount,
-                ctx.accounts.src_mint.decimals,
-            )?;
-        };
 
         let cancellation_premium = calculate_premium(
             current_timestamp as u32,
@@ -277,50 +134,31 @@ This asymmetry allows makers to avoid the premium by choosing which path to take
         );
         let maker_amount = ctx.accounts.escrow_src_ata.to_account_info().lamports()
             - std::cmp::min(cancellation_premium, reward_limit);
-
-        // Transfer all the remaining lamports to the resolver first
-        close_account(CpiContext::new_with_signer(
-            ctx.accounts.src_token_program.to_account_info(),
-            CloseAccount {
-                account: ctx.accounts.escrow_src_ata.to_account_info(),
-                destination: ctx.accounts.resolver.to_account_info(),
-                authority: ctx.accounts.escrow.to_account_info(),
-            },
-            &[&[
-                "escrow".as_bytes(),
-                ctx.accounts.maker.key().as_ref(),
-                &order_hash,
-                &[ctx.bumps.escrow],
-            ]],
-        ))?;
-
-        // Transfer all lamports from the closed account, minus the cancellation premium, to the maker
-        uni_transfer(&UniTransferParams::NativeTransfer {
-            from: ctx.accounts.resolver.to_account_info(),
-            to: ctx.accounts.maker.to_account_info(),
-            amount: maker_amount,
-            program: ctx.accounts.system_program.clone(),
-        })
-    }
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L713-729)
+**File:** programs/fusion-swap/src/lib.rs (L648-653)
 ```rust
-/// Configuration for fees applied to the escrow
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, InitSpace)]
-pub struct FeeConfig {
-    /// Protocol fee in basis points where `BASE_1E5` = 100%
-    protocol_fee: u16,
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
 
-    /// Integrator fee in basis points where `BASE_1E5` = 100%
-    integrator_fee: u16,
+**File:** programs/whitelist/src/lib.rs (L100-106)
+```rust
+    #[account(
+        mut,
+        close = authority,
+        seeds = [RESOLVER_ACCESS_SEED, user.key().as_ref()],
+        bump,
+    )]
+    pub resolver_access: Account<'info, ResolverAccess>,
+```
 
-    /// Percentage of positive slippage taken by the protocol as an additional fee.
-    /// Value in basis points where `BASE_1E2` = 100%
-    surplus_percentage: u8,
-
-    /// Maximum cancellation premium
-    /// Value in absolute lamports amount
-    max_cancellation_premium: u64,
-}
+**File:** programs/whitelist/src/lib.rs (L133-134)
+```rust
+pub struct ResolverAccess {
+    pub bump: u8,
 ```

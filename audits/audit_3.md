@@ -1,252 +1,251 @@
 # Audit Report
 
 ## Title
-Dutch Auction Timing Manipulation Enables Systematic Surplus Fee Evasion
+Permissionless Whitelist Initialization Allows Unauthorized Authority Takeover
 
 ## Summary
-Resolvers can strategically delay order fills until the Dutch auction price drops below the estimated destination amount, completely avoiding surplus fees and extracting value that should be captured by the protocol. This breaks the fee correctness invariant and enables systematic protocol revenue loss across all orders with surplus fee configurations.
+The whitelist program's `initialize()` function lacks authorization checks, allowing any actor to front-run the legitimate initialization and become the protocol authority. This grants complete control over resolver whitelisting, enabling monopolization of order filling, denial of service, or extortion attacks against the 1inch team.
 
 ## Finding Description
 
-The surplus fee mechanism is designed to capture a percentage of "positive slippage" when resolvers execute orders at better-than-estimated prices. However, the Dutch auction decreases `dst_amount` over time while comparing against a fixed `estimated_dst_amount`, creating an exploitable timing window. [1](#0-0) 
+The whitelist program contains a critical access control vulnerability in its initialization mechanism. The `initialize()` function unconditionally sets the caller as the authority without any validation. [1](#0-0) 
 
-The surplus fee is only charged when `actual_dst_amount > estimated_dst_amount`. However, the `dst_amount` calculation applies a time-decaying rate bump from the Dutch auction: [2](#0-1) 
+The `Initialize` account struct accepts any `Signer<'info>` as the authority with no constraints on who can execute the initialization. [2](#0-1) 
 
-The `rate_bump` decreases linearly from `initial_rate_bump` to 0 over the auction duration: [3](#0-2) 
+The `whitelist_state` PDA is derived from a deterministic constant seed `[WHITELIST_STATE_SEED]`, making the address predictable to any potential attacker. [3](#0-2) 
 
-This creates a fundamental mismatch: the actual amount (with auction) decreases over time, but the estimated amount (without auction) stays constant: [4](#0-3) 
+The Anchor `init` constraint only prevents duplicate initialization - it does not restrict who can perform the initial call. This means whoever calls `initialize()` first becomes the permanent authority (unless transferred).
 
-**Attack Path:**
-1. Resolver monitors an order with `surplus_percentage > 0`
-2. Calculates when `dst_amount` (with auction decay) will drop below `estimated_dst_amount`
-3. Waits until that timestamp to fill the order
-4. Surplus fee condition fails: `actual_dst_amount <= estimated_dst_amount`
-5. Protocol receives only base protocol_fee, not the surplus fee
-6. Resolver keeps additional value that should have been captured by protocol
+Once an attacker becomes the authority, they gain complete control over the `register()` function [4](#0-3) , the `deregister()` function [5](#0-4) , and the `set_authority()` function [6](#0-5) .
+
+This authority control is critical because the fusion-swap program requires valid `resolver_access` accounts for order filling operations [7](#0-6)  and for resolver-initiated order cancellations [8](#0-7) .
+
+**Attack Scenario:**
+1. Attacker monitors for whitelist program deployment at address `5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S`
+2. Attacker front-runs the legitimate initialization transaction with higher priority fees
+3. Attacker becomes the authority and controls all resolver registration/deregistration
+4. Attacker can: (a) whitelist only their own resolvers to monopolize order filling profits, (b) deny all resolver registrations to halt protocol operations, (c) demand ransom payment to transfer authority via `set_authority()`, or (d) charge fees for resolver whitelisting
 
 ## Impact Explanation
 
-**HIGH Severity** - This vulnerability causes:
+**Severity: HIGH**
 
-- **Systematic Protocol Revenue Loss**: Every order with surplus_percentage > 0 is exploitable
-- **Incentive Misalignment**: Resolvers are rewarded for delaying fills, harming maker experience
-- **Economic Impact**: With surplus_percentage typically 50%, protocol loses ~50% of positive slippage value
-- **Widespread Exploitation**: Any resolver can exploit this with simple timing calculations
+This vulnerability breaks critical access control invariants by allowing unauthorized control over protocol resolver management. While the attacker cannot directly steal escrowed tokens, they gain complete control over who can participate in order filling and cancellation operations.
 
-Example with realistic parameters:
-- Order: 1000 USDC → SOL
-- `min_dst_amount` = 9 SOL
-- `estimated_dst_amount` = 10 SOL
-- `surplus_percentage` = 50%
-- `protocol_fee` = 0.1%
+**Direct Impacts:**
+- **Protocol Disruption**: Complete control over which resolvers can fill orders or cancel expired orders, effectively controlling protocol functionality
+- **Economic Monopolization**: Attacker can whitelist only their own resolver addresses, capturing all order filling profits in a production environment
+- **Extortion**: Attacker can demand payment to transfer authority to the legitimate 1inch team via the `set_authority()` function
+- **Service Denial**: Can prevent protocol launch by refusing to whitelist any resolvers, making orders unfillable
 
-**Early fill (t=0)**: dst_amount = 11 SOL
-- Base protocol fee: 0.011 SOL
-- actual_dst_amount: 10.989 SOL
-- Surplus: 10.989 - 10 = 0.989 SOL
-- Surplus fee: 0.989 × 0.5 = 0.495 SOL
-- **Total protocol fee: 0.506 SOL**
-
-**Late fill (t=near_end)**: dst_amount = 9.5 SOL
-- Base protocol fee: 0.0095 SOL
-- actual_dst_amount: 9.49 SOL
-- actual_dst_amount < estimated_dst_amount → no surplus
-- **Total protocol fee: 0.0095 SOL**
-
-**Protocol loss per order: ~0.49 SOL** (98% reduction in fee capture)
+The severity is HIGH (not CRITICAL) because:
+- No direct theft of escrowed tokens is possible
+- The 1inch team can mitigate by redeploying with a new program ID
+- However, redeployment causes significant operational disruption, reputational damage, and delays
 
 ## Likelihood Explanation
 
-**VERY HIGH** - Exploitation is:
+**Likelihood: HIGH**
 
-- **Trivial**: Requires only timestamp monitoring and calculation
-- **Profitable**: Resolvers directly benefit from fee avoidance
-- **Systematic**: Applies to every order with Dutch auction + surplus fee
-- **No special access required**: Any resolver can exploit
-- **Undetectable**: Appears as normal late-auction fills
-- **Rational behavior**: Economically incentivized for all resolvers
+This vulnerability is trivially exploitable with minimal barriers to execution:
 
-The attack requires no privileged access, complex setup, or collusion. Every rational resolver would exploit this to maximize profits.
+- **Cost**: Approximately 0.001 SOL for rent-exempt account creation
+- **Skill Required**: Basic knowledge of Solana transactions and mempool monitoring
+- **Detection**: Program deployment events are publicly observable
+- **Execution Complexity**: Single transaction with no special requirements
+
+The attack requires only:
+1. Monitoring for program deployment or initialization transactions
+2. Submitting a competing transaction with higher priority fees to front-run
+3. No special permissions, insider access, or complex coordination needed
+
+Front-running initialization is a well-documented attack pattern across blockchain systems. The deterministic PDA derivation makes the target account address predictable before deployment.
+
+**Important Note**: This is a **deployment-time vulnerability**. If the whitelist program has already been properly initialized by the 1inch team, the vulnerability window has closed (Anchor's `init` constraint prevents re-initialization). However, as a design vulnerability in the codebase, it represents a real security risk for initial deployment or any future redeployment scenarios.
 
 ## Recommendation
 
-The fundamental issue is comparing auction-adjusted amounts against fixed estimated amounts. Fix by applying auction adjustments consistently to both sides of the comparison:
+Implement one of the following mitigations:
 
+**Option 1: Hardcode Authority (Recommended)**
 ```rust
-fn get_fee_amounts(
-    integrator_fee: u16,
-    protocol_fee: u16,
-    surplus_percentage: u8,
-    dst_amount: u64,
-    estimated_dst_amount: u64,
-    opt_data: Option<&AuctionData>,  // ADD: auction data
-) -> Result<(u64, u64, u64)> {
-    let integrator_fee_amount = dst_amount
-        .mul_div_floor(integrator_fee as u64, BASE_1E5)
-        .ok_or(ProgramError::ArithmeticOverflow)?;
+pub const EXPECTED_AUTHORITY: Pubkey = pubkey!("AuthorityPublicKeyHere");
 
-    let mut protocol_fee_amount = dst_amount
-        .mul_div_floor(protocol_fee as u64, BASE_1E5)
-        .ok_or(ProgramError::ArithmeticOverflow)?;
-
-    let actual_dst_amount = (dst_amount - protocol_fee_amount)
-        .checked_sub(integrator_fee_amount)
-        .ok_or(ProgramError::ArithmeticOverflow)?;
-
-    // FIX: Apply same auction adjustment to estimated amount
-    let adjusted_estimated = if let Some(data) = opt_data {
-        let rate_bump = calculate_rate_bump(Clock::get()?.unix_timestamp as u64, data);
-        estimated_dst_amount
-            .mul_div_ceil(BASE_1E5 + rate_bump, BASE_1E5)
-            .ok_or(ProgramError::ArithmeticOverflow)?
-    } else {
-        estimated_dst_amount
-    };
-
-    if actual_dst_amount > adjusted_estimated {
-        protocol_fee_amount += (actual_dst_amount - adjusted_estimated)
-            .mul_div_floor(surplus_percentage as u64, BASE_1E2)
-            .ok_or(ProgramError::ArithmeticOverflow)?;
-    }
-
-    Ok((
-        protocol_fee_amount,
-        integrator_fee_amount,
-        dst_amount - integrator_fee_amount - protocol_fee_amount,
-    ))
+pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    require!(
+        ctx.accounts.authority.key() == EXPECTED_AUTHORITY,
+        WhitelistError::Unauthorized
+    );
+    let whitelist_state = &mut ctx.accounts.whitelist_state;
+    whitelist_state.authority = ctx.accounts.authority.key();
+    Ok(())
 }
 ```
 
-Update the call site to pass auction data: [5](#0-4) 
+**Option 2: Use Upgrade Authority**
+Validate that the initializer is the program upgrade authority by checking program data account.
 
-Change to:
-```rust
-let (protocol_fee_amount, integrator_fee_amount, maker_dst_amount) = get_fee_amounts(
-    order.fee.integrator_fee,
-    order.fee.protocol_fee,
-    order.fee.surplus_percentage,
-    dst_amount,
-    order.estimated_dst_amount,  // Use base estimated amount
-    Some(&order.dutch_auction_data),  // Pass auction data for consistent comparison
-)?;
-```
-
-This ensures surplus fees are calculated based on the resolver's ability to beat the auction-adjusted expected price at the current timestamp, not just the initial estimate.
+**Option 3: Initialize in Deployment**
+Include initialization as part of the deployment transaction in the same atomic bundle, ensuring proper authority is set before the program is publicly accessible.
 
 ## Proof of Concept
 
-**Reproduction Steps:**
+```typescript
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { Whitelist } from "../target/types/whitelist";
+import { Keypair, PublicKey } from "@solana/web3.js";
+import { expect } from "chai";
 
-1. Create order with:
-   - src_amount: 1,000,000,000 (1000 USDC with 6 decimals)
-   - min_dst_amount: 9,000,000,000 (9 SOL with 9 decimals)
-   - estimated_dst_amount: 10,000,000,000 (10 SOL)
-   - surplus_percentage: 50
-   - protocol_fee: 100 (0.1%)
-   - Dutch auction with initial_rate_bump: 20000 (20% above min)
+describe("whitelist-initialization-vulnerability", () => {
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
+  
+  const program = anchor.workspace.Whitelist as Program<Whitelist>;
+  const attacker = Keypair.generate();
 
-2. At t=0 (auction start):
-   - rate_bump = 20000
-   - dst_amount = 9 SOL × 1.2 = 10.8 SOL
-   - actual_dst_amount ≈ 10.79 SOL (after base fees)
-   - actual > estimated → surplus fee = (10.79 - 10) × 0.5 = 0.395 SOL
-   - Total protocol fee: ~0.405 SOL
+  it("Attacker can front-run initialization and become authority", async () => {
+    // Airdrop SOL to attacker
+    await provider.connection.requestAirdrop(
+      attacker.publicKey,
+      2 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-3. Wait until rate_bump decays to ~5000 (auction 75% complete)
-   - dst_amount = 9 SOL × 1.05 = 9.45 SOL
-   - actual_dst_amount ≈ 9.44 SOL (after base fees)
-   - actual < estimated → NO surplus fee
-   - Total protocol fee: ~0.009 SOL
+    // Find whitelist state PDA
+    const [whitelistState] = PublicKey.findProgramAddressSync(
+      [Buffer.from("whitelist_state")],
+      program.programId
+    );
 
-4. Resolver fills at step 3, avoiding 0.396 SOL in surplus fees
+    // Attacker calls initialize and becomes authority
+    await program.methods
+      .initialize()
+      .accounts({
+        authority: attacker.publicKey,
+        whitelistState: whitelistState,
+      })
+      .signers([attacker])
+      .rpc();
 
-**Expected Behavior:** Protocol should collect surplus fees when resolvers achieve better execution than auction-adjusted expectations.
+    // Verify attacker is now the authority
+    const stateAccount = await program.account.whitelistState.fetch(whitelistState);
+    expect(stateAccount.authority.toBase58()).to.equal(attacker.publicKey.toBase58());
 
-**Actual Behavior:** Protocol loses surplus fees when resolvers time fills to exploit auction decay.
+    // Attacker now controls resolver registration
+    const resolverToWhitelist = Keypair.generate().publicKey;
+    const [resolverAccess] = PublicKey.findProgramAddressSync(
+      [Buffer.from("resolver_access"), resolverToWhitelist.toBuffer()],
+      program.programId
+    );
 
----
+    // Only attacker can register resolvers
+    await program.methods
+      .register(resolverToWhitelist)
+      .accounts({
+        authority: attacker.publicKey,
+        whitelistState: whitelistState,
+        resolverAccess: resolverAccess,
+      })
+      .signers([attacker])
+      .rpc();
 
-**Notes:**
+    console.log("✅ Attacker successfully took over whitelist authority");
+    console.log("✅ Attacker can now control all resolver registrations");
+  });
+});
+```
 
-The vulnerability stems from an architectural mismatch between the dynamic Dutch auction pricing and the static surplus fee comparison. The issue is not with individual calculations but with the interaction between these mechanisms. The recommended fix aligns both sides of the comparison to use auction-adjusted values, preserving the intended economic incentives while preventing timing-based fee evasion.
+## Notes
+
+This vulnerability is particularly critical because:
+
+1. **Deterministic PDA**: The whitelist_state address is predictable from the constant seed, allowing attackers to prepare transactions in advance
+
+2. **No Authority Validation**: Unlike the `register()`, `deregister()`, and `set_authority()` functions which all validate the authority, the `initialize()` function has zero authorization checks
+
+3. **Protocol Dependency**: Both the `fill()` and `cancel_by_resolver()` instructions in fusion-swap require valid resolver_access accounts, making the whitelist program a critical dependency for protocol operations
+
+4. **Time-Sensitive Window**: This vulnerability can only be exploited during the narrow window between program deployment and legitimate initialization, but the impact during that window is severe
+
+5. **Mitigation Available**: The 1inch team can verify on-chain whether their whitelist program has been properly initialized before launching the protocol. If compromised, redeployment with a new program ID is possible but disruptive.
 
 ### Citations
 
-**File:** programs/fusion-swap/src/lib.rs (L186-199)
+**File:** programs/whitelist/src/lib.rs (L18-22)
 ```rust
-        let dst_amount = get_dst_amount(
-            order.src_amount,
-            order.min_dst_amount,
-            amount,
-            Some(&order.dutch_auction_data),
-        )?;
-
-        let (protocol_fee_amount, integrator_fee_amount, maker_dst_amount) = get_fee_amounts(
-            order.fee.integrator_fee,
-            order.fee.protocol_fee,
-            order.fee.surplus_percentage,
-            dst_amount,
-            get_dst_amount(order.src_amount, order.estimated_dst_amount, amount, None)?,
-        )?;
-```
-
-**File:** programs/fusion-swap/src/lib.rs (L775-780)
-```rust
-    if let Some(data) = opt_data {
-        let rate_bump = calculate_rate_bump(Clock::get()?.unix_timestamp as u64, data);
-        result = result
-            .mul_div_ceil(BASE_1E5 + rate_bump, BASE_1E5)
-            .ok_or(ProgramError::ArithmeticOverflow)?;
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        let whitelist_state = &mut ctx.accounts.whitelist_state;
+        whitelist_state.authority = ctx.accounts.authority.key();
+        Ok(())
     }
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L803-807)
+**File:** programs/whitelist/src/lib.rs (L44-46)
 ```rust
-    if actual_dst_amount > estimated_dst_amount {
-        protocol_fee_amount += (actual_dst_amount - estimated_dst_amount)
-            .mul_div_floor(surplus_percentage as u64, BASE_1E2)
-            .ok_or(ProgramError::ArithmeticOverflow)?;
-    }
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
 ```
 
-**File:** programs/fusion-swap/src/auction.rs (L17-54)
+**File:** programs/whitelist/src/lib.rs (L48-54)
 ```rust
-pub fn calculate_rate_bump(timestamp: u64, data: &AuctionData) -> u64 {
-    if timestamp <= data.start_time as u64 {
-        return data.initial_rate_bump as u64;
-    }
-    let auction_finish_time = data.start_time as u64 + data.duration as u64;
-    if timestamp >= auction_finish_time {
-        return 0;
-    }
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
+```
 
-    let mut current_rate_bump = data.initial_rate_bump as u64;
-    let mut current_point_time = data.start_time as u64;
+**File:** programs/whitelist/src/lib.rs (L66-71)
+```rust
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can register new users
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+```
 
-    for point_and_time_delta in data.points_and_time_deltas.iter() {
-        let next_rate_bump = point_and_time_delta.rate_bump as u64;
-        let point_time_delta = point_and_time_delta.time_delta as u64;
-        let next_point_time = current_point_time + point_time_delta;
+**File:** programs/whitelist/src/lib.rs (L92-97)
+```rust
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can deregister users from the whitelist
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+```
 
-        if timestamp <= next_point_time {
-            // Overflow is not possible because:
-            // 1. current_point_time < timestamp <= next_point_time
-            // 2. timestamp * rate_bump < 2^64
-            // 3. point_time_delta != 0 as this would contradict point 1
-            return ((timestamp - current_point_time) * next_rate_bump
-                + (next_point_time - timestamp) * current_rate_bump)
-                / point_time_delta;
-        }
+**File:** programs/whitelist/src/lib.rs (L115-121)
+```rust
+    #[account(
+        mut,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+        // Ensures only the current authority can set new authority
+        constraint = whitelist_state.authority == current_authority.key() @ WhitelistError::Unauthorized
+    )]
+```
 
-        current_rate_bump = next_rate_bump;
-        current_point_time = next_point_time;
-    }
+**File:** programs/fusion-swap/src/lib.rs (L511-516)
+```rust
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
 
-    // Overflow is not possible because:
-    // 1. timestamp < auction_finish_time
-    // 2. rate_bump * timestamp < 2^64
-    // 3. current_point_time < auction_finish_time as we know that current_point_time < timestamp
-    current_rate_bump * (auction_finish_time - timestamp)
-        / (auction_finish_time - current_point_time)
-}
+**File:** programs/fusion-swap/src/lib.rs (L648-653)
+```rust
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
 ```

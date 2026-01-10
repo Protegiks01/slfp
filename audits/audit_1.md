@@ -1,192 +1,217 @@
 # Audit Report
 
 ## Title
-Asymmetric Fee Comparison Allows Order Creators to Avoid Surplus Fees, Causing Protocol Revenue Loss
+Whitelist Authority Takeover via Unprotected initialize() Function
 
 ## Summary
-The `get_fee_amounts()` function contains an asymmetric comparison that allows malicious order creators to craft orders where surplus fees are never charged, even when the actual destination amount significantly exceeds the estimated amount. This results in direct protocol revenue loss. [1](#0-0) 
+The whitelist program's `initialize()` function lacks validation on who can call it, creating a critical front-running vulnerability during deployment. Any attacker can claim permanent authority over the resolver whitelist by submitting their initialization transaction before the legitimate deployment team, enabling complete protocol monopolization.
 
 ## Finding Description
-The vulnerability exists in the surplus fee calculation logic within the `get_fee_amounts()` function. The function compares `actual_dst_amount` (which equals `dst_amount` minus base protocol and integrator fees) against `estimated_dst_amount` (which has no fees subtracted) to determine if surplus fees should be charged. [2](#0-1) 
 
-This asymmetric comparison creates a gap equal to the base fee amounts. When an order is filled:
+The whitelist program contains an unprotected initialization function that accepts any signer as the authority without validation. [1](#0-0) 
 
-1. `dst_amount` is calculated from `min_dst_amount` with the Dutch auction rate bump applied
-2. Base protocol and integrator fees are deducted from `dst_amount` to get `actual_dst_amount`
-3. `actual_dst_amount` is compared to `estimated_dst_amount` (which has NO fees deducted)
-4. Surplus fees only apply if `actual_dst_amount > estimated_dst_amount`
+The `Initialize` context structure only requires that the authority is a `Signer<'info>`, with no constraints such as `address`, `constraint`, or `has_one` checks to restrict which specific account can perform initialization. [2](#0-1) 
 
-**The bug**: Even when `dst_amount > estimated_dst_amount` (which should trigger surplus fees), if `dst_amount - base_fees < estimated_dst_amount`, no surplus fee is charged.
+The `whitelist_state` account is a Program Derived Address (PDA) with a static seed, meaning it can only be initialized once. Once the `init` constraint creates the account, any subsequent initialization attempts will fail. Whoever successfully executes `initialize()` first becomes the permanent authority. [3](#0-2) 
 
-A malicious order creator can exploit this by:
-1. Setting `estimated_dst_amount` slightly above `min_dst_amount` (e.g., 5% higher)
-2. Setting high base fee percentages (protocol_fee + integrator_fee ≥ 3%)
-3. This ensures that across most auction rates, `(dst_amount - base_fees) < estimated_dst_amount`, preventing surplus fees
+This authority has exclusive control over resolver registrations and deregistrations. Both the `register()` and `deregister()` functions validate that the caller matches the stored authority through explicit constraint checks. [4](#0-3) [5](#0-4) 
 
-**Concrete Example:**
-- Order parameters:
-  - `min_dst_amount = 1000`
-  - `estimated_dst_amount = 1050` (5% above min)
-  - `protocol_fee = 1.5%` (1500 basis points)
-  - `integrator_fee = 1.5%` (1500 basis points)
-  - `surplus_percentage = 50%`
+The resolver whitelist is critical to protocol operation because the fusion-swap program requires a valid `resolver_access` account for filling orders and canceling expired orders. [6](#0-5) [7](#0-6) 
 
-- Resolver fills when auction rate_bump = 8%:
-  - `dst_amount = 1000 × 1.08 = 1080`
-  - `protocol_fee_amount = 1080 × 0.015 = 16.2`
-  - `integrator_fee_amount = 1080 × 0.015 = 16.2`
-  - `actual_dst_amount = 1080 - 16.2 - 16.2 = 1047.6`
-  - Comparison: Is `1047.6 > 1050`? **NO**
-  - **Result: No surplus fee charged despite dst_amount being 30 tokens (2.9%) above estimated**
+**Attack Scenario:**
+1. Attacker monitors Solana for the whitelist program deployment
+2. Upon detecting deployment, attacker immediately submits an `initialize()` transaction with themselves as the signer, using higher priority fees
+3. If the attacker's transaction executes before the legitimate initialization, they become the permanent authority
+4. Attacker registers only themselves as a resolver, blocking all legitimate resolvers
+5. Attacker gains monopoly on order filling and captures all resolver fees and cancellation premiums
+6. Protocol cannot function as designed without competitive resolver marketplace
 
-If the comparison were symmetric (comparing `dst_amount` vs `estimated_dst_amount` or properly accounting for fees on both sides):
-- `1080 > 1050` → Surplus of 30 tokens
-- Surplus fee = `30 × 0.5 = 15 tokens` should go to protocol
-- Instead, protocol loses this 15 token surplus fee revenue
+This breaks the fundamental **Access Control** security invariant that only authorized resolvers should participate in the protocol.
 
 ## Impact Explanation
-**Severity: HIGH** - Significant protocol fee loss
 
-This vulnerability causes direct financial harm to the protocol by allowing order creators to systematically avoid surplus fees. The impact includes:
+**CRITICAL SEVERITY** - This vulnerability enables complete protocol compromise through authority takeover:
 
-1. **Direct Revenue Loss**: Protocol loses surplus fee revenue on every maliciously crafted order that gets filled above the estimated rate
-2. **Systematic Exploitation**: Any order creator can exploit this by simply choosing appropriate fee parameters
-3. **Cumulative Damage**: Over many orders, the lost revenue compounds significantly
-4. **Economic Model Disruption**: The surplus fee mechanism is designed to capture value when orders execute better than expected; this vulnerability breaks that incentive model
+1. **Resolver Monopoly**: The attacker gains exclusive control over who can be registered as a resolver, maintaining monopolistic access to order filling operations
 
-The vulnerability breaks **Invariant #6: Fee Correctness** - "Fee calculations must be accurate and funds distributed correctly."
+2. **Revenue Capture**: Only whitelisted resolvers can fill orders and collect fees from the Dutch auction mechanism. The attacker captures 100% of resolver revenue streams
+
+3. **Cancellation Premium Theft**: Resolvers earn cancellation premiums when canceling expired orders through `cancel_by_resolver()`. The attacker gains exclusive access to these rewards. [8](#0-7) 
+
+4. **Protocol Disruption**: The attacker can prevent all legitimate resolvers from participating, effectively shutting down the protocol's order filling mechanism and denying service to all users
+
+5. **Irreversible Takeover**: Once initialized, the authority can only be changed by the current authority via `set_authority()`, meaning the attacker maintains permanent control unless they voluntarily transfer it. [9](#0-8) 
+
+The impact affects **all protocol users** - order makers cannot get their orders filled by legitimate competitive resolvers, and the protocol's intended resolver marketplace is replaced with a malicious monopolist.
 
 ## Likelihood Explanation
-**Likelihood: HIGH**
 
-The exploitation requirements are minimal:
-1. **No special privileges required**: Any user can create orders with arbitrary fee parameters
-2. **Simple to exploit**: Attacker only needs to understand the comparison logic and set parameters accordingly
-3. **No timing complexity**: Unlike other auction manipulation attacks, this works across a range of fill times
-4. **Financially motivated**: Order creators are directly incentivized to maximize their returns by avoiding fees
-5. **Easy to discover**: The asymmetric comparison is visible in the source code
+**MEDIUM-HIGH LIKELIHOOD** - This attack is feasible during deployment window:
 
-The attack is profitable for order creators whenever:
-- They expect their order to be filled above the estimated rate (common in volatile markets)
-- They can set base fee percentages high enough to create the comparison gap
-- The saved surplus fees exceed any downside from higher base fees (which they would pay anyway)
+1. **Simple Execution**: Requires only a single transaction calling `initialize()` with the attacker as signer - no complex exploit chains or precise timing beyond monitoring for deployment
+
+2. **Front-Running Window**: On Solana, attackers can use higher priority fees and validator connections to front-run legitimate transactions. The deployment-to-initialization window creates opportunity for this attack
+
+3. **Public Visibility**: Program deployments are publicly visible on-chain, providing attackers advance notice to prepare front-running transactions
+
+4. **Low Cost**: Attack costs only transaction fees and account rent (~0.00203928 SOL), making it economically trivial compared to the potential gains from controlling a DEX protocol
+
+5. **High Value Target**: The value of monopolizing resolver access for a major DEX protocol provides strong economic incentive for rational attackers to monitor for this opportunity
+
+While the 1inch team would attempt to initialize immediately upon deployment, the technical vulnerability exists in the code and the attack window is real.
 
 ## Recommendation
 
-**Fix the asymmetric comparison** by ensuring both sides of the comparison are on the same basis. The correct approach is to compare `dst_amount` directly to `estimated_dst_amount` BEFORE subtracting base fees:
+Add explicit validation to the `initialize()` function to ensure only an authorized deployer can set the initial authority. Several secure patterns exist:
 
+**Option 1**: Hardcode the authorized deployer address
 ```rust
-fn get_fee_amounts(
-    integrator_fee: u16,
-    protocol_fee: u16,
-    surplus_percentage: u8,
-    dst_amount: u64,
-    estimated_dst_amount: u64,
-) -> Result<(u64, u64, u64)> {
-    let integrator_fee_amount = dst_amount
-        .mul_div_floor(integrator_fee as u64, BASE_1E5)
-        .ok_or(ProgramError::ArithmeticOverflow)?;
-
-    let mut protocol_fee_amount = dst_amount
-        .mul_div_floor(protocol_fee as u64, BASE_1E5)
-        .ok_or(ProgramError::ArithmeticOverflow)?;
-
-    // FIX: Compare dst_amount to estimated_dst_amount directly
-    // before subtracting any fees
-    if dst_amount > estimated_dst_amount {
-        protocol_fee_amount += (dst_amount - estimated_dst_amount)
-            .mul_div_floor(surplus_percentage as u64, BASE_1E2)
-            .ok_or(ProgramError::ArithmeticOverflow)?;
-    }
-
-    Ok((
-        protocol_fee_amount,
-        integrator_fee_amount,
-        dst_amount - integrator_fee_amount - protocol_fee_amount,
-    ))
+pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    require!(
+        ctx.accounts.authority.key() == AUTHORIZED_DEPLOYER_PUBKEY,
+        WhitelistError::UnauthorizedInitializer
+    );
+    let whitelist_state = &mut ctx.accounts.whitelist_state;
+    whitelist_state.authority = ctx.accounts.authority.key();
+    Ok(())
 }
 ```
 
-This ensures surplus fees are charged whenever the actual destination amount exceeds the estimated amount, regardless of base fee magnitudes.
+**Option 2**: Use the program upgrade authority as the authorized initializer
+```rust
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+    
+    #[account(
+        constraint = program.programdata_address()? == Some(program_data.key()),
+        constraint = program_data.upgrade_authority_address == Some(authority.key()) 
+            @ WhitelistError::UnauthorizedInitializer
+    )]
+    pub program: Program<'info, System>,
+    
+    /// CHECK: PDA validation ensures this is the correct program data account
+    pub program_data: AccountInfo<'info>,
+    
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+    
+    pub system_program: Program<'info, System>,
+}
+```
+
+**Option 3**: Initialize the program in the same transaction as deployment using a deployment script that atomically deploys and initializes, reducing the attack window to zero.
 
 ## Proof of Concept
 
-**Demonstration of the vulnerability:**
+A complete PoC demonstrating the front-running attack would strengthen this submission. The test should:
+1. Deploy the whitelist program
+2. Have an attacker call `initialize()` before the legitimate authority
+3. Verify the attacker is set as authority
+4. Demonstrate the attacker can register themselves and block others
+5. Show that `fill()` operations require the attacker's approval
 
-```rust
-// Scenario: Malicious order designed to avoid surplus fees
-// Order parameters:
-const MIN_DST: u64 = 1_000_000; // 1000 tokens (6 decimals)
-const ESTIMATED_DST: u64 = 1_050_000; // 1050 tokens (5% above min)
-const PROTOCOL_FEE: u16 = 1500; // 1.5% (out of 100,000)
-const INTEGRATOR_FEE: u16 = 1500; // 1.5% (out of 100,000)
-const SURPLUS_PERCENTAGE: u8 = 50; // 50% (out of 100)
+## Notes
 
-// Resolver fills when auction rate_bump = 8000 (8%)
-// Calculation from get_dst_amount():
-// dst_amount = MIN_DST * (BASE_1E5 + 8000) / BASE_1E5
-//            = 1_000_000 * 108_000 / 100_000
-//            = 1_080_000
+This is a **deployment-time vulnerability** rather than a runtime exploit. The vulnerability window exists only between program deployment and successful initialization. However, this represents a genuine security flaw in the code design - secure-by-default Solana programs should implement initialization protection rather than relying solely on deployment procedures. The lack of validation creates unnecessary risk during the critical deployment phase.
 
-const DST_AMOUNT: u64 = 1_080_000;
-
-// Call get_fee_amounts() as it currently exists:
-// 1. protocol_fee_amount = 1_080_000 * 1500 / 100_000 = 16_200
-// 2. integrator_fee_amount = 1_080_000 * 1500 / 100_000 = 16_200
-// 3. actual_dst_amount = 1_080_000 - 16_200 - 16_200 = 1_047_600
-// 4. Is actual_dst_amount > ESTIMATED_DST?
-//    Is 1_047_600 > 1_050_000? NO
-// 5. No surplus fee charged
-// 6. Final protocol fee = 16_200 (only base fee)
-
-// Expected behavior (if comparison were correct):
-// 1. Is DST_AMOUNT > ESTIMATED_DST?
-//    Is 1_080_000 > 1_050_000? YES
-// 2. Surplus = (1_080_000 - 1_050_000) * 50 / 100 = 15_000
-// 3. Total protocol fee should be = 16_200 + 15_000 = 31_200
-// 4. Protocol loses 15_000 tokens in revenue
-
-// Result: Despite dst_amount being 2.9% (30_000 tokens) above 
-// estimated, NO surplus fee is charged due to the asymmetric comparison.
-// The maker receives 1_047_600 tokens instead of 1_032_600 if surplus 
-// were properly charged, and the protocol loses 15_000 tokens.
-```
-
-**Execution steps to reproduce:**
-1. Deploy the fusion-swap program
-2. Create an order with `min_dst_amount = 1000`, `estimated_dst_amount = 1050`, `protocol_fee = 1.5%`, `integrator_fee = 1.5%`, `surplus_percentage = 50%`
-3. Set up a Dutch auction with `initial_rate_bump` allowing fills around 8% above minimum
-4. Have a resolver fill the order when `rate_bump ≈ 8000`
-5. Observe that `dst_amount = 1080` but no surplus fee is charged
-6. Verify protocol receives only `32.4` tokens (3% base fees) instead of `47.4` (base + surplus)
-7. Confirm maker receives `1047.6` instead of the correct `1032.6`, representing a 15 token protocol loss
-
-**Notes**
-
-The vulnerability stems from comparing post-fee actual amounts against pre-fee estimated amounts. This creates an exploitable gap proportional to the base fee rates. While the protocol still receives base fees, it systematically loses surplus fee revenue that should be collected when orders execute better than estimated. The fix requires ensuring both sides of the comparison operate on the same basis—either both before fees or both after fees, with the former being the correct approach since `estimated_dst_amount` represents the maker's expectation of the gross amount they'll receive.
+The severity assessment assumes standard Solana deployment practices where program code is deployed first, then initialization occurs in a subsequent transaction. If the 1inch team uses atomic deployment+initialization or other protective measures, the practical likelihood decreases, but the code-level vulnerability remains.
 
 ### Citations
 
-**File:** programs/fusion-swap/src/lib.rs (L193-199)
+**File:** programs/whitelist/src/lib.rs (L18-22)
 ```rust
-        let (protocol_fee_amount, integrator_fee_amount, maker_dst_amount) = get_fee_amounts(
-            order.fee.integrator_fee,
-            order.fee.protocol_fee,
-            order.fee.surplus_percentage,
-            dst_amount,
-            get_dst_amount(order.src_amount, order.estimated_dst_amount, amount, None)?,
-        )?;
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        let whitelist_state = &mut ctx.accounts.whitelist_state;
+        whitelist_state.authority = ctx.accounts.authority.key();
+        Ok(())
+    }
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L799-807)
+**File:** programs/whitelist/src/lib.rs (L36-40)
 ```rust
-    let actual_dst_amount = (dst_amount - protocol_fee_amount)
-        .checked_sub(integrator_fee_amount)
-        .ok_or(ProgramError::ArithmeticOverflow)?;
-
-    if actual_dst_amount > estimated_dst_amount {
-        protocol_fee_amount += (actual_dst_amount - estimated_dst_amount)
-            .mul_div_floor(surplus_percentage as u64, BASE_1E2)
-            .ok_or(ProgramError::ArithmeticOverflow)?;
+    pub fn set_authority(ctx: Context<SetAuthority>, new_authority: Pubkey) -> Result<()> {
+        let whitelist_state = &mut ctx.accounts.whitelist_state;
+        whitelist_state.authority = new_authority;
+        Ok(())
     }
+```
+
+**File:** programs/whitelist/src/lib.rs (L44-58)
+```rust
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    pub system_program: Program<'info, System>,
+}
+```
+
+**File:** programs/whitelist/src/lib.rs (L66-71)
+```rust
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can register new users
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+```
+
+**File:** programs/whitelist/src/lib.rs (L92-97)
+```rust
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can deregister users from the whitelist
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L404-411)
+```rust
+        let cancellation_premium = calculate_premium(
+            current_timestamp as u32,
+            order.expiration_time,
+            order.cancellation_auction_duration,
+            order.fee.max_cancellation_premium,
+        );
+        let maker_amount = ctx.accounts.escrow_src_ata.to_account_info().lamports()
+            - std::cmp::min(cancellation_premium, reward_limit);
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L511-516)
+```rust
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L647-653)
+```rust
+    /// Account allowed to cancel the order
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
 ```

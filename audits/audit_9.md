@@ -1,219 +1,286 @@
 # Audit Report
 
 ## Title
-Integer Division Precision Loss in Cancellation Premium Calculation Enables Free Order Cancellations
+Unprotected Whitelist Initialization Enables Complete Access Control Takeover
 
 ## Summary
-The `calculate_premium` function in `auction.rs` uses integer division that truncates fractional results, allowing resolvers to cancel expired orders with zero or significantly reduced premiums during early cancellation auction phases. This completely undermines the cancellation auction mechanism designed to incentivize competitive resolver behavior.
+The whitelist program's `initialize` function lacks access control, allowing any attacker to front-run the legitimate initialization and become the whitelist authority. This grants complete control over resolver registration, breaking the protocol's fundamental access control mechanism.
 
 ## Finding Description
 
-The cancellation auction mechanism is designed to create a Dutch auction for order cancellations, where the premium a resolver must pay increases linearly from 0 at expiration time to `max_cancellation_premium` over the `cancellation_auction_duration`. However, the premium calculation contains a critical precision loss vulnerability. [1](#0-0) 
+The whitelist program contains a critical initialization vulnerability where the `initialize()` function has no access control restrictions whatsoever. [1](#0-0) 
 
-The integer division at line 71 truncates all fractional components of the result. This creates two exploitable scenarios:
+The `Initialize` account validation context only requires **any** signer but does not restrict who that signer can be. [2](#0-1)  The function simply takes whoever calls it as the authority and stores their public key.
 
-**Scenario 1: Zero Premium Window**
-When `time_elapsed * max_cancellation_premium < auction_duration`, the division result rounds down to 0, creating a window where cancellations are completely free.
+The WhitelistState account stores the authority that controls all resolver registration operations. [3](#0-2) 
 
-Example:
-- `max_cancellation_premium = 10,000` lamports  
-- `cancellation_auction_duration = 86,400` seconds (1 day)
-- Free cancellation threshold: `time_elapsed < 86,400 / 10,000 = 8.64 seconds`
+This authority is then properly enforced in critical operations like registering resolvers, [4](#0-3)  deregistering them, [5](#0-4)  and transferring authority. [6](#0-5) 
 
-A resolver canceling within 8 seconds of expiration pays **zero premium** instead of the intended progressive cost.
+**Attack Scenario:**
 
-**Scenario 2: Systematic Premium Underpayment**
-Even after the zero-premium window, the truncation causes consistent underpayment throughout the auction duration.
+1. Protocol team deploys the whitelist program to mainnet (program ID: `5jzZhrzqkbdwp5d3J1XbmaXMRnqeXimM1mDMoGHyvR7S`)
+2. Attacker monitors the deployment and precomputes the deterministic WhitelistState PDA address using the seed `[WHITELIST_STATE_SEED]` [7](#0-6) 
+3. Before the protocol can call `initialize()`, the attacker submits a transaction calling `initialize()` with their own keypair as the signer
+4. The WhitelistState account is created at the canonical PDA with the attacker's public key as authority
+5. When the protocol attempts to initialize, the transaction fails due to the Anchor `init` constraint - the account already exists
+6. The attacker now controls the whitelist authority and can:
+   - Register malicious resolvers who can fill orders at unfavorable prices
+   - Deregister legitimate resolvers, preventing them from executing orders  
+   - Transfer authority to confederates
+   - Completely compromise the protocol's access control system
 
-Example:
-- `max_cancellation_premium = 1,000,000` lamports (0.001 SOL)
-- `cancellation_auction_duration = 3,600` seconds (1 hour)
-- At 100 seconds: Expected = 27,777.77 lamports, Actual = 27,777 lamports (loss: 0.77)
-- At 1,000 seconds: Expected = 277,777.77 lamports, Actual = 277,777 lamports (loss: 0.77)
-
-The vulnerability is exploited in the `cancel_by_resolver` function: [2](#0-1) 
-
-The calculated premium is deducted from the escrow account's rent-exempt lamports, with the resolver receiving the premium and the maker receiving the remainder. When the premium calculation rounds down to 0 or a reduced value, resolvers effectively steal compensation meant for makers.
-
-**Invariant Violations:**
-1. **Auction Fairness**: The cancellation auction pricing is not manipulation-resistant; resolvers can exploit timing to minimize costs
-2. **Fee Correctness**: Premium calculations are not accurate; funds are not distributed correctly
+The fusion-swap program relies critically on whitelisted resolvers for order filling [8](#0-7)  and cancellation by resolver, [9](#0-8)  making this vulnerability critical to the entire protocol's security model.
 
 ## Impact Explanation
 
-**Medium Severity** - This vulnerability affects individual order cancellations rather than the entire protocol, but has significant economic impact:
+**Severity: HIGH**
 
-1. **Maker Compensation Loss**: Makers lose the intended premium compensation for their expired orders. With typical rent-exempt amounts of ~2,039,280 lamports (0.002 SOL) per token account, and potential `max_cancellation_premium` values up to this amount, makers could lose up to 0.002 SOL per cancelled order.
+This vulnerability enables complete compromise of the protocol's access control system with the following impacts:
 
-2. **Auction Mechanism Failure**: The cancellation auction is designed to create competitive pressure among resolvers, with premiums increasing over time to incentivize optimal timing. The zero-premium window completely defeats this mechanism, allowing resolvers to race for immediate free cancellations.
+1. **Access Control Bypass**: An attacker becomes the whitelist authority and can authorize any resolver, breaking the fundamental security invariant that only authorized resolvers can fill orders
 
-3. **Economic Incentive Misalignment**: Instead of waiting for economically optimal cancellation times, resolvers are incentivized to cancel as quickly as possible to exploit the free/reduced premium window.
+2. **Unauthorized Order Execution**: Malicious resolvers can fill orders at prices favorable to themselves, extracting value from makers through unfavorable execution
 
-4. **Cumulative Protocol Impact**: While individual losses are limited to rent-exempt amounts, across many orders this represents systematic value extraction from makers and the protocol.
+3. **Protocol Disruption**: Attacker can deregister all legitimate resolvers, preventing normal protocol operation and effectively shutting down the entire fusion swap system
+
+4. **Permanent Compromise**: Once initialized with the wrong authority, there's no recovery mechanism within the program - the protocol team would need to redeploy with a completely new program ID
+
+5. **Multi-User Impact**: Affects all protocol users, as the entire resolver authorization system is compromised
+
+The impact is categorized as HIGH (not CRITICAL) because while it completely compromises access control, it requires front-running during initial deployment and doesn't enable direct theft of tokens from existing escrows. However, it does enable significant value extraction through malicious order fills and complete protocol disruption.
 
 ## Likelihood Explanation
 
-**High Likelihood** - This vulnerability is highly likely to be exploited:
+**Likelihood: HIGH**
 
-1. **Trivial Exploitation**: Requires only calling `cancel_by_resolver` immediately after order expiration - no complex attack setup needed
-2. **Clear Economic Incentive**: Resolvers directly profit by minimizing premium payments
-3. **Automated Exploitation**: Can be easily automated with monitoring bots that detect expired orders and immediately cancel them
-4. **No Special Privileges**: Any whitelisted resolver can exploit this (whitelisting is part of normal protocol operation)
-5. **Deterministic Behavior**: The vulnerability is consistent and predictable based on timing parameters
+This attack is highly likely to succeed because:
+
+1. **Simple Execution**: Requires only a single transaction with no complex setup or coordination
+2. **Low Cost**: Attacker only needs minimal SOL for transaction fees (~0.00001 SOL)
+3. **No Prerequisites**: No special permissions, prior protocol state, or capital requirements
+4. **Detectable Timing**: Program deployment is publicly visible on-chain, giving attackers ample time to prepare front-running transactions
+5. **Single Point of Failure**: The protocol has only one chance to initialize correctly; there's no retry mechanism
+6. **Known Attack Vector**: Front-running initialization is a well-documented vulnerability pattern in blockchain systems, particularly on networks without transaction ordering guarantees
+
+The initialization script [10](#0-9)  implements no protection against this attack vector.
 
 ## Recommendation
 
-Replace integer division with fixed-point arithmetic or ceiling division to preserve precision and eliminate the zero-premium window:
+Implement one of the following protection mechanisms:
 
+**Option 1: Hardcode Expected Authority** (Recommended)
 ```rust
-pub fn calculate_premium(
-    timestamp: u32,
-    auction_start_time: u32,
-    auction_duration: u32,
-    max_cancellation_premium: u64,
-) -> u64 {
-    if timestamp <= auction_start_time {
-        return 0;
-    }
-
-    let time_elapsed = timestamp - auction_start_time;
-    if time_elapsed >= auction_duration {
-        return max_cancellation_premium;
-    }
-
-    // Use ceiling division to avoid rounding down to zero
-    // Formula: ceil(a/b) = (a + b - 1) / b for positive integers
-    let numerator = time_elapsed as u64 * max_cancellation_premium;
-    let denominator = auction_duration as u64;
+pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    // Hardcode the expected authority address
+    const EXPECTED_AUTHORITY: &str = "YOUR_AUTHORITY_PUBKEY_HERE";
+    let expected_authority = Pubkey::from_str(EXPECTED_AUTHORITY)
+        .map_err(|_| error!(WhitelistError::Unauthorized))?;
     
-    // Add (denominator - 1) before division to implement ceiling
-    (numerator + denominator - 1) / denominator
+    require!(
+        ctx.accounts.authority.key() == expected_authority,
+        WhitelistError::Unauthorized
+    );
+    
+    let whitelist_state = &mut ctx.accounts.whitelist_state;
+    whitelist_state.authority = ctx.accounts.authority.key();
+    Ok(())
 }
 ```
 
-Alternatively, use a higher precision base (e.g., multiply by 1e9) and then divide:
-
+**Option 2: Add Authority Parameter with Signature Validation**
 ```rust
-pub fn calculate_premium(
-    timestamp: u32,
-    auction_start_time: u32,
-    auction_duration: u32,
-    max_cancellation_premium: u64,
-) -> u64 {
-    if timestamp <= auction_start_time {
-        return 0;
-    }
-
-    let time_elapsed = timestamp - auction_start_time;
-    if time_elapsed >= auction_duration {
-        return max_cancellation_premium;
-    }
-
-    const PRECISION: u64 = 1_000_000_000; // 1e9 for precision
+pub fn initialize(ctx: Context<Initialize>, expected_authority: Pubkey) -> Result<()> {
+    require!(
+        ctx.accounts.authority.key() == expected_authority,
+        WhitelistError::Unauthorized
+    );
     
-    // Multiply by precision first, then divide
-    let scaled = (time_elapsed as u64 * max_cancellation_premium * PRECISION) 
-        / (auction_duration as u64);
-    
-    // Round up by adding (PRECISION - 1) before final division
-    (scaled + PRECISION - 1) / PRECISION
+    let whitelist_state = &mut ctx.accounts.whitelist_state;
+    whitelist_state.authority = expected_authority;
+    Ok(())
 }
 ```
+
+**Option 3: Atomic Deployment Pattern**
+Deploy the program with the upgrade authority being the same as the intended whitelist authority, then immediately call initialize and revoke upgrade authority in a single atomic transaction bundle.
 
 ## Proof of Concept
 
-**Reproduction Steps:**
+**Note**: A compilable test demonstrating this vulnerability should be provided. The test should:
+1. Deploy the whitelist program
+2. Have an attacker account call `initialize()` before the legitimate authority
+3. Verify the attacker controls the whitelist state
+4. Show that the legitimate authority's initialization call fails
+5. Demonstrate that the attacker can now register/deregister resolvers
 
-1. Create an order with the following parameters:
-   - `max_cancellation_premium = 86,000` lamports
-   - `cancellation_auction_duration = 86,400` seconds (1 day)
-   - `expiration_time = T` (current time + order duration)
-
-2. Wait for the order to expire (time ≥ T)
-
-3. As a whitelisted resolver, call `cancel_by_resolver` within 1 second of expiration:
-   - Current timestamp = T + 1
-   - Expected premium: `(1 * 86,000) / 86,400 = 0.995...` lamports
-   - Actual premium: `(1 * 86,000) / 86,400 = 0` lamports (rounds down)
-
-4. The resolver receives all rent-exempt lamports from the escrow account instead of paying the intended premium
-
-**Calculation Demonstration:**
-
-```rust
-// Using the vulnerable calculate_premium function
-let premium = calculate_premium(
-    expiration_time + 1,      // 1 second after expiration
-    expiration_time,          // auction starts at expiration
-    86_400,                   // 1 day duration
-    86_000,                   // max premium in lamports
-);
-
-assert_eq!(premium, 0);  // VULNERABILITY: Should be ~1 lamport, actually 0
-
-// Free cancellation window calculation:
-// time_elapsed < auction_duration / max_cancellation_premium
-// time_elapsed < 86,400 / 86,000
-// time_elapsed < 1.0046 seconds
-// Therefore, cancellations are FREE for the first ~1 second
-```
-
-**Expected vs Actual Premiums:**
-
-| Time After Expiration | Expected Premium (lamports) | Actual Premium (lamports) | Loss |
-|-----------------------|----------------------------|--------------------------|------|
-| 1 second | 0.995 | 0 | 0.995 |
-| 5 seconds | 4.976 | 4 | 0.976 |
-| 10 seconds | 9.953 | 9 | 0.953 |
-| 100 seconds | 99.537 | 99 | 0.537 |
-
-This demonstrates both the zero-premium window and ongoing precision loss throughout the auction period.
+The test can be added to the existing test suite by modifying the initialization sequence in `tests/suits/whitelist.ts` to demonstrate the front-running attack.
 
 ## Notes
 
-The vulnerability is particularly severe because:
-
-1. **Design Intent Subversion**: The cancellation auction mechanism was specifically designed to prevent immediate free cancellations and create competitive dynamics, but the implementation fails to achieve this.
-
-2. **Parameter Sensitivity**: The free cancellation window duration is inversely proportional to `max_cancellation_premium`. Lower premiums create longer free windows, potentially lasting many seconds.
-
-3. **No Mitigation**: There are no validation checks or minimum premium thresholds that would prevent exploitation of the zero-premium window.
-
-4. **Systemic Issue**: This affects all orders with non-zero `max_cancellation_premium`, making it a protocol-wide vulnerability rather than an edge case.
-
-The recommended fix using ceiling division or scaled arithmetic would ensure that premiums are never rounded down to zero and maintain the intended linear progression of the cancellation auction.
+This vulnerability represents a fundamental flaw in the program's initialization pattern. The deterministic nature of PDAs combined with the lack of access control on initialization creates a race condition that attackers can reliably exploit. The protocol's entire security model depends on proper whitelist authority control, making this a critical fix priority before mainnet deployment.
 
 ### Citations
 
-**File:** programs/fusion-swap/src/auction.rs (L56-72)
+**File:** programs/whitelist/src/lib.rs (L9-9)
 ```rust
-pub fn calculate_premium(
-    timestamp: u32,
-    auction_start_time: u32,
-    auction_duration: u32,
-    max_cancellation_premium: u64,
-) -> u64 {
-    if timestamp <= auction_start_time {
-        return 0;
-    }
+pub const WHITELIST_STATE_SEED: &[u8] = b"whitelist_state";
+```
 
-    let time_elapsed = timestamp - auction_start_time;
-    if time_elapsed >= auction_duration {
-        return max_cancellation_premium;
+**File:** programs/whitelist/src/lib.rs (L18-22)
+```rust
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        let whitelist_state = &mut ctx.accounts.whitelist_state;
+        whitelist_state.authority = ctx.accounts.authority.key();
+        Ok(())
     }
+```
 
-    (time_elapsed as u64 * max_cancellation_premium) / auction_duration as u64
+**File:** programs/whitelist/src/lib.rs (L43-58)
+```rust
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    pub system_program: Program<'info, System>,
 }
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L404-411)
+**File:** programs/whitelist/src/lib.rs (L60-84)
 ```rust
-        let cancellation_premium = calculate_premium(
-            current_timestamp as u32,
-            order.expiration_time,
-            order.cancellation_auction_duration,
-            order.fee.max_cancellation_premium,
-        );
-        let maker_amount = ctx.accounts.escrow_src_ata.to_account_info().lamports()
-            - std::cmp::min(cancellation_premium, reward_limit);
+#[derive(Accounts)]
+#[instruction(user: Pubkey)]
+pub struct Register<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can register new users
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + ResolverAccess::INIT_SPACE,
+        seeds = [RESOLVER_ACCESS_SEED, user.key().as_ref()],
+        bump,
+    )]
+    pub resolver_access: Account<'info, ResolverAccess>,
+
+    pub system_program: Program<'info, System>,
+}
+```
+
+**File:** programs/whitelist/src/lib.rs (L86-109)
+```rust
+#[derive(Accounts)]
+#[instruction(user: Pubkey)]
+pub struct Deregister<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can deregister users from the whitelist
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    #[account(
+        mut,
+        close = authority,
+        seeds = [RESOLVER_ACCESS_SEED, user.key().as_ref()],
+        bump,
+    )]
+    pub resolver_access: Account<'info, ResolverAccess>,
+
+    pub system_program: Program<'info, System>,
+}
+```
+
+**File:** programs/whitelist/src/lib.rs (L111-123)
+```rust
+#[derive(Accounts)]
+pub struct SetAuthority<'info> {
+    #[account(mut)]
+    pub current_authority: Signer<'info>,
+    #[account(
+        mut,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+        // Ensures only the current authority can set new authority
+        constraint = whitelist_state.authority == current_authority.key() @ WhitelistError::Unauthorized
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+}
+```
+
+**File:** programs/whitelist/src/lib.rs (L125-129)
+```rust
+#[account]
+#[derive(InitSpace)]
+pub struct WhitelistState {
+    pub authority: Pubkey,
+}
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L511-516)
+```rust
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L648-653)
+```rust
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+**File:** scripts/whitelsit/initialize.ts (L20-42)
+```typescript
+async function initialize(
+  connection: Connection,
+  program: Program<Whitelist>,
+  authorityKeypair: Keypair
+): Promise<void> {
+  const whitelistState = findWhitelistStateAddress(program.programId);
+
+  const initializeIx = await program.methods
+    .initialize()
+    .accountsPartial({
+      authority: authorityKeypair.publicKey,
+      whitelistState,
+    })
+    .signers([authorityKeypair])
+    .instruction();
+
+  const tx = new Transaction().add(initializeIx);
+
+  const signature = await sendAndConfirmTransaction(connection, tx, [
+    authorityKeypair,
+  ]);
+  console.log(`Transaction signature ${signature}`);
+}
 ```

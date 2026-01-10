@@ -1,383 +1,348 @@
 # Audit Report
 
 ## Title
-Partially Filled Native SOL Orders Cannot Be Cancelled With Original Parameters, Causing Fund Recovery Issues
+Whitelist Initialization Front-Running Enables Complete Access Control Takeover
 
 ## Summary
-When a native SOL order is partially filled, the remaining wrapped SOL tokens become locked in escrow and cannot be cancelled using the original `src_asset_is_native=true` parameter. The cancel operation fails because it attempts to close a token account with a non-zero balance, violating SPL Token program constraints. Users must use unexpected parameters and receive wrapped SOL instead of native SOL.
+The whitelist program's `initialize` function lacks access control, allowing any attacker to front-run the legitimate protocol initialization and permanently seize control of the entire resolver access control system through a PDA initialization race condition.
 
 ## Finding Description
 
-The vulnerability occurs due to a mismatch in how native SOL is handled during order creation versus cancellation after partial fills.
+The whitelist program contains a critical access control vulnerability in its initialization function. The `initialize` function sets up the whitelist state with an authority who controls all resolver registrations, but this function has zero restrictions on who can call it. [1](#0-0) 
 
-During order creation with `src_asset_is_native=true`, native SOL is wrapped to wSOL and stored in `escrow_src_ata`: [1](#0-0) [2](#0-1) 
+The function accepts any `Signer` as the authority without validation: [2](#0-1) 
 
-The check ensures no `maker_src_ata` is provided for native orders, and the SOL is wrapped to wSOL via `sync_native`.
+The whitelist state PDA is derived using only a predictable constant seed: [3](#0-2) [4](#0-3) 
 
-During partial fills, tokens are transferred from escrow to taker, but the escrow remains open if not fully filled: [3](#0-2) [4](#0-3) 
+This creates a race condition where anyone can calculate the PDA address in advance and call `initialize` before the protocol team. The Anchor `init` constraint ensures the account can only be initialized once, making any successful front-run permanent.
 
-The critical issue occurs during cancellation. The `cancel()` function takes `order_src_asset_is_native` as a parameter and conditionally transfers tokens: [5](#0-4) [6](#0-5) 
+Once an attacker successfully initializes the whitelist, they become the authority and gain exclusive control over:
 
-When `order_src_asset_is_native=true`, the token transfer is **skipped** (lines 302-327), and `close_account` is called directly. However, SPL Token's `close_account` instruction **fails** if the token account has a non-zero balance. This causes the entire transaction to fail.
+1. **Resolver Registration** - Protected by authority validation: [5](#0-4) 
 
-The same issue exists in `cancel_by_resolver()`: [7](#0-6) [8](#0-7) 
+2. **Resolver Deregistration** - Protected by authority validation: [6](#0-5) 
 
-**Exploitation Path:**
-1. User creates order with 100 SOL (`src_asset_is_native=true`, no `maker_src_ata`)
-2. 50 SOL worth is filled (50 wrapped SOL transferred to taker)
-3. 50 wrapped SOL remains in `escrow_src_ata` with non-zero token balance
-4. User calls `cancel()` with `order_src_asset_is_native=true` → **FAILS** (SPL Token error: cannot close non-empty account)
-5. After expiry, `cancel_by_resolver()` also fails for the same reason
-6. User must call `cancel()` with `order_src_asset_is_native=false` and provide a wrapped SOL ATA to recover funds
+3. **Authority Transfer** - Protected by authority validation: [7](#0-6) 
 
-This breaks the **Escrow Integrity** invariant (escrowed tokens must be securely locked and only released under valid conditions) and **Token Safety** invariant (token transfers must be properly authorized and accounted for). Users depositing native SOL expect to receive native SOL back, not wrapped SOL requiring manual unwrapping.
+The fusion-swap program critically depends on the whitelist for resolver authorization. The `fill` operation requires a valid `resolver_access` PDA: [8](#0-7) 
+
+Similarly, the `cancel_by_resolver` operation also requires resolver access validation: [9](#0-8) 
+
+By controlling the whitelist authority, an attacker effectively controls who can execute the core protocol operations (filling orders and canceling expired orders).
+
+**Attack Execution:**
+1. Monitor blockchain for whitelist program deployment (public information)
+2. Calculate whitelist_state PDA: `findProgramAddress(["whitelist_state"], programId)`
+3. Immediately submit `initialize()` transaction with attacker's keypair as signer
+4. Transaction succeeds, attacker is permanently set as authority
+5. Protocol team's initialization attempt fails (account already exists)
+6. Attacker maintains permanent control unless they voluntarily transfer authority
 
 ## Impact Explanation
 
-**Medium Severity** - While funds are not permanently lost, the impact is significant:
+**High Severity** - This vulnerability enables complete protocol access control takeover with devastating consequences:
 
-1. **User Confusion**: Users cannot cancel orders using the same parameters they used for creation
-2. **Technical Barrier**: Non-technical users may not understand they need to:
-   - Call cancel with `src_asset_is_native=false`
-   - Provide a wrapped SOL associated token account
-   - Manually unwrap the SOL afterward
-3. **Additional Costs**: Users pay ~0.002 SOL rent for wrapped SOL ATA creation if they don't have one
-4. **Soft Fund Lock**: Users unfamiliar with Solana token mechanics may believe their funds are permanently locked
-5. **Resolver Impact**: Even authorized resolvers cannot cancel expired partially-filled native SOL orders
+1. **Protocol Deployment DoS**: The legitimate protocol team permanently loses the ability to initialize the whitelist with the intended authority, completely blocking proper protocol deployment. Recovery requires redeploying all programs with new program IDs.
 
-The vulnerability affects **all native SOL orders that are partially filled**, which is a common scenario in limit order systems. Every such order becomes uncancellable with the expected parameters.
+2. **Resolver Authorization Monopoly**: The attacker gains exclusive power to:
+   - Register malicious resolvers who can manipulate order fills
+   - Deregister legitimate resolvers to eliminate competition
+   - Block new resolver registrations entirely
+   - Monetize access by selling resolver slots
+   - Extract value through extortion
 
-This does not rise to High severity because:
-- Funds are recoverable with correct (albeit unexpected) parameters
-- No permanent loss of funds occurs
-- Only affects users who understand the workaround
+3. **Protocol Security Model Compromise**: Since fusion-swap's core operations depend on whitelist validation, the attacker indirectly controls:
+   - Which addresses can call `fill()` to execute orders
+   - Which addresses can call `cancel_by_resolver()` to cancel expired orders
+   - The entire trust model of the protocol
+
+4. **Permanent Damage Without Recovery**: Without the attacker's cooperation to transfer authority, there is no recovery mechanism. The protocol team would need to:
+   - Redeploy the entire program suite
+   - Obtain new program IDs
+   - Migrate all users and integrations
+   - Rebuild trust in the system
+
+5. **Ecosystem Trust Destruction**: Even if detected immediately, this vulnerability demonstrates a fundamental security flaw that would severely damage confidence in the protocol's security practices.
+
+The severity is **High** (not Critical) because it doesn't directly enable token theft from existing escrows. However, it does enable complete disruption of protocol operations and forces expensive redeployment.
 
 ## Likelihood Explanation
 
-**High Likelihood** - This issue will occur frequently:
+**High Likelihood** - This attack is highly probable because:
 
-1. **Common Scenario**: Partial fills are a normal part of limit order execution, especially for large orders
-2. **Natural User Behavior**: Users will attempt to cancel using the same `src_asset_is_native` value they used during creation
-3. **No Warning**: No error message or documentation warns users about this limitation
-4. **Affects All Native SOL Orders**: Every native SOL order with a partial fill is vulnerable
-5. **No Privilege Required**: Any user creating native SOL orders will encounter this
+1. **Trivial Technical Requirements**:
+   - Monitor program deployments via public RPC endpoints
+   - Calculate PDA using basic `findProgramAddress()` call
+   - Submit standard transaction with sufficient priority fee
+   - No special skills, insider access, or complex exploits needed
 
-The combination of high likelihood and medium impact makes this a critical user experience issue that needs immediate fixing.
+2. **Minimal Economic Cost**:
+   - Transaction fees: ~0.002 SOL (~$0.40 at current prices)
+   - Rent exemption: minimal lamports
+   - No capital requirements or collateral needed
+
+3. **Wide Attack Window**:
+   - Vulnerability exists from program deployment until initialization
+   - Typical deployment procedures may leave hours of exposure
+   - Monitoring and reaction can be automated
+
+4. **Strong Economic Incentives**:
+   - Complete control over DEX protocol access control is extremely valuable
+   - Can be monetized through extortion or selling access
+   - Potential profit massively exceeds attack cost
+   - Low risk of legal consequences in decentralized context
+
+5. **Deterministic Success**:
+   - If attacker's transaction confirms first, attack succeeds with 100% certainty
+   - Priority fees and MEV infrastructure provide competitive advantages
+   - No randomness or complex timing requirements
+
+6. **Indistinguishable from Legitimate Use**:
+   - Attacker's initialization transaction looks identical to legitimate one
+   - No way to detect malicious intent before execution
+   - By the time it's discovered, damage is permanent
+
+The only defense is ensuring immediate initialization after deployment, but this creates operational risk and provides no guarantee against determined attackers using transaction prioritization mechanisms.
 
 ## Recommendation
 
-Modify the `cancel()` and `cancel_by_resolver()` functions to **always** transfer remaining tokens back to the maker when the escrow has a non-zero balance, regardless of the `src_asset_is_native` flag. The flag should only control whether to unwrap SOL after the transfer.
-
-**For `cancel()` function:**
+Implement proper access control on the `initialize` function to prevent unauthorized initialization. The recommended approach is to verify that the signer is the program's upgrade authority:
 
 ```rust
-pub fn cancel(
-    ctx: Context<Cancel>,
-    order_hash: [u8; 32],
-    order_src_asset_is_native: bool,
-) -> Result<()> {
-    require!(
-        ctx.accounts.src_mint.key() == native_mint::id() || !order_src_asset_is_native,
-        FusionError::InconsistentNativeSrcTrait
-    );
+use anchor_lang::prelude::*;
 
-    // Always check if maker_src_ata is needed based on remaining balance
-    let has_tokens = ctx.accounts.escrow_src_ata.amount > 0;
+pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    // Verify caller is the program upgrade authority
+    let program_data = ctx.accounts.program_data.as_ref()
+        .ok_or(WhitelistError::ProgramNotUpgradeable)?;
     
-    require!(
-        !has_tokens || ctx.accounts.maker_src_ata.is_some(),
-        FusionError::MissingMakerSrcAta
+    require_keys_eq!(
+        program_data.upgrade_authority_address
+            .ok_or(WhitelistError::ProgramNotUpgradeable)?,
+        ctx.accounts.authority.key(),
+        WhitelistError::Unauthorized
     );
+    
+    let whitelist_state = &mut ctx.accounts.whitelist_state;
+    whitelist_state.authority = ctx.accounts.authority.key();
+    Ok(())
+}
 
-    // Return remaining src tokens back to maker if any exist
-    if has_tokens {
-        transfer_checked(
-            CpiContext::new_with_signer(
-                ctx.accounts.src_token_program.to_account_info(),
-                TransferChecked {
-                    from: ctx.accounts.escrow_src_ata.to_account_info(),
-                    mint: ctx.accounts.src_mint.to_account_info(),
-                    to: ctx
-                        .accounts
-                        .maker_src_ata
-                        .as_ref()
-                        .unwrap()
-                        .to_account_info(),
-                    authority: ctx.accounts.escrow.to_account_info(),
-                },
-                &[&[
-                    "escrow".as_bytes(),
-                    ctx.accounts.maker.key().as_ref(),
-                    &order_hash,
-                    &[ctx.bumps.escrow],
-                ]],
-            ),
-            ctx.accounts.escrow_src_ata.amount,
-            ctx.accounts.src_mint.decimals,
-        )?;
-    }
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
 
-    close_account(CpiContext::new_with_signer(
-        ctx.accounts.src_token_program.to_account_info(),
-        CloseAccount {
-            account: ctx.accounts.escrow_src_ata.to_account_info(),
-            destination: ctx.accounts.maker.to_account_info(),
-            authority: ctx.accounts.escrow.to_account_info(),
-        },
-        &[&[
-            "escrow".as_bytes(),
-            ctx.accounts.maker.key().as_ref(),
-            &order_hash,
-            &[ctx.bumps.escrow],
-        ]],
-    ))
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
+    pub whitelist_state: Account<'info, WhitelistState>,
+
+    /// The program account to verify upgrade authority
+    #[account(
+        constraint = program.programdata_address()? == Some(program_data.key())
+    )]
+    pub program: Program<'info, System>,
+    
+    /// Program data account containing upgrade authority
+    #[account()]
+    pub program_data: Option<Account<'info, ProgramData>>,
+
+    pub system_program: Program<'info, System>,
 }
 ```
 
-Apply the same fix to `cancel_by_resolver()`. Additionally, update the `Cancel` struct to make `maker_src_ata` mandatory (non-optional) to ensure users always provide it.
-
-Alternatively, if you want to preserve the option to receive native SOL directly, add unwrapping logic after the transfer when the token is wrapped SOL.
+Alternative approaches:
+1. **Multi-signature initialization**: Require multiple signers from known protocol team addresses
+2. **Pre-initialized deployment**: Initialize the state in the same transaction as program deployment
+3. **Time-locked initialization**: Only allow initialization within specific block range after deployment
 
 ## Proof of Concept
 
-```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use anchor_lang::prelude::*;
-    use anchor_spl::token::{self, Token, TokenAccount, Mint};
+```typescript
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { Whitelist } from "../target/types/whitelist";
+import { Keypair, PublicKey } from "@solana/web3.js";
+import { expect } from "chai";
 
-    #[test]
-    fn test_partial_fill_native_sol_cancel_fails() {
-        // Setup: Create test accounts and context
-        let maker = Keypair::new();
-        let taker = Keypair::new();
-        
-        // Step 1: Create order with native SOL (src_asset_is_native=true)
-        let order_config = OrderConfig {
-            id: 1,
-            src_amount: 100_000_000_000, // 100 SOL
-            min_dst_amount: 1000_000_000, // 1000 tokens
-            estimated_dst_amount: 1100_000_000,
-            expiration_time: (Clock::get().unwrap().unix_timestamp + 3600) as u32,
-            src_asset_is_native: true,  // Native SOL
-            dst_asset_is_native: false,
-            fee: FeeConfig {
-                protocol_fee: 0,
-                integrator_fee: 0,
-                surplus_percentage: 0,
-                max_cancellation_premium: 1_000_000,
-            },
-            dutch_auction_data: AuctionData::default(),
-            cancellation_auction_duration: 0,
-        };
-
-        // Create order - SOL gets wrapped to wSOL in escrow_src_ata
-        create(create_ctx, order_config.clone()).unwrap();
-        
-        // Verify escrow has 100 wrapped SOL tokens
-        assert_eq!(escrow_src_ata.amount, 100_000_000_000);
-
-        // Step 2: Partial fill - 50 SOL worth
-        fill(fill_ctx, order_config.clone(), 50_000_000_000).unwrap();
-        
-        // Verify escrow now has 50 wrapped SOL tokens remaining
-        assert_eq!(escrow_src_ata.amount, 50_000_000_000);
-
-        // Step 3: Try to cancel with original parameters (src_asset_is_native=true, no maker_src_ata)
-        let order_hash = compute_order_hash(&order_config);
-        let cancel_result = cancel(
-            cancel_ctx_without_maker_src_ata,
-            order_hash,
-            true  // order_src_asset_is_native=true (same as creation)
-        );
-
-        // This FAILS because close_account is called on non-empty token account
-        assert!(cancel_result.is_err());
-        // Expected error from SPL Token: "CloseAccount: Account not empty"
-        
-        // Step 4: User must use workaround - call with src_asset_is_native=false
-        let cancel_workaround = cancel(
-            cancel_ctx_with_maker_src_ata,
-            order_hash,
-            false  // Must lie about being native to trigger token transfer
-        );
-        
-        // This succeeds, but user receives wrapped SOL instead of native SOL
-        assert!(cancel_workaround.is_ok());
-        assert_eq!(maker_wrapped_sol_ata.amount, 50_000_000_000);
-        
-        // User must now manually unwrap the SOL (additional step + transaction cost)
+describe("Whitelist Front-Running Attack", () => {
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
+  
+  const program = anchor.workspace.Whitelist as Program<Whitelist>;
+  
+  it("Attacker can front-run initialization and take control", async () => {
+    // Attacker generates their own keypair
+    const attackerKeypair = Keypair.generate();
+    
+    // Attacker calculates the predictable PDA
+    const [whitelistState] = PublicKey.findProgramAddressSync(
+      [Buffer.from("whitelist_state")],
+      program.programId
+    );
+    
+    // Fund attacker account
+    const signature = await provider.connection.requestAirdrop(
+      attackerKeypair.publicKey,
+      2 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    await provider.connection.confirmTransaction(signature);
+    
+    // Attacker calls initialize with their own keypair
+    await program.methods
+      .initialize()
+      .accounts({
+        authority: attackerKeypair.publicKey,
+        whitelistState: whitelistState,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([attackerKeypair])
+      .rpc();
+    
+    // Verify attacker is now the authority
+    const whitelistStateAccount = await program.account.whitelistState.fetch(
+      whitelistState
+    );
+    expect(whitelistStateAccount.authority.toString()).to.equal(
+      attackerKeypair.publicKey.toString()
+    );
+    
+    // Protocol team tries to initialize (will fail)
+    const protocolTeamKeypair = Keypair.generate();
+    await provider.connection.requestAirdrop(
+      protocolTeamKeypair.publicKey,
+      2 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    
+    try {
+      await program.methods
+        .initialize()
+        .accounts({
+          authority: protocolTeamKeypair.publicKey,
+          whitelistState: whitelistState,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([protocolTeamKeypair])
+        .rpc();
+      
+      expect.fail("Protocol team initialization should have failed");
+    } catch (error) {
+      // Expected to fail - account already exists
+      expect(error.toString()).to.include("already in use");
     }
-}
+    
+    // Verify attacker still controls the whitelist
+    const finalState = await program.account.whitelistState.fetch(whitelistState);
+    expect(finalState.authority.toString()).to.equal(
+      attackerKeypair.publicKey.toString()
+    );
+    
+    console.log("✓ Attacker successfully front-ran initialization");
+    console.log("✓ Attacker is now the permanent authority");
+    console.log("✓ Protocol team cannot recover without redeployment");
+  });
+});
 ```
 
-**Notes:**
+## Notes
 
-This vulnerability affects the core user experience of the protocol. The mismatch between creation and cancellation logic for native SOL orders creates a confusing and error-prone situation. Users who create native SOL orders with partial fills will encounter unexpected failures when trying to cancel, potentially leading to support burden and loss of user trust. The fix requires ensuring that token transfers always occur before account closure when the balance is non-zero, regardless of the asset type flag.
+This vulnerability represents a well-known class of Solana program vulnerabilities: **unprotected PDA initialization with predictable seeds**. Similar vulnerabilities have been found in other Solana protocols and are preventable with proper access control patterns.
+
+The impact is particularly severe for the 1inch Fusion Protocol because:
+1. The whitelist is the foundation of the protocol's security model
+2. Resolvers must go through KYC/KYB (as documented in the whitepaper), but an attacker controlling the whitelist bypasses this entirely
+3. The protocol cannot function without proper resolver authorization
+4. Recovery requires complete redeployment with new program IDs
+
+The attack is not theoretical - it can be executed trivially by any party monitoring Solana program deployments. The combination of high impact, high likelihood, and trivial execution complexity makes this a critical issue that must be addressed before mainnet deployment.
 
 ### Citations
 
-**File:** programs/fusion-swap/src/lib.rs (L96-98)
+**File:** programs/whitelist/src/lib.rs (L9-9)
 ```rust
-            order.src_asset_is_native == ctx.accounts.maker_src_ata.is_none(),
-            FusionError::InconsistentNativeSrcTrait
-        );
+pub const WHITELIST_STATE_SEED: &[u8] = b"whitelist_state";
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L101-115)
+**File:** programs/whitelist/src/lib.rs (L18-22)
 ```rust
-        if order.src_asset_is_native {
-            // Wrap SOL to wSOL
-            uni_transfer(&UniTransferParams::NativeTransfer {
-                from: ctx.accounts.maker.to_account_info(),
-                to: ctx.accounts.escrow_src_ata.to_account_info(),
-                amount: order.src_amount,
-                program: ctx.accounts.system_program.clone(),
-            })?;
-
-            anchor_spl::token::sync_native(CpiContext::new(
-                ctx.accounts.src_token_program.to_account_info(),
-                anchor_spl::token::SyncNative {
-                    account: ctx.accounts.escrow_src_ata.to_account_info(),
-                },
-            ))
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        let whitelist_state = &mut ctx.accounts.whitelist_state;
+        whitelist_state.authority = ctx.accounts.authority.key();
+        Ok(())
+    }
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L166-184)
+**File:** programs/whitelist/src/lib.rs (L44-46)
 ```rust
-        transfer_checked(
-            CpiContext::new_with_signer(
-                ctx.accounts.src_token_program.to_account_info(),
-                TransferChecked {
-                    from: ctx.accounts.escrow_src_ata.to_account_info(),
-                    mint: ctx.accounts.src_mint.to_account_info(),
-                    to: ctx.accounts.taker_src_ata.to_account_info(),
-                    authority: ctx.accounts.escrow.to_account_info(),
-                },
-                &[&[
-                    "escrow".as_bytes(),
-                    ctx.accounts.maker.key().as_ref(),
-                    order_hash,
-                    &[ctx.bumps.escrow],
-                ]],
-            ),
-            amount,
-            ctx.accounts.src_mint.decimals,
-        )?;
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub authority: Signer<'info>,
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L266-280)
+**File:** programs/whitelist/src/lib.rs (L48-54)
 ```rust
-        if ctx.accounts.escrow_src_ata.amount == amount {
-            close_account(CpiContext::new_with_signer(
-                ctx.accounts.src_token_program.to_account_info(),
-                CloseAccount {
-                    account: ctx.accounts.escrow_src_ata.to_account_info(),
-                    destination: ctx.accounts.maker.to_account_info(),
-                    authority: ctx.accounts.escrow.to_account_info(),
-                },
-                &[&[
-                    "escrow".as_bytes(),
-                    ctx.accounts.maker.key().as_ref(),
-                    order_hash,
-                    &[ctx.bumps.escrow],
-                ]],
-            ))?;
+    #[account(
+        init,
+        payer = authority,
+        space = DISCRIMINATOR + WhitelistState::INIT_SPACE,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+    )]
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L302-327)
+**File:** programs/whitelist/src/lib.rs (L66-71)
 ```rust
-        if !order_src_asset_is_native {
-            transfer_checked(
-                CpiContext::new_with_signer(
-                    ctx.accounts.src_token_program.to_account_info(),
-                    TransferChecked {
-                        from: ctx.accounts.escrow_src_ata.to_account_info(),
-                        mint: ctx.accounts.src_mint.to_account_info(),
-                        to: ctx
-                            .accounts
-                            .maker_src_ata
-                            .as_ref()
-                            .ok_or(FusionError::MissingMakerSrcAta)?
-                            .to_account_info(),
-                        authority: ctx.accounts.escrow.to_account_info(),
-                    },
-                    &[&[
-                        "escrow".as_bytes(),
-                        ctx.accounts.maker.key().as_ref(),
-                        &order_hash,
-                        &[ctx.bumps.escrow],
-                    ]],
-                ),
-                ctx.accounts.escrow_src_ata.amount,
-                ctx.accounts.src_mint.decimals,
-            )?;
-        }
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can register new users
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L329-342)
+**File:** programs/whitelist/src/lib.rs (L92-97)
 ```rust
-        close_account(CpiContext::new_with_signer(
-            ctx.accounts.src_token_program.to_account_info(),
-            CloseAccount {
-                account: ctx.accounts.escrow_src_ata.to_account_info(),
-                destination: ctx.accounts.maker.to_account_info(),
-                authority: ctx.accounts.escrow.to_account_info(),
-            },
-            &[&[
-                "escrow".as_bytes(),
-                ctx.accounts.maker.key().as_ref(),
-                &order_hash,
-                &[ctx.bumps.escrow],
-            ]],
-        ))
+    #[account(
+      seeds = [WHITELIST_STATE_SEED],
+      bump,
+      // Ensures only the whitelist authority can deregister users from the whitelist
+      constraint = whitelist_state.authority == authority.key() @ WhitelistError::Unauthorized
+    )]
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L377-402)
+**File:** programs/whitelist/src/lib.rs (L115-121)
 ```rust
-        if !order.src_asset_is_native {
-            transfer_checked(
-                CpiContext::new_with_signer(
-                    ctx.accounts.src_token_program.to_account_info(),
-                    TransferChecked {
-                        from: ctx.accounts.escrow_src_ata.to_account_info(),
-                        mint: ctx.accounts.src_mint.to_account_info(),
-                        to: ctx
-                            .accounts
-                            .maker_src_ata
-                            .as_ref()
-                            .ok_or(FusionError::MissingMakerSrcAta)?
-                            .to_account_info(),
-                        authority: ctx.accounts.escrow.to_account_info(),
-                    },
-                    &[&[
-                        "escrow".as_bytes(),
-                        ctx.accounts.maker.key().as_ref(),
-                        &order_hash,
-                        &[ctx.bumps.escrow],
-                    ]],
-                ),
-                ctx.accounts.escrow_src_ata.amount,
-                ctx.accounts.src_mint.decimals,
-            )?;
-        };
+    #[account(
+        mut,
+        seeds = [WHITELIST_STATE_SEED],
+        bump,
+        // Ensures only the current authority can set new authority
+        constraint = whitelist_state.authority == current_authority.key() @ WhitelistError::Unauthorized
+    )]
 ```
 
-**File:** programs/fusion-swap/src/lib.rs (L414-427)
+**File:** programs/fusion-swap/src/lib.rs (L511-516)
 ```rust
-        close_account(CpiContext::new_with_signer(
-            ctx.accounts.src_token_program.to_account_info(),
-            CloseAccount {
-                account: ctx.accounts.escrow_src_ata.to_account_info(),
-                destination: ctx.accounts.resolver.to_account_info(),
-                authority: ctx.accounts.escrow.to_account_info(),
-            },
-            &[&[
-                "escrow".as_bytes(),
-                ctx.accounts.maker.key().as_ref(),
-                &order_hash,
-                &[ctx.bumps.escrow],
-            ]],
-        ))?;
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, taker.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
+```
+
+**File:** programs/fusion-swap/src/lib.rs (L647-653)
+```rust
+    /// Account allowed to cancel the order
+    #[account(
+        seeds = [whitelist::RESOLVER_ACCESS_SEED, resolver.key().as_ref()],
+        bump = resolver_access.bump,
+        seeds::program = whitelist::ID,
+    )]
+    resolver_access: Account<'info, whitelist::ResolverAccess>,
 ```
